@@ -14,7 +14,7 @@ Authoritative reference: <https://sdk.cerebras.net/csl/language_index>. This ski
 | Topic | Guide |
 |---|---|
 | **Toolchain & workflow** (`cslc`, `cs_python`, `CSL_IMPORT_PATH`, Lima VM, debugging) | [SKILL-TOOLCHAIN.md](SKILL-TOOLCHAIN.md) |
-| **Syntax** (types, vars, pointers, functions, statements, operators) | [SKILL-SYNTAX.md](SKILL-SYNTAX.md) *(planned)* |
+| **Syntax** (types, vars, pointers, functions, statements, operators) | [SKILL-SYNTAX.md](SKILL-SYNTAX.md) |
 | **Type system** (numeric, struct, union, enum, array, pointer, `anyopaque`, `comptime_string`, `imported_module`, `direction`, coercions) | [SKILL-TYPES.md](SKILL-TYPES.md) *(planned)* |
 | **Comptime** (comptime-known values, comptime expressions, types requiring comptime, evaluation rules) | [SKILL-COMPTIME.md](SKILL-COMPTIME.md) *(planned)* |
 | **Generics** (constraining type parameters, specializing logic, computing with types) | [SKILL-GENERICS.md](SKILL-GENERICS.md) *(planned)* |
