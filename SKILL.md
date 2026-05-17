@@ -24,7 +24,7 @@ Authoritative reference: <https://sdk.cerebras.net/csl/language_index>. This ski
 | **DSRs** (DSR/XDSR/SR allocation, types, builtins, stride registers) | [SKILL-DSRS.md](SKILL-DSRS.md) |
 | **Tasks** (data tasks, local tasks, control tasks, binding builtins, activation) | [SKILL-TASKS.md](SKILL-TASKS.md) |
 | **Microthreads** (WSE-3 microthread IDs, blocking/unblocking, rotating tasks, queue handlers) | [SKILL-MICROTHREADS.md](SKILL-MICROTHREADS.md) |
-| **Routes & fabric** (colors, rectangles, directions, color swapping, CE injection) | [SKILL-ROUTES.md](SKILL-ROUTES.md) *(planned)* |
+| **Routes & fabric** (colors, rectangles, directions, color swapping, CE injection) | [SKILL-ROUTES.md](SKILL-ROUTES.md) |
 | **Host↔device** (memcpy infrastructure, SdkRuntime, `@export_name`/`@export_symbol`, RPC) | [SKILL-HOST-DEVICE.md](SKILL-HOST-DEVICE.md) |
 | **Standard library** (`<math>`, `<debug>`, `<simprint>`, `<collectives_2d>`, `<dsd_ops>`, `<random>`, `<string>`, `<time>`, `<timer>`, `<tile_config>`, `<types>`, `<kernels>`, …) | [SKILL-LIBRARIES.md](SKILL-LIBRARIES.md) |
 | **Builtins reference** (`@activate`, `@allocate_fifo`, `@bind_*`, `@get_dsd`, `@load_to_dsr`, `@map`, RPC builtins, DSD-op builtins) | [SKILL-BUILTINS.md](SKILL-BUILTINS.md) |
