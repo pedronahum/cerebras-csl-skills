@@ -20,7 +20,7 @@ Authoritative reference: <https://sdk.cerebras.net/csl/language_index>. This ski
 | **Generics** (constraining type parameters, specializing logic, computing with types) | [SKILL-GENERICS.md](SKILL-GENERICS.md) *(planned)* |
 | **Storage classes** (`extern`, `export`, `linkname`, symbol names) | [SKILL-STORAGE.md](SKILL-STORAGE.md) *(planned)* |
 | **Modules** (`@import_module`, `param`, binary symbol names) | [SKILL-MODULES.md](SKILL-MODULES.md) *(planned)* |
-| **DSDs** (1D/2D/3D/4D memory vectors, fabric in/out, FIFOs, circular buffers, async ops, offset/stride/length mutation) | [SKILL-DSDS.md](SKILL-DSDS.md) *(planned)* |
+| **DSDs** (1D/2D/3D/4D memory vectors, fabric in/out, FIFOs, circular buffers, async ops, offset/stride/length mutation) | [SKILL-DSDS.md](SKILL-DSDS.md) |
 | **DSRs** (DSR/XDSR/SR allocation, types, builtins, stride registers) | [SKILL-DSRS.md](SKILL-DSRS.md) *(planned)* |
 | **Tasks** (data tasks, local tasks, control tasks, binding builtins, activation) | [SKILL-TASKS.md](SKILL-TASKS.md) *(planned)* |
 | **Microthreads** (WSE-3 microthread IDs, blocking/unblocking, rotating tasks, queue handlers) | [SKILL-MICROTHREADS.md](SKILL-MICROTHREADS.md) *(planned)* |
