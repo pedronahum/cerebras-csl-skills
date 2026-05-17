@@ -17,7 +17,7 @@ Authoritative reference: <https://sdk.cerebras.net/csl/language_index>. This ski
 | **Syntax** (types, vars, pointers, functions, statements, operators) | [SKILL-SYNTAX.md](SKILL-SYNTAX.md) |
 | **Type system** (numeric, struct, union, enum, array, pointer, `anyopaque`, `comptime_string`, `imported_module`, `direction`, coercions) | [SKILL-TYPES.md](SKILL-TYPES.md) |
 | **Comptime** (comptime-known values, comptime expressions, types requiring comptime, evaluation rules) | [SKILL-COMPTIME.md](SKILL-COMPTIME.md) |
-| **Generics** (constraining type parameters, specializing logic, computing with types) | [SKILL-GENERICS.md](SKILL-GENERICS.md) *(planned)* |
+| **Generics** (constraining type parameters, specializing logic, computing with types) | [SKILL-GENERICS.md](SKILL-GENERICS.md) |
 | **Storage classes** (`extern`, `export`, `linkname`, symbol names) | [SKILL-STORAGE.md](SKILL-STORAGE.md) *(planned)* |
 | **Modules** (`@import_module`, `param`, binary symbol names) | [SKILL-MODULES.md](SKILL-MODULES.md) |
 | **DSDs** (1D/2D/3D/4D memory vectors, fabric in/out, FIFOs, circular buffers, async ops, offset/stride/length mutation) | [SKILL-DSDS.md](SKILL-DSDS.md) |
