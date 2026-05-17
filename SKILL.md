@@ -23,7 +23,7 @@ Authoritative reference: <https://sdk.cerebras.net/csl/language_index>. This ski
 | **DSDs** (1D/2D/3D/4D memory vectors, fabric in/out, FIFOs, circular buffers, async ops, offset/stride/length mutation) | [SKILL-DSDS.md](SKILL-DSDS.md) |
 | **DSRs** (DSR/XDSR/SR allocation, types, builtins, stride registers) | [SKILL-DSRS.md](SKILL-DSRS.md) |
 | **Tasks** (data tasks, local tasks, control tasks, binding builtins, activation) | [SKILL-TASKS.md](SKILL-TASKS.md) |
-| **Microthreads** (WSE-3 microthread IDs, blocking/unblocking, rotating tasks, queue handlers) | [SKILL-MICROTHREADS.md](SKILL-MICROTHREADS.md) *(planned)* |
+| **Microthreads** (WSE-3 microthread IDs, blocking/unblocking, rotating tasks, queue handlers) | [SKILL-MICROTHREADS.md](SKILL-MICROTHREADS.md) |
 | **Routes & fabric** (colors, rectangles, directions, color swapping, CE injection) | [SKILL-ROUTES.md](SKILL-ROUTES.md) *(planned)* |
 | **Host↔device** (memcpy infrastructure, SdkRuntime, `@export_name`/`@export_symbol`, RPC) | [SKILL-HOST-DEVICE.md](SKILL-HOST-DEVICE.md) |
 | **Standard library** (`<math>`, `<debug>`, `<simprint>`, `<collectives_2d>`, `<dsd_ops>`, `<random>`, `<string>`, `<time>`, `<timer>`, `<tile_config>`, `<types>`, `<kernels>`, …) | [SKILL-LIBRARIES.md](SKILL-LIBRARIES.md) |
