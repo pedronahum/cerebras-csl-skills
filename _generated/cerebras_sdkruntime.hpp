@@ -54,13 +54,16 @@ namespace pybind11 { class object; class array; } // for pybind wrapper-returnin
 
 namespace cerebras {
 
-// Forward declarations for types referenced in signatures but whose
-// definitions never make it into the .so symbol table (templates,
-// internal headers, etc.).
-template <typename T> struct Point;
-template <typename T> struct AbstractRectangle;
-struct IntVector;       // (x, y) pair; from das_common
-struct IntRectangle;    // ((x0,y0),(x1,y1)) rect; from das_common
+// Minimal complete definitions for support types whose real headers
+// the SDK does not ship. Field layouts here are ILLUSTRATIVE — they
+// give std::optional<>, std::vector<>, etc. enough info to parse and
+// instantiate. Real ABI layouts may differ; if you actually link
+// against the SDK .so libraries, replace these with the real headers
+// or ABI-probe each one the way MemcpyOptions was probed.
+template <typename T> struct Point        { T x{}; T y{}; };
+template <typename T> struct AbstractRectangle { Point<T> lo{}; Point<T> hi{}; };
+struct IntVector    { int x{}; int y{}; };          // from das_common
+struct IntRectangle { IntVector lo{}; IntVector hi{}; };  // from das_common
 class  MemcpyTask;      // internal — Task holds shared_ptr<MemcpyTask>
 
 // Internal logging globals (visible as imported symbols in pybind .so):
