@@ -7,7 +7,7 @@
     "sif_filename": "sdk-cbcore-2.10.0-sdk-202604101435-4586d3f0d8.sif",
     "sif_sha256": "4700f1f4544e0e30b7751840394c517b18ceaf6f35847790ac0bf46f0bfa6b6a",
     "sif_sha256_source": "/Users/pedro/programming/cerebras/sdk/sha256sum.txt",
-    "extracted_at": "2026-05-26T13:49:02Z",
+    "extracted_at": "2026-05-26T14:14:52Z",
     "python": "3.11.8",
     "platform": "Linux-6.8.0-90-generic-x86_64-with-glibc2.38"
   },
@@ -843,13 +843,13 @@
         "get_platform": {
           "kind": "callable",
           "signatures": [
-            "get_platform(addr: Optional[str] = None, config: cerebras.sdk.runtime.sdkruntimepybind.SimfabConfig = <cerebras.sdk.runtime.sdkruntimepybind.SimfabConfig object at 0x7ffffdbeab70>, target: cerebras.sdk.runtime.sdkruntimepybind.SdkTarget = <SdkTarget.WSE3: 1>) -> cerebras.sdk.runtime.sdkruntimepybind.SdkExecutionPlatform"
+            "get_platform(addr: Optional[str] = None, config: cerebras.sdk.runtime.sdkruntimepybind.SimfabConfig = <cerebras.sdk.runtime.sdkruntimepybind.SimfabConfig object at 0x7ffffdbeaaf0>, target: cerebras.sdk.runtime.sdkruntimepybind.SdkTarget = <SdkTarget.WSE3: 1>) -> cerebras.sdk.runtime.sdkruntimepybind.SdkExecutionPlatform"
           ]
         },
         "get_simulator": {
           "kind": "callable",
           "signatures": [
-            "get_simulator(config: cerebras.sdk.runtime.sdkruntimepybind.SimfabConfig = <cerebras.sdk.runtime.sdkruntimepybind.SimfabConfig object at 0x7ffffdbea5b0>, target: cerebras.sdk.runtime.sdkruntimepybind.SdkTarget = <SdkTarget.WSE3: 1>) -> cerebras.sdk.runtime.sdkruntimepybind.SdkExecutionPlatform"
+            "get_simulator(config: cerebras.sdk.runtime.sdkruntimepybind.SimfabConfig = <cerebras.sdk.runtime.sdkruntimepybind.SimfabConfig object at 0x7ffffdbea530>, target: cerebras.sdk.runtime.sdkruntimepybind.SdkTarget = <SdkTarget.WSE3: 1>) -> cerebras.sdk.runtime.sdkruntimepybind.SdkExecutionPlatform"
           ]
         },
         "get_system": {
@@ -2281,6 +2281,544 @@
         "struct": {
           "kind": "attribute",
           "repr": "<module 'struct' from '/cb/toolchains/buildroot/buildroot-all/main/202601080020-115-9c2a6e07/monolith/rootfs-x86_64/usr/lib/python3.11/struct.py'>"
+        }
+      }
+    },
+    "cerebras.sdk.runtime.cslwsenetlist": {
+      "file": "/cbcore/py_root/cerebras/sdk/runtime/cslwsenetlist.py",
+      "doc": null,
+      "classes": {
+        "CslWseNetlist": {
+          "qualname": "CslWseNetlist",
+          "module": "cerebras.sdk.runtime.cslwsenetlist",
+          "bases": [],
+          "doc": "\n    CslWseNetlist is library that stores LVDS tiles, user PE input and output PE tiles,\n    and routes. This library is an prototype library for memcpy.\n\n    Args:\n        width is the fabric width.\n        height is the fabric height.\n        ingress is the ingress connection list. The element can be Coordinate or Tile.\n        egress is the egress connection list. The element can be Coordinate or Tile.\n        debug_level enables printing the info during initialization.\n    ",
+          "members": {
+            "__init__": {
+              "kind": "callable",
+              "python_signature": "(self, width: int, height: int, ingress: List[cerebras.sdk.streamer.lib.streamerpybind.Tile], egress: List[cerebras.sdk.streamer.lib.streamerpybind.Tile], debug_level: int = 0)"
+            },
+            "add_streamer_tile_to_used": {
+              "kind": "callable",
+              "python_signature": "(self, lvds_index)",
+              "doc": "Add index to used_lvds_indices"
+            },
+            "is_streamer_tile_used": {
+              "kind": "callable",
+              "python_signature": "(self, lvds_index)",
+              "doc": "Return true if the tile is used by memcpy netlist already.\n        False otherwise."
+            },
+            "is_sufficient_streamer": {
+              "kind": "callable",
+              "python_signature": "(self)",
+              "doc": "Raise a RuntimeError when the number of West (or East) user tile exceeds the\n        number the physical LVDS tiles."
+            },
+            "streamer_tile_index": {
+              "kind": "callable",
+              "python_signature": "(self, pe_tuple)"
+            }
+          },
+          "kind": "class"
+        },
+        "Dimensions": {
+          "qualname": "Dimensions",
+          "module": "cerebras.das_common.das_commonpybind",
+          "bases": [
+            "pybind11_object"
+          ],
+          "doc": null,
+          "members": {
+            "__init__": {
+              "kind": "callable",
+              "signatures": [
+                "__init__(self: cerebras.das_common.das_commonpybind.Dimensions, arg0: int, arg1: int) -> None"
+              ]
+            },
+            "area": {
+              "kind": "callable",
+              "signatures": [
+                "area(self: cerebras.das_common.das_commonpybind.Dimensions) -> int"
+              ]
+            },
+            "empty": {
+              "kind": "callable",
+              "signatures": [
+                "empty(self: cerebras.das_common.das_commonpybind.Dimensions) -> bool"
+              ]
+            },
+            "height": {
+              "kind": "callable",
+              "signatures": [
+                "height(self: cerebras.das_common.das_commonpybind.Dimensions) -> int"
+              ]
+            },
+            "width": {
+              "kind": "callable",
+              "signatures": [
+                "width(self: cerebras.das_common.das_commonpybind.Dimensions) -> int"
+              ]
+            }
+          },
+          "kind": "class"
+        },
+        "Enum": {
+          "qualname": "Enum",
+          "module": "enum",
+          "bases": [],
+          "doc": "\n    Create a collection of name/value pairs.\n\n    Example enumeration:\n\n    >>> class Color(Enum):\n    ...     RED = 1\n    ...     BLUE = 2\n    ...     GREEN = 3\n\n    Access them by:\n\n    - attribute access::\n\n    >>> Color.RED\n    <Color.RED: 1>\n\n    - value lookup:\n\n    >>> Color(1)\n    <Color.RED: 1>\n\n    - name lookup:\n\n    >>> Color['RED']\n    <Color.RED: 1>\n\n    Enumerations can be iterated over, and know how many members they have:\n\n    >>> len(Color)\n    3\n\n    >>> list(Color)\n    [<Color.RED: 1>, <Color.BLUE: 2>, <Color.GREEN: 3>]\n\n    Methods can be added to enumerations, and members can have their own\n    attributes -- see the documentation for details.\n    ",
+          "members": {},
+          "kind": "enum",
+          "values": {}
+        },
+        "PEPort": {
+          "qualname": "PEPort",
+          "module": "cerebras.sdk.runtime.cslwsenetlist",
+          "bases": [
+            "Enum"
+          ],
+          "doc": null,
+          "members": {
+            "INPUT": {
+              "kind": "enum_member",
+              "name": "INPUT",
+              "value": 1
+            },
+            "OUTPUT": {
+              "kind": "enum_member",
+              "name": "OUTPUT",
+              "value": 0
+            }
+          },
+          "kind": "enum",
+          "values": {
+            "OUTPUT": "<PEPort.OUTPUT: 0>",
+            "INPUT": "<PEPort.INPUT: 1>"
+          }
+        },
+        "Tile": {
+          "qualname": "Tile",
+          "module": "cerebras.sdk.streamer.lib.streamerpybind",
+          "bases": [
+            "pybind11_object"
+          ],
+          "doc": null,
+          "members": {
+            "__init__": {
+              "kind": "callable",
+              "signatures": [
+                "__init__(self: cerebras.sdk.streamer.lib.streamerpybind.Tile, arg0: int, arg1: int, arg2: int) -> None"
+              ]
+            },
+            "color": {
+              "kind": "callable",
+              "signatures": [
+                "color(self: cerebras.sdk.streamer.lib.streamerpybind.Tile) -> int"
+              ]
+            },
+            "direction": {
+              "kind": "callable",
+              "signatures": [
+                "direction(self: cerebras.sdk.streamer.lib.streamerpybind.Tile) -> cerebras.sdk.streamer.lib.streamerpybind.TileDirection"
+              ]
+            },
+            "set_color": {
+              "kind": "callable",
+              "signatures": [
+                "set_color(self: cerebras.sdk.streamer.lib.streamerpybind.Tile, arg0: int) -> None"
+              ]
+            },
+            "set_direction": {
+              "kind": "callable",
+              "signatures": [
+                "set_direction(self: cerebras.sdk.streamer.lib.streamerpybind.Tile, arg0: cerebras.sdk.streamer.lib.streamerpybind.TileDirection) -> None"
+              ]
+            },
+            "x": {
+              "kind": "callable",
+              "signatures": [
+                "x(self: cerebras.sdk.streamer.lib.streamerpybind.Tile) -> int"
+              ]
+            },
+            "y": {
+              "kind": "callable",
+              "signatures": [
+                "y(self: cerebras.sdk.streamer.lib.streamerpybind.Tile) -> int"
+              ]
+            }
+          },
+          "kind": "class"
+        }
+      },
+      "free_functions": {
+        "List": {
+          "kind": "callable",
+          "python_signature": "(*args, **kwargs)",
+          "doc": "A generic version of list."
+        }
+      },
+      "constants": {}
+    },
+    "cerebras.sdk.runtime.cslwsepintable": {
+      "file": "/cbcore/py_root/cerebras/sdk/runtime/cslwsepintable.py",
+      "doc": null,
+      "classes": {
+        "CardinalDirection": {
+          "qualname": "CardinalDirection",
+          "module": "cerebras.geometry.geometry",
+          "bases": [
+            "pybind11_object"
+          ],
+          "doc": "Members:\n\n  NORTH\n\n  SOUTH\n\n  WEST\n\n  EAST\n\n  NUM_DIRECTIONS",
+          "members": {
+            "EAST": {
+              "kind": "enum_member",
+              "name": "EAST",
+              "value": 3
+            },
+            "NORTH": {
+              "kind": "enum_member",
+              "name": "NORTH",
+              "value": 0
+            },
+            "NUM_DIRECTIONS": {
+              "kind": "enum_member",
+              "name": "NUM_DIRECTIONS",
+              "value": 4
+            },
+            "SOUTH": {
+              "kind": "enum_member",
+              "name": "SOUTH",
+              "value": 1
+            },
+            "WEST": {
+              "kind": "enum_member",
+              "name": "WEST",
+              "value": 2
+            },
+            "__init__": {
+              "kind": "callable",
+              "signatures": [
+                "__init__(self: cerebras.geometry.geometry.CardinalDirection, value: int) -> None"
+              ]
+            },
+            "name": {
+              "kind": "property",
+              "doc": "name(self: handle) -> str\n"
+            },
+            "value": {
+              "kind": "property",
+              "doc": ""
+            }
+          },
+          "kind": "enum",
+          "values": {
+            "NORTH": 0,
+            "SOUTH": 1,
+            "WEST": 2,
+            "EAST": 3,
+            "NUM_DIRECTIONS": 4
+          }
+        },
+        "CslWseNetlist": {
+          "qualname": "CslWseNetlist",
+          "module": "cerebras.sdk.runtime.cslwsenetlist",
+          "bases": [],
+          "doc": "\n    CslWseNetlist is library that stores LVDS tiles, user PE input and output PE tiles,\n    and routes. This library is an prototype library for memcpy.\n\n    Args:\n        width is the fabric width.\n        height is the fabric height.\n        ingress is the ingress connection list. The element can be Coordinate or Tile.\n        egress is the egress connection list. The element can be Coordinate or Tile.\n        debug_level enables printing the info during initialization.\n    ",
+          "members": {
+            "__init__": {
+              "kind": "callable",
+              "python_signature": "(self, width: int, height: int, ingress: List[cerebras.sdk.streamer.lib.streamerpybind.Tile], egress: List[cerebras.sdk.streamer.lib.streamerpybind.Tile], debug_level: int = 0)"
+            },
+            "add_streamer_tile_to_used": {
+              "kind": "callable",
+              "python_signature": "(self, lvds_index)",
+              "doc": "Add index to used_lvds_indices"
+            },
+            "is_streamer_tile_used": {
+              "kind": "callable",
+              "python_signature": "(self, lvds_index)",
+              "doc": "Return true if the tile is used by memcpy netlist already.\n        False otherwise."
+            },
+            "is_sufficient_streamer": {
+              "kind": "callable",
+              "python_signature": "(self)",
+              "doc": "Raise a RuntimeError when the number of West (or East) user tile exceeds the\n        number the physical LVDS tiles."
+            },
+            "streamer_tile_index": {
+              "kind": "callable",
+              "python_signature": "(self, pe_tuple)"
+            }
+          },
+          "kind": "class"
+        },
+        "CslWsePinTable": {
+          "qualname": "CslWsePinTable",
+          "module": "cerebras.sdk.runtime.cslwsepintable",
+          "bases": [],
+          "doc": "\n    Cerebras Software Language Wafer Scale Engine Pin Table Library captures the\n    information about the ingress and egress links on the wafer for WSE and simfab.\n    The purpose of the pin table helps assign user input and output tile to ingress\n    and egress tile.\n\n    ingress: List of coordinate.\n    engress: List of coordinate.\n    debug_level enables printing the info during initialization.\n\n    Usage:\n\n.. code-block:: python\n\n    pin_table = CslWsePinTable(fabric_dims, ingress, egress)\n    pin_table.create_pin_assignments(input_list, output_list)\n\n    # Get the West and East map for result\n    result_west_map = pin_table.pe_tile_west_map\n    result_east_map = pin_table.pe_tile_east_map\n    ",
+          "members": {
+            "__init__": {
+              "kind": "callable",
+              "python_signature": "(self, netlist: cerebras.sdk.runtime.cslwsenetlist.CslWseNetlist, debug_level: int = 0)"
+            },
+            "create_pin_assignments": {
+              "kind": "callable",
+              "python_signature": "(self, input_pe_list: List, output_pe_list: List)",
+              "doc": "Assign each PE to an ingress or egress first\n        Algorithm:\n        1. Sort input and output into 2 list: West and East list based on Y-coordinate.\n        2. Pair up ingress and egress tile like zip and create 2 dictionaries: input and\n           output.\n        3. Minimize distance for both dictionaries.\n\n        Args:\n            input_pe_list is the list of (Tile, receiver_dir). Future will be a list of\n            rectangles and color to support distribution and list contains direction.\n            output_pe_list is the list of (Tile, sender_dir). Future will be a list of\n            rectangles and color to support distribution and list contains direction."
+            },
+            "egress_index_list": {
+              "kind": "callable",
+              "python_signature": "(self) -> List",
+              "doc": "Returns a list of indices used for output."
+            },
+            "get_lvds_index_list": {
+              "kind": "callable",
+              "python_signature": "(self, tile_lvds_dict: Dict, sorted_pe_dir_list: List, dir: cerebras.sdk.runtime.cslwsenetlist.PEPort)"
+            },
+            "ingress_index_list": {
+              "kind": "callable",
+              "python_signature": "(self) -> List",
+              "doc": "Returns a list of indices used for input."
+            }
+          },
+          "kind": "class"
+        },
+        "PEPort": {
+          "qualname": "PEPort",
+          "module": "cerebras.sdk.runtime.cslwsenetlist",
+          "bases": [
+            "Enum"
+          ],
+          "doc": null,
+          "members": {
+            "INPUT": {
+              "kind": "enum_member",
+              "name": "INPUT",
+              "value": 1
+            },
+            "OUTPUT": {
+              "kind": "enum_member",
+              "name": "OUTPUT",
+              "value": 0
+            }
+          },
+          "kind": "enum",
+          "values": {
+            "OUTPUT": "<PEPort.OUTPUT: 0>",
+            "INPUT": "<PEPort.INPUT: 1>"
+          }
+        }
+      },
+      "free_functions": {
+        "Dict": {
+          "kind": "callable",
+          "python_signature": "(*args, **kwargs)",
+          "doc": "A generic version of dict."
+        },
+        "List": {
+          "kind": "callable",
+          "python_signature": "(*args, **kwargs)",
+          "doc": "A generic version of list."
+        }
+      },
+      "constants": {}
+    },
+    "cerebras.sdk.runtime.cslwserouter": {
+      "file": "/cbcore/py_root/cerebras/sdk/runtime/cslwserouter.py",
+      "doc": null,
+      "classes": {
+        "Coordinate": {
+          "qualname": "Coordinate",
+          "module": "cerebras.das_common.das_commonpybind",
+          "bases": [
+            "pybind11_object"
+          ],
+          "doc": null,
+          "members": {
+            "__init__": {
+              "kind": "callable",
+              "signatures": [
+                "__init__(self: cerebras.das_common.das_commonpybind.Coordinate, arg0: int, arg1: int) -> None"
+              ]
+            },
+            "x": {
+              "kind": "callable",
+              "signatures": [
+                "x(self: cerebras.das_common.das_commonpybind.Coordinate) -> int"
+              ]
+            },
+            "y": {
+              "kind": "callable",
+              "signatures": [
+                "y(self: cerebras.das_common.das_commonpybind.Coordinate) -> int"
+              ]
+            }
+          },
+          "kind": "class"
+        },
+        "CslWseNetlist": {
+          "qualname": "CslWseNetlist",
+          "module": "cerebras.sdk.runtime.cslwsenetlist",
+          "bases": [],
+          "doc": "\n    CslWseNetlist is library that stores LVDS tiles, user PE input and output PE tiles,\n    and routes. This library is an prototype library for memcpy.\n\n    Args:\n        width is the fabric width.\n        height is the fabric height.\n        ingress is the ingress connection list. The element can be Coordinate or Tile.\n        egress is the egress connection list. The element can be Coordinate or Tile.\n        debug_level enables printing the info during initialization.\n    ",
+          "members": {
+            "__init__": {
+              "kind": "callable",
+              "python_signature": "(self, width: int, height: int, ingress: List[cerebras.sdk.streamer.lib.streamerpybind.Tile], egress: List[cerebras.sdk.streamer.lib.streamerpybind.Tile], debug_level: int = 0)"
+            },
+            "add_streamer_tile_to_used": {
+              "kind": "callable",
+              "python_signature": "(self, lvds_index)",
+              "doc": "Add index to used_lvds_indices"
+            },
+            "is_streamer_tile_used": {
+              "kind": "callable",
+              "python_signature": "(self, lvds_index)",
+              "doc": "Return true if the tile is used by memcpy netlist already.\n        False otherwise."
+            },
+            "is_sufficient_streamer": {
+              "kind": "callable",
+              "python_signature": "(self)",
+              "doc": "Raise a RuntimeError when the number of West (or East) user tile exceeds the\n        number the physical LVDS tiles."
+            },
+            "streamer_tile_index": {
+              "kind": "callable",
+              "python_signature": "(self, pe_tuple)"
+            }
+          },
+          "kind": "class"
+        },
+        "CslWseRouter": {
+          "qualname": "CslWseRouter",
+          "module": "cerebras.sdk.runtime.cslwserouter",
+          "bases": [],
+          "doc": null,
+          "members": {
+            "__init__": {
+              "kind": "callable",
+              "python_signature": "(self, netlist: cerebras.sdk.runtime.cslwsenetlist.CslWseNetlist, debug_level: int = 0)"
+            },
+            "route": {
+              "kind": "callable",
+              "python_signature": "(self)",
+              "doc": "Route the ingress to PE and PE to egress."
+            }
+          },
+          "kind": "class"
+        },
+        "PEPort": {
+          "qualname": "PEPort",
+          "module": "cerebras.sdk.runtime.cslwsenetlist",
+          "bases": [
+            "Enum"
+          ],
+          "doc": null,
+          "members": {
+            "INPUT": {
+              "kind": "enum_member",
+              "name": "INPUT",
+              "value": 1
+            },
+            "OUTPUT": {
+              "kind": "enum_member",
+              "name": "OUTPUT",
+              "value": 0
+            }
+          },
+          "kind": "enum",
+          "values": {
+            "OUTPUT": "<PEPort.OUTPUT: 0>",
+            "INPUT": "<PEPort.INPUT: 1>"
+          }
+        }
+      },
+      "free_functions": {
+        "Dict": {
+          "kind": "callable",
+          "python_signature": "(*args, **kwargs)",
+          "doc": "A generic version of dict."
+        },
+        "List": {
+          "kind": "callable",
+          "python_signature": "(*args, **kwargs)",
+          "doc": "A generic version of list."
+        }
+      },
+      "constants": {
+        "CslRuntimeContext": {
+          "kind": "attribute",
+          "repr": "<module 'cerebras.sdk.runtime.routepybind' from '/cbcore/py_root/cerebras/sdk/runtime/routepybind.cpython-311-x86_64-linux-gnu.so'>"
+        }
+      }
+    },
+    "cerebras.sdk.runtime.cslwserouteasm": {
+      "file": "/cbcore/py_root/cerebras/sdk/runtime/cslwserouteasm.py",
+      "doc": null,
+      "classes": {
+        "CslWseNetlist": {
+          "qualname": "CslWseNetlist",
+          "module": "cerebras.sdk.runtime.cslwsenetlist",
+          "bases": [],
+          "doc": "\n    CslWseNetlist is library that stores LVDS tiles, user PE input and output PE tiles,\n    and routes. This library is an prototype library for memcpy.\n\n    Args:\n        width is the fabric width.\n        height is the fabric height.\n        ingress is the ingress connection list. The element can be Coordinate or Tile.\n        egress is the egress connection list. The element can be Coordinate or Tile.\n        debug_level enables printing the info during initialization.\n    ",
+          "members": {
+            "__init__": {
+              "kind": "callable",
+              "python_signature": "(self, width: int, height: int, ingress: List[cerebras.sdk.streamer.lib.streamerpybind.Tile], egress: List[cerebras.sdk.streamer.lib.streamerpybind.Tile], debug_level: int = 0)"
+            },
+            "add_streamer_tile_to_used": {
+              "kind": "callable",
+              "python_signature": "(self, lvds_index)",
+              "doc": "Add index to used_lvds_indices"
+            },
+            "is_streamer_tile_used": {
+              "kind": "callable",
+              "python_signature": "(self, lvds_index)",
+              "doc": "Return true if the tile is used by memcpy netlist already.\n        False otherwise."
+            },
+            "is_sufficient_streamer": {
+              "kind": "callable",
+              "python_signature": "(self)",
+              "doc": "Raise a RuntimeError when the number of West (or East) user tile exceeds the\n        number the physical LVDS tiles."
+            },
+            "streamer_tile_index": {
+              "kind": "callable",
+              "python_signature": "(self, pe_tuple)"
+            }
+          },
+          "kind": "class"
+        },
+        "CslWseRouterAssembler": {
+          "qualname": "CslWseRouterAssembler",
+          "module": "cerebras.sdk.runtime.cslwserouteasm",
+          "bases": [],
+          "doc": null,
+          "members": {
+            "__init__": {
+              "kind": "callable",
+              "python_signature": "(self, netlist: cerebras.sdk.runtime.cslwsenetlist.CslWseNetlist, debug_level: int = 0)",
+              "doc": "Generates MEMCPY_XY_ROUTES.elf from routes in netlist."
+            },
+            "generate_route_elf": {
+              "kind": "callable",
+              "python_signature": "(self, temp_dir: str)",
+              "doc": "Write CslIoRouting value to an ELF file."
+            }
+          },
+          "kind": "class"
+        }
+      },
+      "free_functions": {
+        "poke_data": {
+          "kind": "callable",
+          "signatures": [
+            "poke_data(arg0: str, arg1: List[bytes], arg2: int, arg3: int, arg4: List[Tuple[Tuple[int, int], Tuple[int, int]]], arg5: List[int], arg6: List[int]) -> None"
+          ]
+        }
+      },
+      "constants": {
+        "np": {
+          "kind": "attribute",
+          "repr": "<module 'numpy' from '/python/python-x86_64/lib/python3.11/site-packages/numpy/__init__.py'>"
         }
       }
     }

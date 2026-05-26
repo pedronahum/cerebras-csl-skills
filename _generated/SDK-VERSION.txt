@@ -6,7 +6,7 @@ git                  4586d3f0d8
 sif_filename         sdk-cbcore-2.10.0-sdk-202604101435-4586d3f0d8.sif
 sif_sha256           4700f1f4544e0e30b7751840394c517b18ceaf6f35847790ac0bf46f0bfa6b6a
 sif_sha256_source    /Users/pedro/programming/cerebras/sdk/sha256sum.txt
-extracted_at         2026-05-26T13:49:02Z
+extracted_at         2026-05-26T14:14:52Z
 python               3.11.8
 platform             Linux-6.8.0-90-generic-x86_64-with-glibc2.38
 
@@ -19,3 +19,7 @@ platform             Linux-6.8.0-90-generic-x86_64-with-glibc2.38
   cerebras.sdk.debug.lib.rectangleopspybind: 3 classes, 1 free funcs, 0 constants
   cerebras.sdk.debug.lib.wavelet_trace.wavelettracepybind: 10 classes, 0 free funcs, 0 constants
   cerebras.sdk.sdk_utils: 0 classes, 16 free funcs, 4 constants
+  cerebras.sdk.runtime.cslwsenetlist: 5 classes, 1 free funcs, 0 constants
+  cerebras.sdk.runtime.cslwsepintable: 4 classes, 2 free funcs, 0 constants
+  cerebras.sdk.runtime.cslwserouter: 4 classes, 2 free funcs, 1 constants
+  cerebras.sdk.runtime.cslwserouteasm: 2 classes, 1 free funcs, 1 constants

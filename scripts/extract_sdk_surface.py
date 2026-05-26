@@ -51,6 +51,11 @@ MODULES = [
 # public function signatures too — they're part of the documented surface.
 PY_MODULES = [
     "cerebras.sdk.sdk_utils",
+    # Memcpy-infrastructure routing prototype (consumers of routepybind).
+    "cerebras.sdk.runtime.cslwsenetlist",
+    "cerebras.sdk.runtime.cslwsepintable",
+    "cerebras.sdk.runtime.cslwserouter",
+    "cerebras.sdk.runtime.cslwserouteasm",
 ]
 
 
