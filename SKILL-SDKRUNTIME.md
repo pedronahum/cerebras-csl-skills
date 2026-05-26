@@ -37,7 +37,8 @@ shasum -a 256 "$(dirname "$(command -v cs_python)")"/sdk-cbcore-*.sif
 | Module | Purpose | Detailed in |
 |---|---|---|
 | `cerebras.sdk.runtime.sdkruntimepybind` | Main public surface: `SdkRuntime`, `SdkLayout`, types, enums. | this file + drilled chapters |
-| `cerebras.sdk.runtime.routepybind` | Lower-level fabric routing (one class). | *(planned)* |
+| `cerebras.sdk.runtime.routepybind` | Lower-level memcpy-routing primitive (`CslIoRouting`). | [SKILL-SDKRUNTIME-ROUTE.md](SKILL-SDKRUNTIME-ROUTE.md) |
+| `cerebras.sdk.runtime.cslwse{netlist,pintable,router,routeasm}` | Python wrappers that build `MEMCPY_XY_ROUTES.elf`. | [SKILL-SDKRUNTIME-ROUTE.md](SKILL-SDKRUNTIME-ROUTE.md) |
 | `cerebras.sdk.debug.lib.symbol.csldebugpybind` | Symbol-table queries against compiled ELFs. | SKILL-SDKRUNTIME-DEBUG.md *(planned)* |
 | `cerebras.sdk.debug.lib.instruction_trace.sdkinstrtracepybind` | Instruction-trace parsing. | SKILL-SDKRUNTIME-DEBUG.md *(planned)* |
 | `cerebras.sdk.debug.lib.rectangleopspybind` | Rectangle ops on dump cores. | SKILL-SDKRUNTIME-DEBUG.md *(planned)* |
