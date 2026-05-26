@@ -1,0 +1,348 @@
+# Cerebras SDK — pinned for this skill bundle
+# version=2.10.0  build=202604101435  git=4586d3f0d8
+# sif=sdk-cbcore-2.10.0-sdk-202604101435-4586d3f0d8.sif
+# sif_sha256=4700f1f4544e0e30b7751840394c517b18ceaf6f35847790ac0bf46f0bfa6b6a
+
+# C++ symbol dump (demangled), filtered to cerebras::/csl::
+# SIF: sdk-cbcore-2.10.0-sdk-202604101435-4586d3f0d8.sif
+
+## /cbcore/lib/libsdkruntime.so
+cerebras::SdkRuntime::SdkRuntime(cerebras::SdkCompileArtifacts const&, cerebras::SdkExecutionPlatform const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, bool, bool, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >)
+cerebras::SdkRuntime::Task::Task(cerebras::SdkRuntime::Task const&)
+cerebras::SdkRuntime::Task::Task(cerebras::SdkRuntime::Task&&)
+cerebras::SdkRuntime::Task::Task(std::shared_ptr<cerebras::MemcpyTask>)
+cerebras::SdkRuntime::Task::get_mtask() const
+cerebras::SdkRuntime::Task::operator=(cerebras::SdkRuntime::Task const&)
+cerebras::SdkRuntime::Task::operator=(cerebras::SdkRuntime::Task&&)
+cerebras::SdkRuntime::Task::~Task()
+cerebras::SdkRuntime::call(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<unsigned int, std::allocator<unsigned int> > const&, cerebras::MemcpyOptions const&)
+cerebras::SdkRuntime::check_rpc_api(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >&)
+cerebras::SdkRuntime::coord_logical_to_physical(int, int, int*, int*)
+cerebras::SdkRuntime::dump_core(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >)
+cerebras::SdkRuntime::dump_elf_core(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >)
+cerebras::SdkRuntime::get_id(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) const
+cerebras::SdkRuntime::get_port_id(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)
+cerebras::SdkRuntime::is_task_done(cerebras::SdkRuntime::Task const&)
+cerebras::SdkRuntime::load()
+cerebras::SdkRuntime::memcpy_d2h(void*, unsigned short, int, int, int, int, int, cerebras::MemcpyOptions const&)
+cerebras::SdkRuntime::memcpy_h2d(unsigned short, void*, int, int, int, int, int, cerebras::MemcpyOptions const&)
+cerebras::SdkRuntime::memcpy_h2d_colbcast(unsigned short, void*, int, int, int, int, int, cerebras::MemcpyOptions const&)
+cerebras::SdkRuntime::memcpy_h2d_rowbcast(unsigned short, void*, int, int, int, int, int, cerebras::MemcpyOptions const&)
+cerebras::SdkRuntime::memcpy_h2d_stride(unsigned short, void*, int, int, int, int, int, int, int, cerebras::MemcpyOptions const&)
+cerebras::SdkRuntime::read_symbol(int, int, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) const
+cerebras::SdkRuntime::receive(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, void*, unsigned long, bool)
+cerebras::SdkRuntime::receive(unsigned short, void*, unsigned long, bool)
+cerebras::SdkRuntime::receive_tofile(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, bool)
+cerebras::SdkRuntime::receive_tofile(unsigned short, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, bool)
+cerebras::SdkRuntime::report_port_infos()
+cerebras::SdkRuntime::run()
+cerebras::SdkRuntime::send(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, void const*, unsigned long, bool)
+cerebras::SdkRuntime::send(unsigned short, void const*, unsigned long, bool)
+cerebras::SdkRuntime::stop()
+cerebras::SdkRuntime::task_wait(cerebras::SdkRuntime::Task const&)
+cerebras::SdkRuntime::~SdkRuntime()
+
+## /cbcore/lib/libsdk_layout.so
+cerebras::SdkLayout::CodeRegion::create_input_port(cerebras::SdkLayout::Color const&, cerebras::SdkLayout::Edge, std::vector<cerebras::SdkLayout::RoutingPosition, std::allocator<cerebras::SdkLayout::RoutingPosition> > const&, unsigned long, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)
+cerebras::SdkLayout::CodeRegion::create_output_port(cerebras::SdkLayout::Color const&, cerebras::SdkLayout::Edge, std::vector<cerebras::SdkLayout::RoutingPosition, std::allocator<cerebras::SdkLayout::RoutingPosition> > const&, unsigned long, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)
+cerebras::SdkLayout::CodeRegion::paint(cerebras::IntVector const&, cerebras::SdkLayout::Color const&, std::vector<cerebras::SdkLayout::RoutingPosition, std::allocator<cerebras::SdkLayout::RoutingPosition> > const&)
+cerebras::SdkLayout::CodeRegion::paint_all(cerebras::SdkLayout::Color const&, std::vector<cerebras::SdkLayout::RoutingPosition, std::allocator<cerebras::SdkLayout::RoutingPosition> > const&)
+cerebras::SdkLayout::CodeRegion::paint_all(cerebras::SdkLayout::Color const&, std::vector<cerebras::SdkLayout::RoutingPosition, std::allocator<cerebras::SdkLayout::RoutingPosition> > const&, std::vector<cerebras::SdkLayout::EdgeRouteInfo, std::allocator<cerebras::SdkLayout::EdgeRouteInfo> > const&)
+cerebras::SdkLayout::CodeRegion::paint_range(cerebras::IntRectangle const&, cerebras::SdkLayout::Color const&, std::vector<cerebras::SdkLayout::RoutingPosition, std::allocator<cerebras::SdkLayout::RoutingPosition> > const&)
+cerebras::SdkLayout::CodeRegion::place(int, int)
+cerebras::SdkLayout::CodeRegion::set_param(cerebras::IntVector const&, cerebras::SdkLayout::Color const&)
+cerebras::SdkLayout::CodeRegion::set_param(cerebras::IntVector const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, cerebras::SdkLayout::Color const&)
+cerebras::SdkLayout::CodeRegion::set_param(cerebras::IntVector const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, int)
+cerebras::SdkLayout::CodeRegion::set_param_all(cerebras::SdkLayout::Color const&)
+cerebras::SdkLayout::CodeRegion::set_param_all(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, cerebras::SdkLayout::Color const&)
+cerebras::SdkLayout::CodeRegion::set_param_all(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, int)
+cerebras::SdkLayout::CodeRegion::set_param_range(cerebras::IntRectangle const&, cerebras::SdkLayout::Color const&)
+cerebras::SdkLayout::CodeRegion::set_param_range(cerebras::IntRectangle const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, cerebras::SdkLayout::Color const&)
+cerebras::SdkLayout::CodeRegion::set_param_range(cerebras::IntRectangle const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, int)
+cerebras::SdkLayout::CodeRegion::set_symbol_impl(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<unsigned short, std::allocator<unsigned short> > const&, int, int, int)
+cerebras::SdkLayout::SdkLayout(cerebras::SdkExecutionPlatform const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >)
+cerebras::SdkLayout::SdkLayout(cerebras::SdkTarget const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >)
+cerebras::SdkLayout::SdkLayout(std::filesystem::__cxx11::path const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >)
+cerebras::SdkLayout::compile(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, bool, cerebras::SdkLayout::FP16TYPE) const
+cerebras::SdkLayout::connect(cerebras::SdkLayout::PortHandle&, cerebras::SdkLayout::PortHandle&)
+cerebras::SdkLayout::create_code_region(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, int, int)
+cerebras::SdkLayout::create_input_stream[abi:cxx11](cerebras::SdkLayout::PortHandle&, std::optional<cerebras::IntVector> const&, unsigned short)
+cerebras::SdkLayout::create_input_stream_from_loc(cerebras::IntVector const&, cerebras::SdkLayout::Color const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)
+cerebras::SdkLayout::create_output_stream[abi:cxx11](cerebras::SdkLayout::PortHandle&, std::optional<cerebras::IntVector> const&, unsigned short)
+cerebras::SdkLayout::create_output_stream_from_loc(cerebras::IntVector const&, cerebras::SdkLayout::Color const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)
+cerebras::SdkLayout::hstack(std::vector<cerebras::SdkLayout::CodeRegion, std::allocator<cerebras::SdkLayout::CodeRegion> > const&)
+cerebras::SdkLayout::hstack(std::vector<cerebras::SdkLayout::CodeRegion, std::allocator<cerebras::SdkLayout::CodeRegion> > const&, cerebras::IntVector const&)
+cerebras::SdkLayout::vstack(std::vector<cerebras::SdkLayout::CodeRegion, std::allocator<cerebras::SdkLayout::CodeRegion> > const&)
+cerebras::SdkLayout::vstack(std::vector<cerebras::SdkLayout::CodeRegion, std::allocator<cerebras::SdkLayout::CodeRegion> > const&, cerebras::IntVector const&)
+cerebras::SdkLayout::~SdkLayout()
+
+## /cbcore/lib/libsdk_compile_artifacts.so
+cerebras::SdkCompileArtifacts::SdkCompileArtifacts(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)
+cerebras::SdkCompileArtifacts::SdkCompileArtifacts(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, nlohmann::json_abi_v3_11_3::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, long, unsigned long, double, std::allocator, nlohmann::json_abi_v3_11_3::adl_serializer, std::vector<unsigned char, std::allocator<unsigned char> >, void> const&)
+cerebras::SdkCompileArtifacts::add_port_mapping(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)
+
+## /cbcore/lib/libsdk_das.so
+cerebras::das::SDKSymbolTable::SDKSymbolTable(cerebras::AbstractRectangle<unsigned int> const&, int)
+cerebras::das::SDKSymbolTable::add_symbol(unsigned long, Elf64_Sym const&, std::unordered_map<unsigned long, cerebras::das::SymbolOffset, std::hash<unsigned long>, std::equal_to<unsigned long>, std::allocator<std::pair<unsigned long const, cerebras::das::SymbolOffset> > >&)
+cerebras::das::SDKSymbolTable::get_pre_run_routes_raw(int, int) const
+cerebras::das::SDKSymbolTable::get_routing_colors() const
+cerebras::das::SDKSymbolTable::get_routing_table_from_coordinate(cerebras::Point<unsigned int> const&) const
+cerebras::das::SDKSymbolTable::get_symbols_from_coordinate(cerebras::Point<unsigned int> const&) const
+cerebras::das::SDKSymbolTable::load_elf(std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > > const&, bool)
+cerebras::das::SdkContext::SdkContext(std::filesystem::__cxx11::path const&, bool)
+cerebras::das::SdkContext::check_rpc_api(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::vector<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >&)
+cerebras::das::SdkContext::get_id(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) const
+cerebras::das::SdkContext::get_rpc_color() const
+
+## /cbcore/lib/libsdk_execution_platform.so
+cerebras::SdkExecutionPlatform::SdkExecutionPlatform(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)
+cerebras::SdkExecutionPlatform::load_fabric_config() const
+cerebras::SystemFabricSpec::SystemFabricSpec(std::filesystem::__cxx11::path const&)
+cerebras::SystemFabricSpec::get_bounding_box() const
+cerebras::SystemFabricSpec::get_egress() const
+cerebras::SystemFabricSpec::get_ingress() const
+cerebras::SystemFabricSpec::get_target() const
+
+## /cbcore/lib/libsdk_debug.so
+cerebras::sdk::RectangleOpsCm::RectangleOpsCm(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, unsigned int, unsigned int, unsigned int, unsigned int)
+cerebras::sdk::RectangleOpsCm::dumpcore(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)
+cerebras::sdk::RectangleOpsCm::read(unsigned int, unsigned int, std::function<void (unsigned int, unsigned int, unsigned int, std::vector<unsigned short, std::allocator<unsigned short> >)>)
+cerebras::sdk::RectangleOpsCm::resume()
+cerebras::sdk::RectangleOpsCm::step()
+cerebras::sdk::RectangleOpsCm::stop()
+cerebras::sdk::RectangleOpsSimfab::RectangleOpsSimfab(unsigned int, unsigned int, unsigned int, unsigned int)
+cerebras::sdk::RectangleOpsSimfab::dumpcore(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)
+cerebras::sdk::RectangleOpsSimfab::read(unsigned int, unsigned int, std::function<void (unsigned int, unsigned int, unsigned int, std::vector<unsigned short, std::allocator<unsigned short> >)>)
+cerebras::sdk::RectangleOpsSimfab::resume()
+cerebras::sdk::RectangleOpsSimfab::step()
+cerebras::sdk::RectangleOpsSimfab::stop()
+
+## /cbcore/lib/libsdk_instruction_trace.so
+cerebras::Any::CpbPlaceholder<cerebras::cpb::Position>::clone() const
+cerebras::Any::CpbPlaceholder<cerebras::cpb::Position>::equals(cerebras::Any const&) const
+cerebras::Any::CpbPlaceholder<cerebras::cpb::Position>::json_pointer[abi:cxx11](void const*, int) const
+cerebras::Any::CpbPlaceholder<cerebras::cpb::Position>::print(std::ostream&) const
+cerebras::Any::CpbPlaceholder<cerebras::cpb::Position>::save(cerebras::PbOutput&) const
+cerebras::Any::CpbPlaceholder<cerebras::cpb::Position>::save(nlohmann::json_abi_v3_11_3::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, long, unsigned long, double, std::allocator, nlohmann::json_abi_v3_11_3::adl_serializer, std::vector<unsigned char, std::allocator<unsigned char> >, void>*) const
+cerebras::Any::CpbPlaceholder<cerebras::cpb::Position>::type_name() const
+cerebras::Any::CpbPlaceholder<cerebras::cpb::Position>::~CpbPlaceholder()
+cerebras::Any::CpbPlaceholder<cerebras::cpb::Rectangle>::clone() const
+cerebras::Any::CpbPlaceholder<cerebras::cpb::Rectangle>::equals(cerebras::Any const&) const
+cerebras::Any::CpbPlaceholder<cerebras::cpb::Rectangle>::json_pointer[abi:cxx11](void const*, int) const
+cerebras::Any::CpbPlaceholder<cerebras::cpb::Rectangle>::print(std::ostream&) const
+cerebras::Any::CpbPlaceholder<cerebras::cpb::Rectangle>::save(cerebras::PbOutput&) const
+cerebras::Any::CpbPlaceholder<cerebras::cpb::Rectangle>::save(nlohmann::json_abi_v3_11_3::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, long, unsigned long, double, std::allocator, nlohmann::json_abi_v3_11_3::adl_serializer, std::vector<unsigned char, std::allocator<unsigned char> >, void>*) const
+cerebras::Any::CpbPlaceholder<cerebras::cpb::Rectangle>::type_name() const
+cerebras::Any::CpbPlaceholder<cerebras::cpb::Rectangle>::~CpbPlaceholder()
+cerebras::Any::CpbPlaceholder<cerebras::cpb::Size>::clone() const
+cerebras::Any::CpbPlaceholder<cerebras::cpb::Size>::equals(cerebras::Any const&) const
+cerebras::Any::CpbPlaceholder<cerebras::cpb::Size>::json_pointer[abi:cxx11](void const*, int) const
+cerebras::Any::CpbPlaceholder<cerebras::cpb::Size>::print(std::ostream&) const
+cerebras::Any::CpbPlaceholder<cerebras::cpb::Size>::save(cerebras::PbOutput&) const
+cerebras::Any::CpbPlaceholder<cerebras::cpb::Size>::save(nlohmann::json_abi_v3_11_3::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, long, unsigned long, double, std::allocator, nlohmann::json_abi_v3_11_3::adl_serializer, std::vector<unsigned char, std::allocator<unsigned char> >, void>*) const
+cerebras::Any::CpbPlaceholder<cerebras::cpb::Size>::type_name() const
+cerebras::Any::CpbPlaceholder<cerebras::cpb::Size>::~CpbPlaceholder()
+cerebras::cpb::InstrTimelineEntry::~InstrTimelineEntry()
+cerebras::cpb::InstrTraceSequence::~InstrTraceSequence()
+cerebras::cpb::Position::json_pointer[abi:cxx11](void const*, int) const
+cerebras::cpb::Position::load(cerebras::PbInput&)
+cerebras::cpb::Position::load(nlohmann::json_abi_v3_11_3::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, long, unsigned long, double, std::allocator, nlohmann::json_abi_v3_11_3::adl_serializer, std::vector<unsigned char, std::allocator<unsigned char> >, void> const*)
+cerebras::cpb::Position::save(cerebras::PbOutput&) const
+cerebras::cpb::Position::save(nlohmann::json_abi_v3_11_3::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, long, unsigned long, double, std::allocator, nlohmann::json_abi_v3_11_3::adl_serializer, std::vector<unsigned char, std::allocator<unsigned char> >, void>*) const
+cerebras::cpb::Rectangle::json_pointer[abi:cxx11](void const*, int) const
+cerebras::cpb::Rectangle::load(cerebras::PbInput&)
+cerebras::cpb::Rectangle::load(nlohmann::json_abi_v3_11_3::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, long, unsigned long, double, std::allocator, nlohmann::json_abi_v3_11_3::adl_serializer, std::vector<unsigned char, std::allocator<unsigned char> >, void> const*)
+cerebras::cpb::Rectangle::save(cerebras::PbOutput&) const
+cerebras::cpb::Rectangle::save(nlohmann::json_abi_v3_11_3::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, long, unsigned long, double, std::allocator, nlohmann::json_abi_v3_11_3::adl_serializer, std::vector<unsigned char, std::allocator<unsigned char> >, void>*) const
+cerebras::cpb::Size::json_pointer[abi:cxx11](void const*, int) const
+cerebras::cpb::Size::load(cerebras::PbInput&)
+cerebras::cpb::Size::load(nlohmann::json_abi_v3_11_3::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, long, unsigned long, double, std::allocator, nlohmann::json_abi_v3_11_3::adl_serializer, std::vector<unsigned char, std::allocator<unsigned char> >, void> const*)
+cerebras::cpb::Size::save(cerebras::PbOutput&) const
+cerebras::cpb::Size::save(nlohmann::json_abi_v3_11_3::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, long, unsigned long, double, std::allocator, nlohmann::json_abi_v3_11_3::adl_serializer, std::vector<unsigned char, std::allocator<unsigned char> >, void>*) const
+cerebras::cpb::from_json(nlohmann::json_abi_v3_11_3::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, long, unsigned long, double, std::allocator, nlohmann::json_abi_v3_11_3::adl_serializer, std::vector<unsigned char, std::allocator<unsigned char> >, void> const&, cerebras::cpb::Position&)
+cerebras::cpb::from_json(nlohmann::json_abi_v3_11_3::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, long, unsigned long, double, std::allocator, nlohmann::json_abi_v3_11_3::adl_serializer, std::vector<unsigned char, std::allocator<unsigned char> >, void> const&, cerebras::cpb::Rectangle&)
+cerebras::cpb::from_json(nlohmann::json_abi_v3_11_3::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, long, unsigned long, double, std::allocator, nlohmann::json_abi_v3_11_3::adl_serializer, std::vector<unsigned char, std::allocator<unsigned char> >, void> const&, cerebras::cpb::Size&)
+cerebras::cpb::operator!=(cerebras::cpb::Position const&, cerebras::cpb::Position const&)
+cerebras::cpb::operator!=(cerebras::cpb::Rectangle const&, cerebras::cpb::Rectangle const&)
+cerebras::cpb::operator!=(cerebras::cpb::Size const&, cerebras::cpb::Size const&)
+cerebras::cpb::operator<<(std::ostream&, cerebras::cpb::Position const&)
+cerebras::cpb::operator<<(std::ostream&, cerebras::cpb::Rectangle const&)
+cerebras::cpb::operator<<(std::ostream&, cerebras::cpb::Size const&)
+cerebras::cpb::operator==(cerebras::cpb::Position const&, cerebras::cpb::Position const&)
+cerebras::cpb::operator==(cerebras::cpb::Rectangle const&, cerebras::cpb::Rectangle const&)
+cerebras::cpb::operator==(cerebras::cpb::Size const&, cerebras::cpb::Size const&)
+cerebras::cpb::to_json(nlohmann::json_abi_v3_11_3::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, long, unsigned long, double, std::allocator, nlohmann::json_abi_v3_11_3::adl_serializer, std::vector<unsigned char, std::allocator<unsigned char> >, void>&, cerebras::cpb::Position const&)
+cerebras::cpb::to_json(nlohmann::json_abi_v3_11_3::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, long, unsigned long, double, std::allocator, nlohmann::json_abi_v3_11_3::adl_serializer, std::vector<unsigned char, std::allocator<unsigned char> >, void>&, cerebras::cpb::Rectangle const&)
+cerebras::cpb::to_json(nlohmann::json_abi_v3_11_3::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, long, unsigned long, double, std::allocator, nlohmann::json_abi_v3_11_3::adl_serializer, std::vector<unsigned char, std::allocator<unsigned char> >, void>&, cerebras::cpb::Size const&)
+cerebras::elf::ELFReader::elfHeader() const
+cerebras::elf::ELFReader::~ELFReader()
+cerebras::hwdebug::SimfabInstructionTraceCtfApi::~SimfabInstructionTraceCtfApi()
+cerebras::hwdebug::SimfabInstructionTraceCtfBase::~SimfabInstructionTraceCtfBase()
+cerebras::hwdebug::instruction_trace::~instruction_trace()
+cerebras::sdk::ElfFileParser::build_addr_to_source_line_mapping_(boost::process::basic_ipstream<char, std::char_traits<char> >&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::unordered_map<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const*, std::shared_ptr<std::map<unsigned short, cerebras::sdk::source_ptr_line, std::less<unsigned short>, std::allocator<std::pair<unsigned short const, cerebras::sdk::source_ptr_line> > > >, std::hash<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const*>, std::equal_to<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const*>, std::allocator<std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const* const, std::shared_ptr<std::map<unsigned short, cerebras::sdk::source_ptr_line, std::less<unsigned short>, std::allocator<std::pair<unsigned short const, cerebras::sdk::source_ptr_line> > > > > > >&, std::unordered_set<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::hash<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::equal_to<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::allocator<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > > >&)
+cerebras::sdk::ElfSourceStore::ElfSourceStore(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)
+cerebras::sdk::ElfSourceStore::ElfSourceStore(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::shared_ptr<cerebras::sdk::ElfFileParser>)
+cerebras::sdk::ElfSourceStore::get_architecture() const
+cerebras::sdk::ElfSourceStore::get_source_line(unsigned int, unsigned int, unsigned short) const
+cerebras::sdk::ElfSourceStore::~ElfSourceStore()
+cerebras::sdk::InstructionTraceIteratorApi::InstructionTraceIteratorApi(unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, bool, nlohmann::json_abi_v3_11_3::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, long, unsigned long, double, std::allocator, nlohmann::json_abi_v3_11_3::adl_serializer, std::vector<unsigned char, std::allocator<unsigned char> >, void>)
+cerebras::sdk::InstructionTraceIteratorApi::get_next(cerebras::sdk::trace*)
+cerebras::sdk::InstructionTraceIteratorApi::has_next()
+cerebras::sdk::JsonTraceApiBase::~JsonTraceApiBase()
+cerebras::sdk::SimfabInstructionTrace::SimfabInstructionTrace(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)
+cerebras::sdk::SimfabInstructionTrace::get_instructions(unsigned int, unsigned int)
+cerebras::sdk::SimfabInstructionTrace::get_instructions_per_task(unsigned int, unsigned int, unsigned int)
+cerebras::sdk::SimfabInstructionTrace::get_instructions_per_uthread(unsigned int, unsigned int, unsigned int)
+cerebras::sdk::SimfabInstructionTrace::get_source_line(unsigned int, unsigned int, unsigned short)
+cerebras::sdk::SimfabInstructionTrace::get_tasks(unsigned int, unsigned int)
+cerebras::sdk::SimfabInstructionTrace::get_uthreads(unsigned int, unsigned int)
+cerebras::sdk::SimfabInstructionTraceApi::SimfabInstructionTraceApi(nlohmann::json_abi_v3_11_3::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, long, unsigned long, double, std::allocator, nlohmann::json_abi_v3_11_3::adl_serializer, std::vector<unsigned char, std::allocator<unsigned char> >, void> const&)
+cerebras::sdk::SimfabInstructionTraceApi::SimfabInstructionTraceApi(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)
+cerebras::sdk::SimfabInstructionTraceApi::add_instruction(unsigned int, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, unsigned int, nlohmann::json_abi_v3_11_3::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, long, unsigned long, double, std::allocator, nlohmann::json_abi_v3_11_3::adl_serializer, std::vector<unsigned char, std::allocator<unsigned char> >, void> const&)
+cerebras::sdk::SimfabInstructionTraceApi::create_tile_entry(unsigned int)
+cerebras::sdk::SimfabInstructionTraceApi::get_instructions(unsigned int, unsigned int)
+cerebras::sdk::SimfabInstructionTraceApi::get_instructions_per_task(unsigned int, unsigned int, unsigned int)
+cerebras::sdk::SimfabInstructionTraceApi::get_instructions_per_uthread(unsigned int, unsigned int, unsigned int)
+cerebras::sdk::SimfabInstructionTraceApi::get_tasks(unsigned int, unsigned int)
+cerebras::sdk::SimfabInstructionTraceApi::get_uthreads(unsigned int, unsigned int)
+cerebras::sdk::SimfabInstructionTraceApi::make_instruction_trace(unsigned int)
+cerebras::sdk::SimfabInstructionTraceCtf::SimfabInstructionTraceCtf(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)
+cerebras::sdk::SimfabInstructionTraceCtf::get_fabric_dim() const
+cerebras::sdk::SimfabInstructionTraceCtf::get_instruction_trace_at(cerebras::Point<unsigned int>)
+cerebras::sdk::SimfabInstructionTraceCtf::get_instruction_trace_at(cerebras::Point<unsigned int>, unsigned long, unsigned long)
+cerebras::sdk::SimfabInstructionTraceCtf::get_instruction_trace_per_task_at(cerebras::Point<unsigned int>, unsigned int)
+cerebras::sdk::SimfabInstructionTraceCtf::get_instruction_trace_per_uthread_at(cerebras::Point<unsigned int>, unsigned int)
+cerebras::sdk::SimfabInstructionTraceCtf::get_instruction_trace_summary(cerebras::Point<unsigned int>, unsigned long, unsigned long)
+cerebras::sdk::SimfabInstructionTraceCtf::get_operand_format(arch_e, unsigned int, operand_type_t) const
+cerebras::sdk::SimfabInstructionTraceCtf::get_tasks_at(cerebras::Point<unsigned int>)
+cerebras::sdk::SimfabInstructionTraceCtf::get_uthreads_at(cerebras::Point<unsigned int>)
+cerebras::sdk::SimfabInstructionTraceCtf::translate_one_instr_trace(cerebras::Point<unsigned int>, std::unordered_map<unsigned int, SimHwmDispatch_s, std::hash<unsigned int>, std::equal_to<unsigned int>, std::allocator<std::pair<unsigned int const, SimHwmDispatch_s> > > const&, SimHwmPipe_s const&) const
+cerebras::sdk::SimfabInstructionTraceCtf::translate_trace(cerebras::Point<unsigned int>, cerebras::hwdebug::instruction_trace const&, unsigned long, unsigned long) const
+cerebras::sdk::get_timeline_from_simfab_trace(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, cerebras::Point<unsigned int>, unsigned long, unsigned long)
+
+## /cbcore/lib/libsdk_wavelet_trace.so
+cerebras::Any::CpbPlaceholder<cerebras::cpb::Position>::clone() const
+cerebras::Any::CpbPlaceholder<cerebras::cpb::Position>::equals(cerebras::Any const&) const
+cerebras::Any::CpbPlaceholder<cerebras::cpb::Position>::json_pointer[abi:cxx11](void const*, int) const
+cerebras::Any::CpbPlaceholder<cerebras::cpb::Position>::print(std::ostream&) const
+cerebras::Any::CpbPlaceholder<cerebras::cpb::Position>::save(cerebras::PbOutput&) const
+cerebras::Any::CpbPlaceholder<cerebras::cpb::Position>::save(nlohmann::json_abi_v3_11_3::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, long, unsigned long, double, std::allocator, nlohmann::json_abi_v3_11_3::adl_serializer, std::vector<unsigned char, std::allocator<unsigned char> >, void>*) const
+cerebras::Any::CpbPlaceholder<cerebras::cpb::Position>::type_name() const
+cerebras::Any::CpbPlaceholder<cerebras::cpb::Position>::~CpbPlaceholder()
+cerebras::Any::CpbPlaceholder<cerebras::cpb::Rectangle>::clone() const
+cerebras::Any::CpbPlaceholder<cerebras::cpb::Rectangle>::equals(cerebras::Any const&) const
+cerebras::Any::CpbPlaceholder<cerebras::cpb::Rectangle>::json_pointer[abi:cxx11](void const*, int) const
+cerebras::Any::CpbPlaceholder<cerebras::cpb::Rectangle>::print(std::ostream&) const
+cerebras::Any::CpbPlaceholder<cerebras::cpb::Rectangle>::save(cerebras::PbOutput&) const
+cerebras::Any::CpbPlaceholder<cerebras::cpb::Rectangle>::save(nlohmann::json_abi_v3_11_3::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, long, unsigned long, double, std::allocator, nlohmann::json_abi_v3_11_3::adl_serializer, std::vector<unsigned char, std::allocator<unsigned char> >, void>*) const
+cerebras::Any::CpbPlaceholder<cerebras::cpb::Rectangle>::type_name() const
+cerebras::Any::CpbPlaceholder<cerebras::cpb::Rectangle>::~CpbPlaceholder()
+cerebras::Any::CpbPlaceholder<cerebras::cpb::Size>::clone() const
+cerebras::Any::CpbPlaceholder<cerebras::cpb::Size>::equals(cerebras::Any const&) const
+cerebras::Any::CpbPlaceholder<cerebras::cpb::Size>::json_pointer[abi:cxx11](void const*, int) const
+cerebras::Any::CpbPlaceholder<cerebras::cpb::Size>::print(std::ostream&) const
+cerebras::Any::CpbPlaceholder<cerebras::cpb::Size>::save(cerebras::PbOutput&) const
+cerebras::Any::CpbPlaceholder<cerebras::cpb::Size>::save(nlohmann::json_abi_v3_11_3::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, long, unsigned long, double, std::allocator, nlohmann::json_abi_v3_11_3::adl_serializer, std::vector<unsigned char, std::allocator<unsigned char> >, void>*) const
+cerebras::Any::CpbPlaceholder<cerebras::cpb::Size>::type_name() const
+cerebras::Any::CpbPlaceholder<cerebras::cpb::Size>::~CpbPlaceholder()
+cerebras::DebugMessage::~DebugMessage()
+cerebras::ErrorMessage::~ErrorMessage()
+cerebras::InfoMessage::~InfoMessage()
+cerebras::VerboseMessage::~VerboseMessage()
+cerebras::WarningMessage::~WarningMessage()
+cerebras::cpb::Position::json_pointer[abi:cxx11](void const*, int) const
+cerebras::cpb::Position::load(cerebras::PbInput&)
+cerebras::cpb::Position::load(nlohmann::json_abi_v3_11_3::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, long, unsigned long, double, std::allocator, nlohmann::json_abi_v3_11_3::adl_serializer, std::vector<unsigned char, std::allocator<unsigned char> >, void> const*)
+cerebras::cpb::Position::save(cerebras::PbOutput&) const
+cerebras::cpb::Position::save(nlohmann::json_abi_v3_11_3::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, long, unsigned long, double, std::allocator, nlohmann::json_abi_v3_11_3::adl_serializer, std::vector<unsigned char, std::allocator<unsigned char> >, void>*) const
+cerebras::cpb::Rectangle::json_pointer[abi:cxx11](void const*, int) const
+cerebras::cpb::Rectangle::load(cerebras::PbInput&)
+cerebras::cpb::Rectangle::load(nlohmann::json_abi_v3_11_3::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, long, unsigned long, double, std::allocator, nlohmann::json_abi_v3_11_3::adl_serializer, std::vector<unsigned char, std::allocator<unsigned char> >, void> const*)
+cerebras::cpb::Rectangle::save(cerebras::PbOutput&) const
+cerebras::cpb::Rectangle::save(nlohmann::json_abi_v3_11_3::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, long, unsigned long, double, std::allocator, nlohmann::json_abi_v3_11_3::adl_serializer, std::vector<unsigned char, std::allocator<unsigned char> >, void>*) const
+cerebras::cpb::Size::json_pointer[abi:cxx11](void const*, int) const
+cerebras::cpb::Size::load(cerebras::PbInput&)
+cerebras::cpb::Size::load(nlohmann::json_abi_v3_11_3::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, long, unsigned long, double, std::allocator, nlohmann::json_abi_v3_11_3::adl_serializer, std::vector<unsigned char, std::allocator<unsigned char> >, void> const*)
+cerebras::cpb::Size::save(cerebras::PbOutput&) const
+cerebras::cpb::Size::save(nlohmann::json_abi_v3_11_3::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, long, unsigned long, double, std::allocator, nlohmann::json_abi_v3_11_3::adl_serializer, std::vector<unsigned char, std::allocator<unsigned char> >, void>*) const
+cerebras::cpb::WaveletDataTypeResponseWavelets::~WaveletDataTypeResponseWavelets()
+cerebras::cpb::from_json(nlohmann::json_abi_v3_11_3::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, long, unsigned long, double, std::allocator, nlohmann::json_abi_v3_11_3::adl_serializer, std::vector<unsigned char, std::allocator<unsigned char> >, void> const&, cerebras::cpb::Position&)
+cerebras::cpb::from_json(nlohmann::json_abi_v3_11_3::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, long, unsigned long, double, std::allocator, nlohmann::json_abi_v3_11_3::adl_serializer, std::vector<unsigned char, std::allocator<unsigned char> >, void> const&, cerebras::cpb::Rectangle&)
+cerebras::cpb::from_json(nlohmann::json_abi_v3_11_3::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, long, unsigned long, double, std::allocator, nlohmann::json_abi_v3_11_3::adl_serializer, std::vector<unsigned char, std::allocator<unsigned char> >, void> const&, cerebras::cpb::Size&)
+cerebras::cpb::operator!=(cerebras::cpb::Position const&, cerebras::cpb::Position const&)
+cerebras::cpb::operator!=(cerebras::cpb::Rectangle const&, cerebras::cpb::Rectangle const&)
+cerebras::cpb::operator!=(cerebras::cpb::Size const&, cerebras::cpb::Size const&)
+cerebras::cpb::operator<<(std::ostream&, cerebras::cpb::Position const&)
+cerebras::cpb::operator<<(std::ostream&, cerebras::cpb::Rectangle const&)
+cerebras::cpb::operator<<(std::ostream&, cerebras::cpb::Size const&)
+cerebras::cpb::operator==(cerebras::cpb::Position const&, cerebras::cpb::Position const&)
+cerebras::cpb::operator==(cerebras::cpb::Rectangle const&, cerebras::cpb::Rectangle const&)
+cerebras::cpb::operator==(cerebras::cpb::Size const&, cerebras::cpb::Size const&)
+cerebras::cpb::to_json(nlohmann::json_abi_v3_11_3::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, long, unsigned long, double, std::allocator, nlohmann::json_abi_v3_11_3::adl_serializer, std::vector<unsigned char, std::allocator<unsigned char> >, void>&, cerebras::cpb::Position const&)
+cerebras::cpb::to_json(nlohmann::json_abi_v3_11_3::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, long, unsigned long, double, std::allocator, nlohmann::json_abi_v3_11_3::adl_serializer, std::vector<unsigned char, std::allocator<unsigned char> >, void>&, cerebras::cpb::Rectangle const&)
+cerebras::cpb::to_json(nlohmann::json_abi_v3_11_3::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, long, unsigned long, double, std::allocator, nlohmann::json_abi_v3_11_3::adl_serializer, std::vector<unsigned char, std::allocator<unsigned char> >, void>&, cerebras::cpb::Size const&)
+cerebras::sdk::JsonTraceApiBase::~JsonTraceApiBase()
+cerebras::sdk::SimfabWaveletTimeline::SimfabWaveletTimeline(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)
+cerebras::sdk::SimfabWaveletTimeline::get_bkpr_timeline(unsigned int, unsigned int, unsigned int)
+cerebras::sdk::SimfabWaveletTimeline::get_bkpr_timeline_proto(unsigned int, unsigned int, unsigned int, unsigned long, unsigned long)
+cerebras::sdk::SimfabWaveletTimeline::get_wvlt_and_bkpr_timeline_proto(unsigned int, unsigned int, unsigned int, unsigned long, unsigned long)
+cerebras::sdk::SimfabWaveletTimeline::get_wvlt_timeline(unsigned int, unsigned int, unsigned int)
+cerebras::sdk::SimfabWaveletTimeline::get_wvlt_timeline_proto(unsigned int, unsigned int, unsigned int, unsigned long, unsigned long)
+cerebras::sdk::SimfabWaveletTimeline::process_pe_color(unsigned int, unsigned int, unsigned int, bool)
+cerebras::sdk::SimfabWaveletTrace::SimfabWaveletTrace(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)
+cerebras::sdk::SimfabWaveletTrace::get_backpressure_trace(unsigned int, unsigned int)
+cerebras::sdk::SimfabWaveletTrace::get_backpressure_trace_per_colors(unsigned int, unsigned int, std::vector<unsigned int, std::allocator<unsigned int> >)
+cerebras::sdk::SimfabWaveletTrace::get_wavelets(unsigned int, unsigned int)
+cerebras::sdk::SimfabWaveletTrace::get_wavelets_per_colors(unsigned int, unsigned int, std::vector<unsigned int, std::allocator<unsigned int> >)
+cerebras::sdk::SimfabWaveletTrace::~SimfabWaveletTrace()
+cerebras::sdk::SimfabWaveletTraceApi::SimfabWaveletTraceApi(nlohmann::json_abi_v3_11_3::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, long, unsigned long, double, std::allocator, nlohmann::json_abi_v3_11_3::adl_serializer, std::vector<unsigned char, std::allocator<unsigned char> >, void> const&)
+cerebras::sdk::SimfabWaveletTraceApi::SimfabWaveletTraceApi(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)
+cerebras::sdk::SimfabWaveletTraceApi::add_trace_entry(unsigned int, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, unsigned int, nlohmann::json_abi_v3_11_3::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, long, unsigned long, double, std::allocator, nlohmann::json_abi_v3_11_3::adl_serializer, std::vector<unsigned char, std::allocator<unsigned char> >, void> const&)
+cerebras::sdk::SimfabWaveletTraceApi::create_tile_entry(unsigned int)
+cerebras::sdk::SimfabWaveletTraceApi::get_backpressure_trace(unsigned int, unsigned int)
+cerebras::sdk::SimfabWaveletTraceApi::get_backpressure_trace_per_colors(unsigned int, unsigned int, std::vector<unsigned int, std::allocator<unsigned int> >)
+cerebras::sdk::SimfabWaveletTraceApi::get_wavelets(unsigned int, unsigned int)
+cerebras::sdk::SimfabWaveletTraceApi::get_wavelets_per_colors(unsigned int, unsigned int, std::vector<unsigned int, std::allocator<unsigned int> >)
+cerebras::sdk::SimfabWaveletTraceApi::make_trace(unsigned int)
+cerebras::sdk::SimfabWaveletTraceApi::xsize() const
+cerebras::sdk::SimfabWaveletTraceApi::ysize() const
+cerebras::sdk::SimfabWaveletTraceCtf::SimfabWaveletTraceCtf(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)
+cerebras::sdk::SimfabWaveletTraceCtf::get_fabric_dim()
+cerebras::sdk::SimfabWaveletTraceCtf::get_wavelet_trace_at(cerebras::Point<unsigned int>, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)
+cerebras::sdk::SimfabWaveletTraceCtf::get_wavelet_trace_per_colors_at(cerebras::Point<unsigned int>, std::vector<unsigned int, std::allocator<unsigned int> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)
+cerebras::sdk::SimfabWaveletTraceCtfApi::SimfabWaveletTraceCtfApi(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)
+cerebras::sdk::SimfabWaveletTraceCtfApi::get_backpressure_trace_at(cerebras::Point<unsigned int>)
+cerebras::sdk::SimfabWaveletTraceCtfApi::get_backpressure_trace_at_rect(cerebras::FixedRectangle<unsigned int>)
+cerebras::sdk::SimfabWaveletTraceCtfApi::get_backpressure_trace_per_colors_at(cerebras::Point<unsigned int>, std::vector<unsigned int, std::allocator<unsigned int> > const&)
+cerebras::sdk::SimfabWaveletTraceCtfApi::get_backpressure_trace_per_colors_at_rect(cerebras::FixedRectangle<unsigned int>, std::vector<unsigned int, std::allocator<unsigned int> > const&)
+cerebras::sdk::SimfabWaveletTraceCtfApi::get_wavelet_trace_at(cerebras::Point<unsigned int>)
+cerebras::sdk::SimfabWaveletTraceCtfApi::get_wavelet_trace_at_rect(cerebras::FixedRectangle<unsigned int>)
+cerebras::sdk::SimfabWaveletTraceCtfApi::get_wavelet_trace_per_colors_at(cerebras::Point<unsigned int>, std::vector<unsigned int, std::allocator<unsigned int> > const&)
+cerebras::sdk::SimfabWaveletTraceCtfApi::get_wavelet_trace_per_colors_at_rect(cerebras::FixedRectangle<unsigned int>, std::vector<unsigned int, std::allocator<unsigned int> > const&)
+cerebras::sdk::SimfabWaveletTraceCtfApi::read_backpressure_trace_at(cerebras::FixedRectangle<unsigned int>)
+cerebras::sdk::SimfabWaveletTraceCtfApi::read_wavelet_trace_at(cerebras::FixedRectangle<unsigned int>)
+cerebras::sdk::WaveletTimeline::WaveletTimeline(unsigned int, unsigned int)
+cerebras::sdk::WaveletTimeline::get_wvlt_timeline(unsigned int, unsigned int, unsigned int) const
+cerebras::sdk::WaveletTimeline::process_bkpr_trace(std::vector<backpressure_trace_sim_entry, std::allocator<backpressure_trace_sim_entry> >) const
+cerebras::sdk::WaveletTimeline::process_bkpr_trace(std::vector<cerebras::sdk::backpressure_stall, std::allocator<cerebras::sdk::backpressure_stall> >) const
+cerebras::sdk::WaveletTimeline::process_one_wavelet(unsigned int, unsigned int, cerebras::sdk::wavelet const&)
+cerebras::sdk::WaveletTimeline::process_one_wavelet(unsigned int, unsigned int, wavelet_sim_entry const&)
+cerebras::sdk::WaveletTraceIteratorApi::WaveletTraceIteratorApi(unsigned int, unsigned int, unsigned int, unsigned int, nlohmann::json_abi_v3_11_3::basic_json<std::map, std::vector, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool, long, unsigned long, double, std::allocator, nlohmann::json_abi_v3_11_3::adl_serializer, std::vector<unsigned char, std::allocator<unsigned char> >, void>)
+cerebras::sdk::WaveletTraceIteratorApi::get_next(cerebras::sdk::wavelet_trace*)
+cerebras::sdk::WaveletTraceIteratorApi::has_next()
+cerebras::sdk::WaveletTraceIteratorApi::~WaveletTraceIteratorApi()
+
+## /cbcore/lib/libsdkmessage.so
+cerebras::DebugMessage::~DebugMessage()
+cerebras::ErrorMessage::~ErrorMessage()
+cerebras::FatalMessage::~FatalMessage()
+cerebras::InfoMessage::~InfoMessage()
+cerebras::VerboseMessage::~VerboseMessage()
+cerebras::WarningMessage::~WarningMessage()
+
+## /cbcore/lib/libcsl-debug.so
+cerebras::debug::SDKELFSymbol::SDKELFSymbol(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)
+cerebras::debug::SDKELFSymbol::dimensions() const
+cerebras::debug::SDKELFSymbol::init_symbol(bool, int)
+cerebras::elf::ELFReader::elfHeader() const
+cerebras::elf::ELFReader::~ELFReader()

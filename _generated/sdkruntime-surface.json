@@ -1,0 +1,2008 @@
+{
+  "schema_version": 1,
+  "sdk": {
+    "version": "2.10.0",
+    "build": "202604101435",
+    "git": "4586d3f0d8",
+    "sif_filename": "sdk-cbcore-2.10.0-sdk-202604101435-4586d3f0d8.sif",
+    "sif_sha256": "4700f1f4544e0e30b7751840394c517b18ceaf6f35847790ac0bf46f0bfa6b6a",
+    "sif_sha256_source": "/Users/pedro/programming/cerebras/sdk/sha256sum.txt",
+    "extracted_at": "2026-05-26T13:35:35Z",
+    "python": "3.11.8",
+    "platform": "Linux-6.8.0-90-generic-x86_64-with-glibc2.38"
+  },
+  "modules": {
+    "cerebras.sdk.runtime.sdkruntimepybind": {
+      "file": "/cbcore/py_root/cerebras/sdk/runtime/sdkruntimepybind.cpython-311-x86_64-linux-gnu.so",
+      "doc": "pybind11 bindings for SDK runtime",
+      "classes": {
+        "CodeRegion": {
+          "qualname": "CodeRegion",
+          "module": "cerebras.sdk.runtime.sdkruntimepybind",
+          "bases": [
+            "pybind11_object"
+          ],
+          "doc": null,
+          "members": {
+            "color": {
+              "kind": "callable",
+              "signatures": [
+                "color(self: cerebras.sdk.runtime.sdkruntimepybind.CodeRegion, arg0: str) -> cerebras.sdk.runtime.sdkruntimepybind.Color"
+              ],
+              "doc": "Create and return a new color that is scoped within a region.\n\n2. color(self: cerebras.sdk.runtime.sdkruntimepybind.CodeRegion, arg0: str, arg1: int) -> cerebras.sdk.runtime.sdkruntimepybind.Color\n\nCreate and return a new color (with a value) that is scoped within a region."
+            },
+            "create_input_port": {
+              "kind": "callable",
+              "signatures": [
+                "create_input_port(self: cerebras.sdk.runtime.sdkruntimepybind.CodeRegion, c: cerebras.sdk.runtime.sdkruntimepybind.Color, edge: cerebras.sdk.runtime.sdkruntimepybind.Edge, routes: List[cerebras.sdk.runtime.sdkruntimepybind.RoutingPosition], data_size: int, prefix: str = '') -> cerebras.sdk.runtime.sdkruntimepybind.PortHandle"
+              ],
+              "doc": "Given a color, an oriantation (i.e., 'edge'), a set of output routes, a size, and an optional prefix, create and return a new input communication port. The optional 'prefix' can be used to create unique ports with the same color. Ports must be unique or otherwise an exception is thrown."
+            },
+            "create_output_port": {
+              "kind": "callable",
+              "signatures": [
+                "create_output_port(self: cerebras.sdk.runtime.sdkruntimepybind.CodeRegion, c: cerebras.sdk.runtime.sdkruntimepybind.Color, edge: cerebras.sdk.runtime.sdkruntimepybind.Edge, routes: List[cerebras.sdk.runtime.sdkruntimepybind.RoutingPosition], data_size: int, prefix: str = '') -> cerebras.sdk.runtime.sdkruntimepybind.PortHandle"
+              ],
+              "doc": "Given a color, an oriantation (i.e., 'edge'), a set of input routes, a size, and an optional prefix, create and return a new output communication port. The optional 'prefix' can be used to create unique ports with the same color. Ports must be unique or otherwise an exception is thrown."
+            },
+            "paint": {
+              "kind": "callable",
+              "signatures": [
+                "paint(self: cerebras.sdk.runtime.sdkruntimepybind.CodeRegion, arg0: cerebras::IntVector, arg1: cerebras.sdk.runtime.sdkruntimepybind.Color, arg2: List[cerebras.sdk.runtime.sdkruntimepybind.RoutingPosition]) -> None"
+              ],
+              "doc": "Set the routing for a given color on a single PE within this region."
+            },
+            "paint_all": {
+              "kind": "callable",
+              "signatures": [
+                "paint_all(self: cerebras.sdk.runtime.sdkruntimepybind.CodeRegion, arg0: cerebras.sdk.runtime.sdkruntimepybind.Color, arg1: List[cerebras.sdk.runtime.sdkruntimepybind.RoutingPosition]) -> None"
+              ],
+              "doc": "Set the routing for a given color on all PEs of the region.\n\n2. paint_all(self: cerebras.sdk.runtime.sdkruntimepybind.CodeRegion, arg0: cerebras.sdk.runtime.sdkruntimepybind.Color, arg1: List[cerebras.sdk.runtime.sdkruntimepybind.RoutingPosition], arg2: List[cerebras.sdk.runtime.sdkruntimepybind.EdgeRouteInfo]) -> None\n\nSet the routing for a given color on all PEs of the region with special routing on one or all region edges."
+            },
+            "paint_range": {
+              "kind": "callable",
+              "signatures": [
+                "paint_range(self: cerebras.sdk.runtime.sdkruntimepybind.CodeRegion, arg0: cerebras::IntRectangle, arg1: cerebras.sdk.runtime.sdkruntimepybind.Color, arg2: List[cerebras.sdk.runtime.sdkruntimepybind.RoutingPosition]) -> None"
+              ],
+              "doc": "Set the routing for a given color on a contiguous rectangular subset of PEs within this region."
+            },
+            "place": {
+              "kind": "callable",
+              "signatures": [
+                "place(self: cerebras.sdk.runtime.sdkruntimepybind.CodeRegion, arg0: int, arg1: int) -> None"
+              ],
+              "doc": "Place code region at specific coordinates (x, y)."
+            },
+            "set_param": {
+              "kind": "callable",
+              "signatures": [
+                "set_param(self: cerebras.sdk.runtime.sdkruntimepybind.CodeRegion, arg0: cerebras::IntVector, arg1: str, arg2: int) -> None"
+              ],
+              "doc": "Set an unsigned integer parameter on a single PE within this region.\n\n2. set_param(self: cerebras.sdk.runtime.sdkruntimepybind.CodeRegion, arg0: cerebras::IntVector, arg1: cerebras.sdk.runtime.sdkruntimepybind.Color) -> None\n\nSet a color parameter on a single PE within this region.\n\n3. set_param(self: cerebras.sdk.runtime.sdkruntimepybind.CodeRegion, arg0: cerebras::IntVector, arg1: str, arg2: cerebras.sdk.runtime.sdkruntimepybind.Color) -> None\n\nSet the value of parameter 'name' on a single PE within this region with the value of color 'value'."
+            },
+            "set_param_all": {
+              "kind": "callable",
+              "signatures": [
+                "set_param_all(self: cerebras.sdk.runtime.sdkruntimepybind.CodeRegion, arg0: str, arg1: int) -> None"
+              ],
+              "doc": "Set an unsigned integer parameter on all PEs of the region.\n\n2. set_param_all(self: cerebras.sdk.runtime.sdkruntimepybind.CodeRegion, arg0: cerebras.sdk.runtime.sdkruntimepybind.Color) -> None\n\nSet a color parameter on all PEs of the region.\n\n3. set_param_all(self: cerebras.sdk.runtime.sdkruntimepybind.CodeRegion, arg0: str, arg1: cerebras.sdk.runtime.sdkruntimepybind.Color) -> None\n\nSet the value of parameter 'name' on all PEs of the region with the value of color 'value'."
+            },
+            "set_param_range": {
+              "kind": "callable",
+              "signatures": [
+                "set_param_range(self: cerebras.sdk.runtime.sdkruntimepybind.CodeRegion, arg0: cerebras::IntRectangle, arg1: str, arg2: int) -> None"
+              ],
+              "doc": "Set an unsigned integer parameter on a contiguous rectangular subset of PEs within this region.\n\n2. set_param_range(self: cerebras.sdk.runtime.sdkruntimepybind.CodeRegion, arg0: cerebras::IntRectangle, arg1: cerebras.sdk.runtime.sdkruntimepybind.Color) -> None\n\nSet a color parameter on a contiguous rectangular subset of PEs within this region.\n\n3. set_param_range(self: cerebras.sdk.runtime.sdkruntimepybind.CodeRegion, arg0: cerebras::IntRectangle, arg1: str, arg2: cerebras.sdk.runtime.sdkruntimepybind.Color) -> None\n\nSet the value of parameter 'name' on a contiguous rectangular subset of PEs within this region with the value of color 'value'."
+            },
+            "set_symbol_all": {
+              "kind": "callable",
+              "signatures": [
+                "set_symbol_all(self: cerebras.sdk.runtime.sdkruntimepybind.CodeRegion, arg0: str, arg1: numpy.ndarray[numpy.int16], arg2: int, arg3: int) -> None",
+                "set_symbol_all(self: cerebras.sdk.runtime.sdkruntimepybind.CodeRegion, arg0: str, arg1: numpy.ndarray[numpy.uint16], arg2: int, arg3: int) -> None",
+                "set_symbol_all(self: cerebras.sdk.runtime.sdkruntimepybind.CodeRegion, arg0: str, arg1: numpy.ndarray[numpy.int32], arg2: int, arg3: int) -> None",
+                "set_symbol_all(self: cerebras.sdk.runtime.sdkruntimepybind.CodeRegion, arg0: str, arg1: numpy.ndarray[numpy.uint32], arg2: int, arg3: int) -> None",
+                "set_symbol_all(self: cerebras.sdk.runtime.sdkruntimepybind.CodeRegion, arg0: str, arg1: numpy.ndarray[numpy.float32], arg2: int, arg3: int) -> None"
+              ]
+            }
+          },
+          "kind": "class"
+        },
+        "Color": {
+          "qualname": "Color",
+          "module": "cerebras.sdk.runtime.sdkruntimepybind",
+          "bases": [
+            "pybind11_object"
+          ],
+          "doc": "Class that represents a color with an optional user-specified physical value. Objects of this class can be used for routing and can also be used to set microcode parameter values. If a physical value is not provided then a physical value will be allocated automatically by the compiler.",
+          "members": {
+            "get_global_name": {
+              "kind": "callable",
+              "signatures": [
+                "get_global_name(self: cerebras.sdk.runtime.sdkruntimepybind.Color) -> str"
+              ]
+            },
+            "get_local_param_name": {
+              "kind": "callable",
+              "signatures": [
+                "get_local_param_name(self: cerebras.sdk.runtime.sdkruntimepybind.Color) -> str"
+              ]
+            },
+            "get_value": {
+              "kind": "callable",
+              "signatures": [
+                "get_value(self: cerebras.sdk.runtime.sdkruntimepybind.Color) -> Optional[int]"
+              ]
+            }
+          },
+          "kind": "class"
+        },
+        "Edge": {
+          "qualname": "Edge",
+          "module": "cerebras.sdk.runtime.sdkruntimepybind",
+          "bases": [
+            "pybind11_object"
+          ],
+          "doc": "Members:\n\n  TOP\n\n  BOTTOM\n\n  LEFT\n\n  RIGHT",
+          "members": {
+            "BOTTOM": {
+              "kind": "enum_member",
+              "name": "BOTTOM",
+              "value": 1
+            },
+            "LEFT": {
+              "kind": "enum_member",
+              "name": "LEFT",
+              "value": 2
+            },
+            "RIGHT": {
+              "kind": "enum_member",
+              "name": "RIGHT",
+              "value": 3
+            },
+            "TOP": {
+              "kind": "enum_member",
+              "name": "TOP",
+              "value": 0
+            },
+            "name": {
+              "kind": "property",
+              "doc": "name(self: handle) -> str\n"
+            },
+            "value": {
+              "kind": "property",
+              "doc": ""
+            }
+          },
+          "kind": "enum",
+          "values": {
+            "TOP": 0,
+            "BOTTOM": 1,
+            "LEFT": 2,
+            "RIGHT": 3
+          }
+        },
+        "EdgeRouteInfo": {
+          "qualname": "EdgeRouteInfo",
+          "module": "cerebras.sdk.runtime.sdkruntimepybind",
+          "bases": [
+            "pybind11_object"
+          ],
+          "doc": null,
+          "members": {},
+          "kind": "class"
+        },
+        "FP16TYPE": {
+          "qualname": "FP16TYPE",
+          "module": "cerebras.sdk.runtime.sdkruntimepybind",
+          "bases": [
+            "pybind11_object"
+          ],
+          "doc": "Members:\n\n  F16\n\n  BF16\n\n  CB16",
+          "members": {
+            "BF16": {
+              "kind": "enum_member",
+              "name": "BF16",
+              "value": 1
+            },
+            "CB16": {
+              "kind": "enum_member",
+              "name": "CB16",
+              "value": 2
+            },
+            "F16": {
+              "kind": "enum_member",
+              "name": "F16",
+              "value": 0
+            },
+            "name": {
+              "kind": "property",
+              "doc": "name(self: handle) -> str\n"
+            },
+            "value": {
+              "kind": "property",
+              "doc": ""
+            }
+          },
+          "kind": "enum",
+          "values": {
+            "F16": 0,
+            "BF16": 1,
+            "CB16": 2
+          }
+        },
+        "MemcpyDataType": {
+          "qualname": "MemcpyDataType",
+          "module": "cerebras.sdk.runtime.sdkruntimepybind",
+          "bases": [
+            "pybind11_object"
+          ],
+          "doc": "Members:\n\n  MEMCPY_32BIT\n\n  MEMCPY_16BIT",
+          "members": {
+            "MEMCPY_16BIT": {
+              "kind": "enum_member",
+              "name": "MEMCPY_16BIT",
+              "value": 1
+            },
+            "MEMCPY_32BIT": {
+              "kind": "enum_member",
+              "name": "MEMCPY_32BIT",
+              "value": 0
+            },
+            "name": {
+              "kind": "property",
+              "doc": "name(self: handle) -> str\n"
+            },
+            "value": {
+              "kind": "property",
+              "doc": ""
+            }
+          },
+          "kind": "enum",
+          "values": {
+            "MEMCPY_32BIT": 0,
+            "MEMCPY_16BIT": 1
+          }
+        },
+        "MemcpyOrder": {
+          "qualname": "MemcpyOrder",
+          "module": "cerebras.sdk.runtime.sdkruntimepybind",
+          "bases": [
+            "pybind11_object"
+          ],
+          "doc": "Members:\n\n  ROW_MAJOR\n\n  COL_MAJOR",
+          "members": {
+            "COL_MAJOR": {
+              "kind": "enum_member",
+              "name": "COL_MAJOR",
+              "value": 1
+            },
+            "ROW_MAJOR": {
+              "kind": "enum_member",
+              "name": "ROW_MAJOR",
+              "value": 0
+            },
+            "name": {
+              "kind": "property",
+              "doc": "name(self: handle) -> str\n"
+            },
+            "value": {
+              "kind": "property",
+              "doc": ""
+            }
+          },
+          "kind": "enum",
+          "values": {
+            "ROW_MAJOR": 0,
+            "COL_MAJOR": 1
+          }
+        },
+        "PortHandle": {
+          "qualname": "PortHandle",
+          "module": "cerebras.sdk.runtime.sdkruntimepybind",
+          "bases": [
+            "pybind11_object"
+          ],
+          "doc": null,
+          "members": {},
+          "kind": "class"
+        },
+        "Route": {
+          "qualname": "Route",
+          "module": "cerebras.sdk.runtime.sdkruntimepybind",
+          "bases": [
+            "pybind11_object"
+          ],
+          "doc": "Members:\n\n  RAMP\n\n  EAST\n\n  WEST\n\n  NORTH\n\n  SOUTH",
+          "members": {
+            "EAST": {
+              "kind": "enum_member",
+              "name": "EAST",
+              "value": 1
+            },
+            "NORTH": {
+              "kind": "enum_member",
+              "name": "NORTH",
+              "value": 3
+            },
+            "RAMP": {
+              "kind": "enum_member",
+              "name": "RAMP",
+              "value": 0
+            },
+            "SOUTH": {
+              "kind": "enum_member",
+              "name": "SOUTH",
+              "value": 4
+            },
+            "WEST": {
+              "kind": "enum_member",
+              "name": "WEST",
+              "value": 2
+            },
+            "name": {
+              "kind": "property",
+              "doc": "name(self: handle) -> str\n"
+            },
+            "value": {
+              "kind": "property",
+              "doc": ""
+            }
+          },
+          "kind": "enum",
+          "values": {
+            "RAMP": 0,
+            "EAST": 1,
+            "WEST": 2,
+            "NORTH": 3,
+            "SOUTH": 4
+          }
+        },
+        "RoutingPosition": {
+          "qualname": "RoutingPosition",
+          "module": "cerebras.sdk.runtime.sdkruntimepybind",
+          "bases": [
+            "pybind11_object"
+          ],
+          "doc": "Class that represents a single routing position. The class implements the fluent interface design pattern in order to present an unambiguous interface.",
+          "members": {
+            "add_input": {
+              "kind": "callable",
+              "signatures": [
+                "add_input(self: cerebras.sdk.runtime.sdkruntimepybind.RoutingPosition, arg0: cerebras.sdk.runtime.sdkruntimepybind.Route) -> cerebras.sdk.runtime.sdkruntimepybind.RoutingPosition"
+              ]
+            },
+            "add_output": {
+              "kind": "callable",
+              "signatures": [
+                "add_output(self: cerebras.sdk.runtime.sdkruntimepybind.RoutingPosition, arg0: cerebras.sdk.runtime.sdkruntimepybind.Route) -> cerebras.sdk.runtime.sdkruntimepybind.RoutingPosition"
+              ]
+            },
+            "get_input": {
+              "kind": "callable",
+              "signatures": [
+                "get_input(self: cerebras.sdk.runtime.sdkruntimepybind.RoutingPosition) -> List[cerebras.sdk.runtime.sdkruntimepybind.Route]"
+              ]
+            },
+            "get_output": {
+              "kind": "callable",
+              "signatures": [
+                "get_output(self: cerebras.sdk.runtime.sdkruntimepybind.RoutingPosition) -> List[cerebras.sdk.runtime.sdkruntimepybind.Route]"
+              ]
+            },
+            "set_input": {
+              "kind": "callable",
+              "signatures": [
+                "set_input(self: cerebras.sdk.runtime.sdkruntimepybind.RoutingPosition, arg0: List[cerebras.sdk.runtime.sdkruntimepybind.Route]) -> cerebras.sdk.runtime.sdkruntimepybind.RoutingPosition"
+              ]
+            },
+            "set_output": {
+              "kind": "callable",
+              "signatures": [
+                "set_output(self: cerebras.sdk.runtime.sdkruntimepybind.RoutingPosition, arg0: List[cerebras.sdk.runtime.sdkruntimepybind.Route]) -> cerebras.sdk.runtime.sdkruntimepybind.RoutingPosition"
+              ]
+            }
+          },
+          "kind": "class"
+        },
+        "SdkCompileArtifacts": {
+          "qualname": "SdkCompileArtifacts",
+          "module": "cerebras.sdk.runtime.sdkruntimepybind",
+          "bases": [
+            "pybind11_object"
+          ],
+          "doc": null,
+          "members": {
+            "add_port_mapping": {
+              "kind": "callable",
+              "signatures": [
+                "add_port_mapping(self: cerebras.sdk.runtime.sdkruntimepybind.SdkCompileArtifacts, arg0: str) -> cerebras.sdk.runtime.sdkruntimepybind.SdkCompileArtifacts"
+              ]
+            }
+          },
+          "kind": "class"
+        },
+        "SdkExecutionPlatform": {
+          "qualname": "SdkExecutionPlatform",
+          "module": "cerebras.sdk.runtime.sdkruntimepybind",
+          "bases": [
+            "pybind11_object"
+          ],
+          "doc": null,
+          "members": {
+            "is_simulation": {
+              "kind": "callable",
+              "signatures": [
+                "is_simulation(self: cerebras.sdk.runtime.sdkruntimepybind.SdkExecutionPlatform) -> bool"
+              ]
+            },
+            "is_system": {
+              "kind": "callable",
+              "signatures": [
+                "is_system(self: cerebras.sdk.runtime.sdkruntimepybind.SdkExecutionPlatform) -> bool"
+              ]
+            }
+          },
+          "kind": "class"
+        },
+        "SdkLayout": {
+          "qualname": "SdkLayout",
+          "module": "cerebras.sdk.runtime.sdkruntimepybind",
+          "bases": [
+            "pybind11_object"
+          ],
+          "doc": null,
+          "members": {
+            "compile": {
+              "kind": "callable",
+              "signatures": [
+                "compile(self: cerebras.sdk.runtime.sdkruntimepybind.SdkLayout, out_prefix: str, libs: List[str] = [], cslc_prefix: str = '', save_port_map: bool = False, f16_type: cerebras.sdk.runtime.sdkruntimepybind.FP16TYPE = <FP16TYPE.F16: 0>) -> cerebras.sdk.runtime.sdkruntimepybind.SdkCompileArtifacts"
+              ]
+            },
+            "connect": {
+              "kind": "callable",
+              "signatures": [
+                "connect(self: cerebras.sdk.runtime.sdkruntimepybind.SdkLayout, arg0: cerebras.sdk.runtime.sdkruntimepybind.PortHandle, arg1: cerebras.sdk.runtime.sdkruntimepybind.PortHandle) -> None"
+              ]
+            },
+            "create_code_region": {
+              "kind": "callable",
+              "signatures": [
+                "create_code_region(self: cerebras.sdk.runtime.sdkruntimepybind.SdkLayout, source: str, name: str, width: int, height: int) -> cerebras::SdkLayout::CodeRegion"
+              ]
+            },
+            "create_input_stream": {
+              "kind": "callable",
+              "signatures": [
+                "create_input_stream(self: cerebras.sdk.runtime.sdkruntimepybind.SdkLayout, port: cerebras.sdk.runtime.sdkruntimepybind.PortHandle, io_loc: Optional[cerebras::IntVector] = None, io_buffer_size: int = 1024) -> str"
+              ],
+              "doc": "Sets up an input stream from the host to a 1-PE region at 'io_loc' and then to input port 'port'. If 'io_loc' is not provided, an available location will be automatically picked. 'io_buffer_size' can be provided to specify the buffing size at 'io_loc'."
+            },
+            "create_input_stream_from_loc": {
+              "kind": "callable",
+              "signatures": [
+                "create_input_stream_from_loc(self: cerebras.sdk.runtime.sdkruntimepybind.SdkLayout, loc: cerebras::IntVector, c: cerebras.sdk.runtime.sdkruntimepybind.Color, prefix: str = '') -> str"
+              ],
+              "doc": "Sets up an input stream from the host to 'io_loc' on a given color 'c' assuming that a code region is already defined at 'io_loc' to consume the incoming data. An optional 'prefix' can be provided to uniquely identify the stream in case of naming conflicts."
+            },
+            "create_output_stream": {
+              "kind": "callable",
+              "signatures": [
+                "create_output_stream(self: cerebras.sdk.runtime.sdkruntimepybind.SdkLayout, port: cerebras.sdk.runtime.sdkruntimepybind.PortHandle, io_loc: Optional[cerebras::IntVector] = None, io_buffer_size: int = 1024) -> str"
+              ],
+              "doc": "Sets up an output stream from output port 'port' to a 1-PE region at 'io_loc' and then to the host. If 'io_loc' is not provided, an available location will be automatically picked. 'io_buffer_size' can be provided to specify the buffing size at 'io_loc'."
+            },
+            "create_output_stream_from_loc": {
+              "kind": "callable",
+              "signatures": [
+                "create_output_stream_from_loc(self: cerebras.sdk.runtime.sdkruntimepybind.SdkLayout, loc: cerebras::IntVector, c: cerebras.sdk.runtime.sdkruntimepybind.Color, prefix: str = '') -> str"
+              ],
+              "doc": "Sets up an output stream to the host from 'io_loc' on a given color 'c' assuming that a code region is already defined at 'io_loc' to produce the outgoing data. An optional 'prefix' can be provided to uniquely identify the stream in case of naming conflicts."
+            },
+            "hstack": {
+              "kind": "callable",
+              "signatures": [
+                "hstack(self: cerebras.sdk.runtime.sdkruntimepybind.SdkLayout, arg0: List[cerebras::SdkLayout::CodeRegion]) -> int"
+              ],
+              "doc": "Place 'children' horizontally and relative to the first child in the given list.\n\n2. hstack(self: cerebras.sdk.runtime.sdkruntimepybind.SdkLayout, arg0: List[cerebras::SdkLayout::CodeRegion], arg1: cerebras::IntVector) -> int\n\nPlace 'children' horizontally and relative to a specific origin point."
+            },
+            "vstack": {
+              "kind": "callable",
+              "signatures": [
+                "vstack(self: cerebras.sdk.runtime.sdkruntimepybind.SdkLayout, arg0: List[cerebras::SdkLayout::CodeRegion]) -> int"
+              ],
+              "doc": "Place 'children' vertically and relative to the first child in the given list.\n\n2. vstack(self: cerebras.sdk.runtime.sdkruntimepybind.SdkLayout, arg0: List[cerebras::SdkLayout::CodeRegion], arg1: cerebras::IntVector) -> int\n\nPlace 'children' vertically and relative to a specific origin point."
+            }
+          },
+          "kind": "class"
+        },
+        "SdkRuntime": {
+          "qualname": "SdkRuntime",
+          "module": "cerebras.sdk.runtime.sdkruntimepybind",
+          "bases": [
+            "pybind11_object"
+          ],
+          "doc": null,
+          "members": {
+            "call": {
+              "kind": "callable",
+              "signatures": [
+                "call(self: cerebras.sdk.runtime.sdkruntimepybind.SdkRuntime, arg0: str, arg1: numpy.ndarray[numpy.uint32], **kwargs) -> cerebras::SdkRuntime::Task"
+              ]
+            },
+            "coord_logical_to_physical": {
+              "kind": "callable",
+              "signatures": [
+                "coord_logical_to_physical(self: cerebras.sdk.runtime.sdkruntimepybind.SdkRuntime, arg0: Tuple[int, int]) -> Tuple[int, int]"
+              ]
+            },
+            "dump_core": {
+              "kind": "callable",
+              "signatures": [
+                "dump_core(self: cerebras.sdk.runtime.sdkruntimepybind.SdkRuntime, arg0: str) -> None"
+              ]
+            },
+            "dump_elf_core": {
+              "kind": "callable",
+              "signatures": [
+                "dump_elf_core(self: cerebras.sdk.runtime.sdkruntimepybind.SdkRuntime, arg0: str) -> None"
+              ]
+            },
+            "get_id": {
+              "kind": "callable",
+              "signatures": [
+                "get_id(self: cerebras.sdk.runtime.sdkruntimepybind.SdkRuntime, arg0: str) -> Optional[int]"
+              ]
+            },
+            "get_port_id": {
+              "kind": "callable",
+              "signatures": [
+                "get_port_id(self: cerebras.sdk.runtime.sdkruntimepybind.SdkRuntime, arg0: str) -> Optional[int]"
+              ]
+            },
+            "is_task_done": {
+              "kind": "callable",
+              "signatures": [
+                "is_task_done(self: cerebras.sdk.runtime.sdkruntimepybind.SdkRuntime, arg0: cerebras::SdkRuntime::Task) -> bool"
+              ]
+            },
+            "launch": {
+              "kind": "callable",
+              "signatures": [
+                "launch(self: cerebras.sdk.runtime.sdkruntimepybind.SdkRuntime, arg0: str, *args, **kwargs) -> cerebras::SdkRuntime::Task"
+              ]
+            },
+            "load": {
+              "kind": "callable",
+              "signatures": [
+                "load(self: cerebras.sdk.runtime.sdkruntimepybind.SdkRuntime) -> None"
+              ]
+            },
+            "memcpy_d2h": {
+              "kind": "callable",
+              "signatures": [
+                "memcpy_d2h(self: cerebras.sdk.runtime.sdkruntimepybind.SdkRuntime, arg0: numpy.ndarray, arg1: int, arg2: int, arg3: int, arg4: int, arg5: int, arg6: int, **kwargs) -> cerebras::SdkRuntime::Task"
+              ]
+            },
+            "memcpy_h2d": {
+              "kind": "callable",
+              "signatures": [
+                "memcpy_h2d(self: cerebras.sdk.runtime.sdkruntimepybind.SdkRuntime, arg0: int, arg1: numpy.ndarray, arg2: int, arg3: int, arg4: int, arg5: int, arg6: int, **kwargs) -> cerebras::SdkRuntime::Task"
+              ]
+            },
+            "memcpy_h2d_colbcast": {
+              "kind": "callable",
+              "signatures": [
+                "memcpy_h2d_colbcast(self: cerebras.sdk.runtime.sdkruntimepybind.SdkRuntime, arg0: int, arg1: numpy.ndarray, arg2: int, arg3: int, arg4: int, arg5: int, arg6: int, **kwargs) -> cerebras::SdkRuntime::Task"
+              ]
+            },
+            "memcpy_h2d_rowbcast": {
+              "kind": "callable",
+              "signatures": [
+                "memcpy_h2d_rowbcast(self: cerebras.sdk.runtime.sdkruntimepybind.SdkRuntime, arg0: int, arg1: numpy.ndarray, arg2: int, arg3: int, arg4: int, arg5: int, arg6: int, **kwargs) -> cerebras::SdkRuntime::Task"
+              ]
+            },
+            "memcpy_h2d_stride": {
+              "kind": "callable",
+              "signatures": [
+                "memcpy_h2d_stride(self: cerebras.sdk.runtime.sdkruntimepybind.SdkRuntime, arg0: int, arg1: numpy.ndarray, arg2: int, arg3: int, arg4: int, arg5: int, arg6: int, arg7: int, arg8: int, **kwargs) -> cerebras::SdkRuntime::Task"
+              ]
+            },
+            "read_symbol": {
+              "kind": "callable",
+              "signatures": [
+                "read_symbol(self: cerebras.sdk.runtime.sdkruntimepybind.SdkRuntime, x: int, y: int, symbol_name: str, dtype: str = 'uint8') -> object"
+              ]
+            },
+            "receive": {
+              "kind": "callable",
+              "signatures": [
+                "receive(self: cerebras.sdk.runtime.sdkruntimepybind.SdkRuntime, arg0: str, arg1: numpy.ndarray, arg2: int, **kwargs) -> cerebras::SdkRuntime::Task",
+                "receive(self: cerebras.sdk.runtime.sdkruntimepybind.SdkRuntime, arg0: int, arg1: numpy.ndarray, arg2: int, **kwargs) -> cerebras::SdkRuntime::Task"
+              ]
+            },
+            "receive_tofile": {
+              "kind": "callable",
+              "signatures": [
+                "receive_tofile(self: cerebras.sdk.runtime.sdkruntimepybind.SdkRuntime, arg0: str, arg1: str, **kwargs) -> cerebras::SdkRuntime::Task",
+                "receive_tofile(self: cerebras.sdk.runtime.sdkruntimepybind.SdkRuntime, arg0: int, arg1: str, **kwargs) -> cerebras::SdkRuntime::Task"
+              ]
+            },
+            "report_port_infos": {
+              "kind": "callable",
+              "signatures": [
+                "report_port_infos(self: cerebras.sdk.runtime.sdkruntimepybind.SdkRuntime) -> None"
+              ]
+            },
+            "run": {
+              "kind": "callable",
+              "signatures": [
+                "run(self: cerebras.sdk.runtime.sdkruntimepybind.SdkRuntime) -> None"
+              ]
+            },
+            "send": {
+              "kind": "callable",
+              "signatures": [
+                "send(self: cerebras.sdk.runtime.sdkruntimepybind.SdkRuntime, arg0: str, arg1: numpy.ndarray, arg2: int, **kwargs) -> cerebras::SdkRuntime::Task",
+                "send(self: cerebras.sdk.runtime.sdkruntimepybind.SdkRuntime, arg0: int, arg1: numpy.ndarray, arg2: int, **kwargs) -> cerebras::SdkRuntime::Task",
+                "send(self: cerebras.sdk.runtime.sdkruntimepybind.SdkRuntime, arg0: str, arg1: numpy.ndarray[numpy.int32], **kwargs) -> cerebras::SdkRuntime::Task",
+                "send(self: cerebras.sdk.runtime.sdkruntimepybind.SdkRuntime, arg0: str, arg1: numpy.ndarray[numpy.uint32], **kwargs) -> cerebras::SdkRuntime::Task",
+                "send(self: cerebras.sdk.runtime.sdkruntimepybind.SdkRuntime, arg0: str, arg1: numpy.ndarray[numpy.float32], **kwargs) -> cerebras::SdkRuntime::Task"
+              ]
+            },
+            "stop": {
+              "kind": "callable",
+              "signatures": [
+                "stop(self: cerebras.sdk.runtime.sdkruntimepybind.SdkRuntime) -> None"
+              ]
+            },
+            "task_wait": {
+              "kind": "callable",
+              "signatures": [
+                "task_wait(self: cerebras.sdk.runtime.sdkruntimepybind.SdkRuntime, arg0: cerebras::SdkRuntime::Task) -> None"
+              ]
+            }
+          },
+          "kind": "class"
+        },
+        "SdkTarget": {
+          "qualname": "SdkTarget",
+          "module": "cerebras.sdk.runtime.sdkruntimepybind",
+          "bases": [
+            "pybind11_object"
+          ],
+          "doc": "Members:\n\n  WSE2\n\n  WSE3",
+          "members": {
+            "WSE2": {
+              "kind": "enum_member",
+              "name": "WSE2",
+              "value": 0
+            },
+            "WSE3": {
+              "kind": "enum_member",
+              "name": "WSE3",
+              "value": 1
+            },
+            "name": {
+              "kind": "property",
+              "doc": "name(self: handle) -> str\n"
+            },
+            "value": {
+              "kind": "property",
+              "doc": ""
+            }
+          },
+          "kind": "enum",
+          "values": {
+            "WSE2": 0,
+            "WSE3": 1
+          }
+        },
+        "SimfabConfig": {
+          "qualname": "SimfabConfig",
+          "module": "cerebras.sdk.runtime.sdkruntimepybind",
+          "bases": [
+            "pybind11_object"
+          ],
+          "doc": null,
+          "members": {},
+          "kind": "class"
+        },
+        "Task": {
+          "qualname": "Task",
+          "module": "cerebras.sdk.runtime.sdkruntimepybind",
+          "bases": [
+            "pybind11_object"
+          ],
+          "doc": null,
+          "members": {},
+          "kind": "class"
+        }
+      },
+      "free_functions": {
+        "get_edge_routing": {
+          "kind": "callable",
+          "signatures": [
+            "get_edge_routing(arg0: cerebras.sdk.runtime.sdkruntimepybind.Edge, arg1: List[cerebras.sdk.runtime.sdkruntimepybind.RoutingPosition]) -> cerebras.sdk.runtime.sdkruntimepybind.EdgeRouteInfo"
+          ]
+        },
+        "get_platform": {
+          "kind": "callable",
+          "signatures": [
+            "get_platform(addr: Optional[str] = None, config: cerebras.sdk.runtime.sdkruntimepybind.SimfabConfig = <cerebras.sdk.runtime.sdkruntimepybind.SimfabConfig object at 0x7ffffdbeabf0>, target: cerebras.sdk.runtime.sdkruntimepybind.SdkTarget = <SdkTarget.WSE3: 1>) -> cerebras.sdk.runtime.sdkruntimepybind.SdkExecutionPlatform"
+          ]
+        },
+        "get_simulator": {
+          "kind": "callable",
+          "signatures": [
+            "get_simulator(config: cerebras.sdk.runtime.sdkruntimepybind.SimfabConfig = <cerebras.sdk.runtime.sdkruntimepybind.SimfabConfig object at 0x7ffffdbea670>, target: cerebras.sdk.runtime.sdkruntimepybind.SdkTarget = <SdkTarget.WSE3: 1>) -> cerebras.sdk.runtime.sdkruntimepybind.SdkExecutionPlatform"
+          ]
+        },
+        "get_system": {
+          "kind": "callable",
+          "signatures": [
+            "get_system(arg0: str) -> cerebras.sdk.runtime.sdkruntimepybind.SdkExecutionPlatform"
+          ]
+        }
+      },
+      "constants": {
+        "BF16": {
+          "kind": "enum_member",
+          "name": "BF16",
+          "value": 1
+        },
+        "BOTTOM": {
+          "kind": "enum_member",
+          "name": "BOTTOM",
+          "value": 1
+        },
+        "CB16": {
+          "kind": "enum_member",
+          "name": "CB16",
+          "value": 2
+        },
+        "COL_MAJOR": {
+          "kind": "enum_member",
+          "name": "COL_MAJOR",
+          "value": 1
+        },
+        "EAST": {
+          "kind": "enum_member",
+          "name": "EAST",
+          "value": 1
+        },
+        "F16": {
+          "kind": "enum_member",
+          "name": "F16",
+          "value": 0
+        },
+        "LEFT": {
+          "kind": "enum_member",
+          "name": "LEFT",
+          "value": 2
+        },
+        "MEMCPY_16BIT": {
+          "kind": "enum_member",
+          "name": "MEMCPY_16BIT",
+          "value": 1
+        },
+        "MEMCPY_32BIT": {
+          "kind": "enum_member",
+          "name": "MEMCPY_32BIT",
+          "value": 0
+        },
+        "NORTH": {
+          "kind": "enum_member",
+          "name": "NORTH",
+          "value": 3
+        },
+        "RAMP": {
+          "kind": "enum_member",
+          "name": "RAMP",
+          "value": 0
+        },
+        "RIGHT": {
+          "kind": "enum_member",
+          "name": "RIGHT",
+          "value": 3
+        },
+        "ROW_MAJOR": {
+          "kind": "enum_member",
+          "name": "ROW_MAJOR",
+          "value": 0
+        },
+        "SOUTH": {
+          "kind": "enum_member",
+          "name": "SOUTH",
+          "value": 4
+        },
+        "TOP": {
+          "kind": "enum_member",
+          "name": "TOP",
+          "value": 0
+        },
+        "WEST": {
+          "kind": "enum_member",
+          "name": "WEST",
+          "value": 2
+        },
+        "WSE2": {
+          "kind": "enum_member",
+          "name": "WSE2",
+          "value": 0
+        },
+        "WSE3": {
+          "kind": "enum_member",
+          "name": "WSE3",
+          "value": 1
+        }
+      }
+    },
+    "cerebras.sdk.runtime.routepybind": {
+      "file": "/cbcore/py_root/cerebras/sdk/runtime/routepybind.cpython-311-x86_64-linux-gnu.so",
+      "doc": "pybind11 bindings for routing",
+      "classes": {
+        "CslIoRouting": {
+          "qualname": "CslIoRouting",
+          "module": "cerebras.sdk.runtime.routepybind",
+          "bases": [
+            "pybind11_object"
+          ],
+          "doc": null,
+          "members": {
+            "has_receiver_route": {
+              "kind": "callable",
+              "signatures": [
+                "has_receiver_route(self: cerebras.sdk.runtime.routepybind.CslIoRouting) -> bool"
+              ]
+            },
+            "has_x_route": {
+              "kind": "callable",
+              "signatures": [
+                "has_x_route(self: cerebras.sdk.runtime.routepybind.CslIoRouting) -> bool"
+              ]
+            },
+            "has_y_route": {
+              "kind": "callable",
+              "signatures": [
+                "has_y_route(self: cerebras.sdk.runtime.routepybind.CslIoRouting) -> bool"
+              ]
+            },
+            "receiver_route": {
+              "kind": "callable",
+              "signatures": [
+                "receiver_route(self: cerebras.sdk.runtime.routepybind.CslIoRouting) -> tuple"
+              ]
+            },
+            "route_directly_pe_to_pe": {
+              "kind": "callable",
+              "signatures": [
+                "route_directly_pe_to_pe(self: cerebras.sdk.runtime.routepybind.CslIoRouting, arg0: cerebras::CardinalDirection, arg1: cerebras::CardinalDirection, arg2: bool, arg3: Optional[cerebras::CardinalDirection]) -> int"
+              ]
+            },
+            "route_ingress_to_pe": {
+              "kind": "callable",
+              "signatures": [
+                "route_ingress_to_pe(self: cerebras.sdk.runtime.routepybind.CslIoRouting, arg0: cerebras::CardinalDirection, arg1: bool) -> int"
+              ]
+            },
+            "route_pe_to_egress": {
+              "kind": "callable",
+              "signatures": [
+                "route_pe_to_egress(self: cerebras.sdk.runtime.routepybind.CslIoRouting, arg0: cerebras::CardinalDirection, arg1: bool) -> int"
+              ]
+            },
+            "traffic_map_address": {
+              "kind": "callable",
+              "signatures": [
+                "traffic_map_address(self: cerebras.sdk.runtime.routepybind.CslIoRouting) -> int"
+              ]
+            },
+            "x_route": {
+              "kind": "callable",
+              "signatures": [
+                "x_route(self: cerebras.sdk.runtime.routepybind.CslIoRouting) -> tuple"
+              ]
+            },
+            "y_route": {
+              "kind": "callable",
+              "signatures": [
+                "y_route(self: cerebras.sdk.runtime.routepybind.CslIoRouting) -> tuple"
+              ]
+            }
+          },
+          "kind": "class"
+        }
+      },
+      "free_functions": {},
+      "constants": {}
+    },
+    "cerebras.sdk.debug.lib.symbol.csldebugpybind": {
+      "file": "/cbcore/py_root/cerebras/sdk/debug/lib/symbol/csldebugpybind.cpython-311-x86_64-linux-gnu.so",
+      "doc": "CSL debug libraries\n\n",
+      "classes": {
+        "CSLELFSymbol": {
+          "qualname": "CSLELFSymbol",
+          "module": "cerebras.sdk.debug.lib.symbol.csldebugpybind",
+          "bases": [
+            "pybind11_object"
+          ],
+          "doc": null,
+          "members": {
+            "dimensions": {
+              "kind": "callable",
+              "signatures": [
+                "dimensions(self: cerebras.sdk.debug.lib.symbol.csldebugpybind.CSLELFSymbol) -> cerebras::AbstractRectangle<unsigned int>"
+              ]
+            },
+            "elf_files": {
+              "kind": "property",
+              "doc": ""
+            },
+            "init_symbol": {
+              "kind": "callable",
+              "signatures": [
+                "init_symbol(self: cerebras.sdk.debug.lib.symbol.csldebugpybind.CSLELFSymbol, routes_only: bool = False, debug_level: int = 0) -> int"
+              ]
+            },
+            "symbol_table": {
+              "kind": "property",
+              "doc": ""
+            }
+          },
+          "kind": "class"
+        },
+        "CSLSymbolTable": {
+          "qualname": "CSLSymbolTable",
+          "module": "cerebras.sdk.debug.lib.symbol.csldebugpybind",
+          "bases": [
+            "pybind11_object"
+          ],
+          "doc": null,
+          "members": {
+            "dimensions": {
+              "kind": "callable",
+              "signatures": [
+                "dimensions(self: cerebras.sdk.debug.lib.symbol.csldebugpybind.CSLSymbolTable) -> cerebras::AbstractRectangle<unsigned int>"
+              ]
+            },
+            "get_coordinates_for_symbol": {
+              "kind": "callable",
+              "signatures": [
+                "get_coordinates_for_symbol(self: cerebras.sdk.debug.lib.symbol.csldebugpybind.CSLSymbolTable, arg0: str) -> List[Tuple[cerebras::Point<unsigned int>, cerebras::das::SymbolOffset]]"
+              ]
+            },
+            "get_name_from_coordinate": {
+              "kind": "callable",
+              "signatures": [
+                "get_name_from_coordinate(self: cerebras.sdk.debug.lib.symbol.csldebugpybind.CSLSymbolTable, arg0: cerebras::Point<unsigned int>) -> str"
+              ]
+            },
+            "get_pre_run_routes_raw": {
+              "kind": "callable",
+              "signatures": [
+                "get_pre_run_routes_raw(self: cerebras.sdk.debug.lib.symbol.csldebugpybind.CSLSymbolTable, arg0: int, arg1: int) -> Dict[int, int]"
+              ]
+            },
+            "get_routing_colors": {
+              "kind": "callable",
+              "signatures": [
+                "get_routing_colors(self: cerebras.sdk.debug.lib.symbol.csldebugpybind.CSLSymbolTable) -> List[int]"
+              ]
+            },
+            "get_symbol_count": {
+              "kind": "callable",
+              "signatures": [
+                "get_symbol_count(self: cerebras.sdk.debug.lib.symbol.csldebugpybind.CSLSymbolTable) -> int"
+              ]
+            },
+            "get_symbol_name": {
+              "kind": "callable",
+              "signatures": [
+                "get_symbol_name(self: cerebras.sdk.debug.lib.symbol.csldebugpybind.CSLSymbolTable, arg0: int) -> str"
+              ]
+            },
+            "get_symbols_from_coordinate": {
+              "kind": "callable",
+              "signatures": [
+                "get_symbols_from_coordinate(self: cerebras.sdk.debug.lib.symbol.csldebugpybind.CSLSymbolTable, arg0: cerebras::Point<unsigned int>) -> Dict[int, cerebras::das::SymbolOffset]"
+              ]
+            },
+            "load_elf": {
+              "kind": "callable",
+              "signatures": [
+                "load_elf(self: cerebras.sdk.debug.lib.symbol.csldebugpybind.CSLSymbolTable, arg0: List[str], arg1: bool) -> int"
+              ]
+            }
+          },
+          "kind": "class"
+        },
+        "SimfabInstructionTraceCtf": {
+          "qualname": "SimfabInstructionTraceCtf",
+          "module": "cerebras.sdk.debug.lib.symbol.csldebugpybind",
+          "bases": [
+            "pybind11_object"
+          ],
+          "doc": null,
+          "members": {
+            "get_fabric_dim": {
+              "kind": "callable",
+              "signatures": [
+                "get_fabric_dim(self: cerebras.sdk.debug.lib.symbol.csldebugpybind.SimfabInstructionTraceCtf) -> cerebras::AbstractRectangle<unsigned int>"
+              ]
+            },
+            "get_instruction_trace_at": {
+              "kind": "callable",
+              "signatures": [
+                "get_instruction_trace_at(self: cerebras.sdk.debug.lib.symbol.csldebugpybind.SimfabInstructionTraceCtf, c: cerebras::Point<unsigned int>, cycle_start: int = 0, cycle_end: int = 0) -> object"
+              ]
+            },
+            "get_instruction_trace_per_task_at": {
+              "kind": "callable",
+              "signatures": [
+                "get_instruction_trace_per_task_at(self: cerebras.sdk.debug.lib.symbol.csldebugpybind.SimfabInstructionTraceCtf, arg0: cerebras::Point<unsigned int>, arg1: int) -> object"
+              ]
+            },
+            "get_instruction_trace_per_uthread_at": {
+              "kind": "callable",
+              "signatures": [
+                "get_instruction_trace_per_uthread_at(self: cerebras.sdk.debug.lib.symbol.csldebugpybind.SimfabInstructionTraceCtf, arg0: cerebras::Point<unsigned int>, arg1: int) -> object"
+              ]
+            },
+            "get_instruction_trace_summary": {
+              "kind": "callable",
+              "signatures": [
+                "get_instruction_trace_summary(self: cerebras.sdk.debug.lib.symbol.csldebugpybind.SimfabInstructionTraceCtf, arg0: cerebras::Point<unsigned int>, arg1: int, arg2: int) -> object"
+              ]
+            },
+            "get_tasks_at": {
+              "kind": "callable",
+              "signatures": [
+                "get_tasks_at(self: cerebras.sdk.debug.lib.symbol.csldebugpybind.SimfabInstructionTraceCtf, arg0: cerebras::Point<unsigned int>) -> object"
+              ]
+            },
+            "get_uthreads_at": {
+              "kind": "callable",
+              "signatures": [
+                "get_uthreads_at(self: cerebras.sdk.debug.lib.symbol.csldebugpybind.SimfabInstructionTraceCtf, arg0: cerebras::Point<unsigned int>) -> object"
+              ]
+            }
+          },
+          "kind": "class"
+        },
+        "SimfabWaveletTraceCtf": {
+          "qualname": "SimfabWaveletTraceCtf",
+          "module": "cerebras.sdk.debug.lib.symbol.csldebugpybind",
+          "bases": [
+            "pybind11_object"
+          ],
+          "doc": null,
+          "members": {
+            "get_wavelet_trace_at": {
+              "kind": "callable",
+              "signatures": [
+                "get_wavelet_trace_at(self: cerebras.sdk.debug.lib.symbol.csldebugpybind.SimfabWaveletTraceCtf, arg0: cerebras::Point<unsigned int>, arg1: str) -> List[object]"
+              ]
+            },
+            "get_wavelet_trace_per_colors_at": {
+              "kind": "callable",
+              "signatures": [
+                "get_wavelet_trace_per_colors_at(self: cerebras.sdk.debug.lib.symbol.csldebugpybind.SimfabWaveletTraceCtf, arg0: cerebras::Point<unsigned int>, arg1: List[int], arg2: str) -> List[object]"
+              ]
+            }
+          },
+          "kind": "class"
+        }
+      },
+      "free_functions": {
+        "get_instruction_timeline": {
+          "kind": "callable",
+          "signatures": [
+            "get_instruction_timeline(arg0: str, arg1: str, arg2: cerebras::Point<unsigned int>, arg3: int, arg4: int) -> object"
+          ]
+        }
+      },
+      "constants": {}
+    },
+    "cerebras.sdk.debug.lib.instruction_trace.sdkinstrtracepybind": {
+      "file": "/cbcore/py_root/cerebras/sdk/debug/lib/instruction_trace/sdkinstrtracepybind.cpython-311-x86_64-linux-gnu.so",
+      "doc": "pybind11 bindings for Kernel SDK instruction trace",
+      "classes": {
+        "Instruction": {
+          "qualname": "Instruction",
+          "module": "cerebras.sdk.debug.lib.instruction_trace.sdkinstrtracepybind",
+          "bases": [
+            "pybind11_object"
+          ],
+          "doc": null,
+          "members": {
+            "id": {
+              "kind": "property",
+              "doc": ""
+            },
+            "is_uthread": {
+              "kind": "property",
+              "doc": ""
+            },
+            "opaddr": {
+              "kind": "property",
+              "doc": ""
+            },
+            "opcode": {
+              "kind": "property",
+              "doc": ""
+            },
+            "opname": {
+              "kind": "callable",
+              "signatures": [
+                "opname(self: cerebras.sdk.debug.lib.instruction_trace.sdkinstrtracepybind.Instruction) -> str"
+              ]
+            },
+            "task": {
+              "kind": "property",
+              "doc": ""
+            }
+          },
+          "kind": "class"
+        },
+        "InstructionTrace": {
+          "qualname": "InstructionTrace",
+          "module": "cerebras.sdk.debug.lib.instruction_trace.sdkinstrtracepybind",
+          "bases": [
+            "pybind11_object"
+          ],
+          "doc": null,
+          "members": {
+            "get_instructions": {
+              "kind": "callable",
+              "signatures": [
+                "get_instructions(self: cerebras.sdk.debug.lib.instruction_trace.sdkinstrtracepybind.InstructionTrace, arg0: int, arg1: int) -> cerebras.sdk.debug.lib.instruction_trace.sdkinstrtracepybind.TraceSequenceIterator"
+              ]
+            },
+            "get_instructions_per_task": {
+              "kind": "callable",
+              "signatures": [
+                "get_instructions_per_task(self: cerebras.sdk.debug.lib.instruction_trace.sdkinstrtracepybind.InstructionTrace, arg0: int, arg1: int, arg2: int) -> cerebras.sdk.debug.lib.instruction_trace.sdkinstrtracepybind.TraceSequenceIterator"
+              ]
+            },
+            "get_instructions_per_uthread": {
+              "kind": "callable",
+              "signatures": [
+                "get_instructions_per_uthread(self: cerebras.sdk.debug.lib.instruction_trace.sdkinstrtracepybind.InstructionTrace, arg0: int, arg1: int, arg2: int) -> cerebras.sdk.debug.lib.instruction_trace.sdkinstrtracepybind.TraceSequenceIterator"
+              ]
+            },
+            "get_source_line": {
+              "kind": "callable",
+              "signatures": [
+                "get_source_line(self: cerebras.sdk.debug.lib.instruction_trace.sdkinstrtracepybind.InstructionTrace, arg0: int, arg1: int, arg2: int) -> cerebras.sdk.debug.lib.instruction_trace.sdkinstrtracepybind.SourceLine"
+              ]
+            },
+            "get_tasks": {
+              "kind": "callable",
+              "signatures": [
+                "get_tasks(self: cerebras.sdk.debug.lib.instruction_trace.sdkinstrtracepybind.InstructionTrace, arg0: int, arg1: int) -> List[int]"
+              ]
+            },
+            "get_uthreads": {
+              "kind": "callable",
+              "signatures": [
+                "get_uthreads(self: cerebras.sdk.debug.lib.instruction_trace.sdkinstrtracepybind.InstructionTrace, arg0: int, arg1: int) -> List[int]"
+              ]
+            }
+          },
+          "kind": "class"
+        },
+        "InstructionTraceIteratorApi": {
+          "qualname": "InstructionTraceIteratorApi",
+          "module": "cerebras.sdk.debug.lib.instruction_trace.sdkinstrtracepybind",
+          "bases": [
+            "pybind11_object"
+          ],
+          "doc": null,
+          "members": {
+            "get_next": {
+              "kind": "callable",
+              "signatures": [
+                "get_next(self: cerebras.sdk.debug.lib.instruction_trace.sdkinstrtracepybind.InstructionTraceIteratorApi, arg0: cerebras.sdk.debug.lib.instruction_trace.sdkinstrtracepybind.Trace) -> None"
+              ]
+            },
+            "has_next": {
+              "kind": "callable",
+              "signatures": [
+                "has_next(self: cerebras.sdk.debug.lib.instruction_trace.sdkinstrtracepybind.InstructionTraceIteratorApi) -> bool"
+              ]
+            }
+          },
+          "kind": "class"
+        },
+        "Sequence": {
+          "qualname": "Sequence",
+          "module": "cerebras.sdk.debug.lib.instruction_trace.sdkinstrtracepybind",
+          "bases": [
+            "pybind11_object"
+          ],
+          "doc": null,
+          "members": {
+            "cycle": {
+              "kind": "property",
+              "doc": ""
+            },
+            "instr_index": {
+              "kind": "property",
+              "doc": ""
+            },
+            "opvalue": {
+              "kind": "property",
+              "doc": ""
+            },
+            "opxaddr": {
+              "kind": "property",
+              "doc": ""
+            }
+          },
+          "kind": "class"
+        },
+        "SimfabInstructionTrace": {
+          "qualname": "SimfabInstructionTrace",
+          "module": "cerebras.sdk.debug.lib.instruction_trace.sdkinstrtracepybind",
+          "bases": [
+            "InstructionTrace"
+          ],
+          "doc": null,
+          "members": {
+            "get_instructions": {
+              "kind": "callable",
+              "signatures": [
+                "get_instructions(self: cerebras.sdk.debug.lib.instruction_trace.sdkinstrtracepybind.InstructionTrace, arg0: int, arg1: int) -> cerebras.sdk.debug.lib.instruction_trace.sdkinstrtracepybind.TraceSequenceIterator"
+              ]
+            },
+            "get_instructions_per_task": {
+              "kind": "callable",
+              "signatures": [
+                "get_instructions_per_task(self: cerebras.sdk.debug.lib.instruction_trace.sdkinstrtracepybind.InstructionTrace, arg0: int, arg1: int, arg2: int) -> cerebras.sdk.debug.lib.instruction_trace.sdkinstrtracepybind.TraceSequenceIterator"
+              ]
+            },
+            "get_instructions_per_uthread": {
+              "kind": "callable",
+              "signatures": [
+                "get_instructions_per_uthread(self: cerebras.sdk.debug.lib.instruction_trace.sdkinstrtracepybind.InstructionTrace, arg0: int, arg1: int, arg2: int) -> cerebras.sdk.debug.lib.instruction_trace.sdkinstrtracepybind.TraceSequenceIterator"
+              ]
+            },
+            "get_source_line": {
+              "kind": "callable",
+              "signatures": [
+                "get_source_line(self: cerebras.sdk.debug.lib.instruction_trace.sdkinstrtracepybind.InstructionTrace, arg0: int, arg1: int, arg2: int) -> cerebras.sdk.debug.lib.instruction_trace.sdkinstrtracepybind.SourceLine"
+              ]
+            },
+            "get_tasks": {
+              "kind": "callable",
+              "signatures": [
+                "get_tasks(self: cerebras.sdk.debug.lib.instruction_trace.sdkinstrtracepybind.InstructionTrace, arg0: int, arg1: int) -> List[int]"
+              ]
+            },
+            "get_uthreads": {
+              "kind": "callable",
+              "signatures": [
+                "get_uthreads(self: cerebras.sdk.debug.lib.instruction_trace.sdkinstrtracepybind.InstructionTrace, arg0: int, arg1: int) -> List[int]"
+              ]
+            }
+          },
+          "kind": "class"
+        },
+        "SourceLine": {
+          "qualname": "SourceLine",
+          "module": "cerebras.sdk.debug.lib.instruction_trace.sdkinstrtracepybind",
+          "bases": [
+            "pybind11_object"
+          ],
+          "doc": null,
+          "members": {
+            "line": {
+              "kind": "property",
+              "doc": ""
+            },
+            "source_file": {
+              "kind": "property",
+              "doc": ""
+            }
+          },
+          "kind": "class"
+        },
+        "Trace": {
+          "qualname": "Trace",
+          "module": "cerebras.sdk.debug.lib.instruction_trace.sdkinstrtracepybind",
+          "bases": [
+            "pybind11_object"
+          ],
+          "doc": null,
+          "members": {
+            "instrs": {
+              "kind": "callable",
+              "signatures": [
+                "instrs(self: cerebras.sdk.debug.lib.instruction_trace.sdkinstrtracepybind.Trace) -> numpy.ndarray[cerebras.sdk.debug.lib.instruction_trace.sdkinstrtracepybind.Instruction]"
+              ]
+            },
+            "num_instrs": {
+              "kind": "property",
+              "doc": ""
+            },
+            "num_sequences": {
+              "kind": "property",
+              "doc": ""
+            },
+            "sequences": {
+              "kind": "callable",
+              "signatures": [
+                "sequences(self: cerebras.sdk.debug.lib.instruction_trace.sdkinstrtracepybind.Trace) -> numpy.ndarray[cerebras.sdk.debug.lib.instruction_trace.sdkinstrtracepybind.Sequence]"
+              ]
+            }
+          },
+          "kind": "class"
+        },
+        "TraceSequenceIterator": {
+          "qualname": "TraceSequenceIterator",
+          "module": "cerebras.sdk.debug.lib.instruction_trace.sdkinstrtracepybind",
+          "bases": [
+            "pybind11_object"
+          ],
+          "doc": null,
+          "members": {
+            "get_next": {
+              "kind": "callable",
+              "signatures": [
+                "get_next(self: cerebras.sdk.debug.lib.instruction_trace.sdkinstrtracepybind.TraceSequenceIterator, arg0: cerebras.sdk.debug.lib.instruction_trace.sdkinstrtracepybind.Trace) -> None"
+              ]
+            },
+            "has_next": {
+              "kind": "callable",
+              "signatures": [
+                "has_next(self: cerebras.sdk.debug.lib.instruction_trace.sdkinstrtracepybind.TraceSequenceIterator) -> bool"
+              ]
+            }
+          },
+          "kind": "class"
+        },
+        "arch_e": {
+          "qualname": "arch_e",
+          "module": "cerebras.sdk.debug.lib.instruction_trace.sdkinstrtracepybind",
+          "bases": [
+            "pybind11_object"
+          ],
+          "doc": "Members:\n\n  EINSTEIN\n\n  FEYNMAN\n\n  SCHRODINGER",
+          "members": {
+            "EINSTEIN": {
+              "kind": "enum_member",
+              "name": "EINSTEIN",
+              "value": 1
+            },
+            "FEYNMAN": {
+              "kind": "enum_member",
+              "name": "FEYNMAN",
+              "value": 2
+            },
+            "SCHRODINGER": {
+              "kind": "enum_member",
+              "name": "SCHRODINGER",
+              "value": 4
+            },
+            "name": {
+              "kind": "property",
+              "doc": "name(self: handle) -> str\n"
+            },
+            "value": {
+              "kind": "property",
+              "doc": ""
+            }
+          },
+          "kind": "enum",
+          "values": {
+            "EINSTEIN": 1,
+            "FEYNMAN": 2,
+            "SCHRODINGER": 4
+          }
+        },
+        "data_format_t": {
+          "qualname": "data_format_t",
+          "module": "cerebras.sdk.debug.lib.instruction_trace.sdkinstrtracepybind",
+          "bases": [
+            "pybind11_object"
+          ],
+          "doc": "Members:\n\n  DATA_FORMAT_INVALID\n\n  DATA_FORMAT_FP16\n\n  DATA_FORMAT_FP32\n\n  DATA_FORMAT_XP16\n\n  DATA_FORMAT_CB16",
+          "members": {
+            "DATA_FORMAT_CB16": {
+              "kind": "enum_member",
+              "name": "DATA_FORMAT_CB16",
+              "value": 2
+            },
+            "DATA_FORMAT_FP16": {
+              "kind": "enum_member",
+              "name": "DATA_FORMAT_FP16",
+              "value": 1
+            },
+            "DATA_FORMAT_FP32": {
+              "kind": "enum_member",
+              "name": "DATA_FORMAT_FP32",
+              "value": 3
+            },
+            "DATA_FORMAT_INVALID": {
+              "kind": "enum_member",
+              "name": "DATA_FORMAT_INVALID",
+              "value": 0
+            },
+            "DATA_FORMAT_XP16": {
+              "kind": "enum_member",
+              "name": "DATA_FORMAT_XP16",
+              "value": 4
+            },
+            "name": {
+              "kind": "property",
+              "doc": "name(self: handle) -> str\n"
+            },
+            "value": {
+              "kind": "property",
+              "doc": ""
+            }
+          },
+          "kind": "enum",
+          "values": {
+            "DATA_FORMAT_INVALID": 0,
+            "DATA_FORMAT_FP16": 1,
+            "DATA_FORMAT_FP32": 3,
+            "DATA_FORMAT_XP16": 4,
+            "DATA_FORMAT_CB16": 2
+          }
+        },
+        "operand_type_t": {
+          "qualname": "operand_type_t",
+          "module": "cerebras.sdk.debug.lib.instruction_trace.sdkinstrtracepybind",
+          "bases": [
+            "pybind11_object"
+          ],
+          "doc": "Members:\n\n  OPERAND_TYPE_INVALID\n\n  OPERAND_TYPE_DEST\n\n  OPERAND_TYPE_SRC0\n\n  OPERAND_TYPE_SRC1\n\n  OPERAND_TYPE_SRC2",
+          "members": {
+            "OPERAND_TYPE_DEST": {
+              "kind": "enum_member",
+              "name": "OPERAND_TYPE_DEST",
+              "value": 1
+            },
+            "OPERAND_TYPE_INVALID": {
+              "kind": "enum_member",
+              "name": "OPERAND_TYPE_INVALID",
+              "value": 0
+            },
+            "OPERAND_TYPE_SRC0": {
+              "kind": "enum_member",
+              "name": "OPERAND_TYPE_SRC0",
+              "value": 2
+            },
+            "OPERAND_TYPE_SRC1": {
+              "kind": "enum_member",
+              "name": "OPERAND_TYPE_SRC1",
+              "value": 3
+            },
+            "OPERAND_TYPE_SRC2": {
+              "kind": "enum_member",
+              "name": "OPERAND_TYPE_SRC2",
+              "value": 4
+            },
+            "name": {
+              "kind": "property",
+              "doc": "name(self: handle) -> str\n"
+            },
+            "value": {
+              "kind": "property",
+              "doc": ""
+            }
+          },
+          "kind": "enum",
+          "values": {
+            "OPERAND_TYPE_INVALID": 0,
+            "OPERAND_TYPE_DEST": 1,
+            "OPERAND_TYPE_SRC0": 2,
+            "OPERAND_TYPE_SRC1": 3,
+            "OPERAND_TYPE_SRC2": 4
+          }
+        }
+      },
+      "free_functions": {
+        "get_operand_format": {
+          "kind": "callable",
+          "signatures": [
+            "get_operand_format(arg0: cerebras.sdk.debug.lib.instruction_trace.sdkinstrtracepybind.arch_e, arg1: int, arg2: cerebras.sdk.debug.lib.instruction_trace.sdkinstrtracepybind.operand_type_t) -> cerebras.sdk.debug.lib.instruction_trace.sdkinstrtracepybind.data_format_t"
+          ]
+        },
+        "get_opname_size": {
+          "kind": "callable",
+          "signatures": [
+            "get_opname_size() -> int"
+          ]
+        }
+      },
+      "constants": {}
+    },
+    "cerebras.sdk.debug.lib.rectangleopspybind": {
+      "file": "/cbcore/py_root/cerebras/sdk/debug/lib/rectangleopspybind.cpython-311-x86_64-linux-gnu.so",
+      "doc": "Python bindings for the SDK runtime fabric debug tools",
+      "classes": {
+        "RectangleDebugger": {
+          "qualname": "RectangleDebugger",
+          "module": "cerebras.sdk.debug.lib.rectangleopspybind",
+          "bases": [
+            "pybind11_object"
+          ],
+          "doc": null,
+          "members": {
+            "dumpcore": {
+              "kind": "callable",
+              "signatures": [
+                "dumpcore(self: cerebras.sdk.debug.lib.rectangleopspybind.RectangleDebugger, arg0: str) -> None"
+              ]
+            },
+            "read": {
+              "kind": "callable",
+              "signatures": [
+                "read(self: cerebras.sdk.debug.lib.rectangleopspybind.RectangleDebugger, arg0: int, arg1: int, arg2: Callable[[int, int, int, bytes], None]) -> None"
+              ]
+            }
+          },
+          "kind": "class"
+        },
+        "RectangleDebuggerCM": {
+          "qualname": "RectangleDebuggerCM",
+          "module": "cerebras.sdk.debug.lib.rectangleopspybind",
+          "bases": [
+            "RectangleDebugger"
+          ],
+          "doc": null,
+          "members": {
+            "dumpcore": {
+              "kind": "callable",
+              "signatures": [
+                "dumpcore(self: cerebras.sdk.debug.lib.rectangleopspybind.RectangleDebugger, arg0: str) -> None"
+              ]
+            },
+            "read": {
+              "kind": "callable",
+              "signatures": [
+                "read(self: cerebras.sdk.debug.lib.rectangleopspybind.RectangleDebugger, arg0: int, arg1: int, arg2: Callable[[int, int, int, bytes], None]) -> None"
+              ]
+            }
+          },
+          "kind": "class"
+        },
+        "RectangleDebuggerSim": {
+          "qualname": "RectangleDebuggerSim",
+          "module": "cerebras.sdk.debug.lib.rectangleopspybind",
+          "bases": [
+            "RectangleDebugger"
+          ],
+          "doc": null,
+          "members": {
+            "dumpcore": {
+              "kind": "callable",
+              "signatures": [
+                "dumpcore(self: cerebras.sdk.debug.lib.rectangleopspybind.RectangleDebugger, arg0: str) -> None"
+              ]
+            },
+            "read": {
+              "kind": "callable",
+              "signatures": [
+                "read(self: cerebras.sdk.debug.lib.rectangleopspybind.RectangleDebugger, arg0: int, arg1: int, arg2: Callable[[int, int, int, bytes], None]) -> None"
+              ]
+            }
+          },
+          "kind": "class"
+        }
+      },
+      "free_functions": {
+        "get_debugger": {
+          "kind": "callable",
+          "signatures": [
+            "get_debugger(ip: str, x: int, y: int, w: int, h: int) -> cerebras.sdk.debug.lib.rectangleopspybind.RectangleDebugger"
+          ]
+        }
+      },
+      "constants": {}
+    },
+    "cerebras.sdk.debug.lib.wavelet_trace.wavelettracepybind": {
+      "file": "/cbcore/py_root/cerebras/sdk/debug/lib/wavelet_trace/wavelettracepybind.cpython-311-x86_64-linux-gnu.so",
+      "doc": "pybind11 bindings for Kernel SDK wavelet trace",
+      "classes": {
+        "BackPressure": {
+          "qualname": "BackPressure",
+          "module": "cerebras.sdk.debug.lib.wavelet_trace.wavelettracepybind",
+          "bases": [
+            "pybind11_object"
+          ],
+          "doc": null,
+          "members": {
+            "color": {
+              "kind": "property",
+              "doc": ""
+            },
+            "cycle": {
+              "kind": "property",
+              "doc": ""
+            },
+            "link": {
+              "kind": "property",
+              "doc": ""
+            }
+          },
+          "kind": "class"
+        },
+        "BkprTimelineEntry": {
+          "qualname": "BkprTimelineEntry",
+          "module": "cerebras.sdk.debug.lib.wavelet_trace.wavelettracepybind",
+          "bases": [
+            "pybind11_object"
+          ],
+          "doc": null,
+          "members": {
+            "color": {
+              "kind": "property",
+              "doc": ""
+            },
+            "end_cycle": {
+              "kind": "property",
+              "doc": ""
+            },
+            "start_cycle": {
+              "kind": "property",
+              "doc": ""
+            }
+          },
+          "kind": "class"
+        },
+        "SimfabWaveletTimeline": {
+          "qualname": "SimfabWaveletTimeline",
+          "module": "cerebras.sdk.debug.lib.wavelet_trace.wavelettracepybind",
+          "bases": [
+            "pybind11_object"
+          ],
+          "doc": null,
+          "members": {
+            "get_bkpr_timeline": {
+              "kind": "callable",
+              "signatures": [
+                "get_bkpr_timeline(self: cerebras.sdk.debug.lib.wavelet_trace.wavelettracepybind.SimfabWaveletTimeline, arg0: int, arg1: int, arg2: int) -> List[cerebras.sdk.debug.lib.wavelet_trace.wavelettracepybind.BkprTimelineEntry]"
+              ],
+              "doc": "Get backpressure trace timeline for PE(x,y) color c"
+            },
+            "get_wvlt_and_bkpr_timeline_proto": {
+              "kind": "callable",
+              "signatures": [
+                "get_wvlt_and_bkpr_timeline_proto(self: cerebras.sdk.debug.lib.wavelet_trace.wavelettracepybind.SimfabWaveletTimeline, arg0: int, arg1: int, arg2: int, arg3: int, arg4: int) -> object"
+              ],
+              "doc": "Read from the simfab traces and generate a protobuf object that is consumed by sdk-gui frontend, which contains both wavelet and backpressure timelines."
+            },
+            "get_wvlt_timeline": {
+              "kind": "callable",
+              "signatures": [
+                "get_wvlt_timeline(self: cerebras.sdk.debug.lib.wavelet_trace.wavelettracepybind.SimfabWaveletTimeline, arg0: int, arg1: int, arg2: int) -> List[cerebras.sdk.debug.lib.wavelet_trace.wavelettracepybind.WaveletTimelineEntry]"
+              ],
+              "doc": "Get wavelet trace timeline for PE(x,y) color c"
+            }
+          },
+          "kind": "class"
+        },
+        "SimfabWaveletTrace": {
+          "qualname": "SimfabWaveletTrace",
+          "module": "cerebras.sdk.debug.lib.wavelet_trace.wavelettracepybind",
+          "bases": [
+            "WavletTrace"
+          ],
+          "doc": null,
+          "members": {
+            "get_backpressure_trace": {
+              "kind": "callable",
+              "signatures": [
+                "get_backpressure_trace(self: cerebras.sdk.debug.lib.wavelet_trace.wavelettracepybind.SimfabWaveletTrace, arg0: int, arg1: int) -> List[cerebras.sdk.debug.lib.wavelet_trace.wavelettracepybind.BackPressure]"
+              ]
+            },
+            "get_backpressure_trace_per_colors": {
+              "kind": "callable",
+              "signatures": [
+                "get_backpressure_trace_per_colors(self: cerebras.sdk.debug.lib.wavelet_trace.wavelettracepybind.SimfabWaveletTrace, arg0: int, arg1: int, arg2: List[int]) -> List[cerebras.sdk.debug.lib.wavelet_trace.wavelettracepybind.BackPressure]"
+              ]
+            },
+            "get_wavelets": {
+              "kind": "callable",
+              "signatures": [
+                "get_wavelets(self: cerebras.sdk.debug.lib.wavelet_trace.wavelettracepybind.SimfabWaveletTrace, arg0: int, arg1: int) -> cerebras.sdk.debug.lib.wavelet_trace.wavelettracepybind.WaveletTraceIterator"
+              ]
+            },
+            "get_wavelets_per_colors": {
+              "kind": "callable",
+              "signatures": [
+                "get_wavelets_per_colors(self: cerebras.sdk.debug.lib.wavelet_trace.wavelettracepybind.SimfabWaveletTrace, arg0: int, arg1: int, arg2: List[int]) -> cerebras.sdk.debug.lib.wavelet_trace.wavelettracepybind.WaveletTraceIterator"
+              ]
+            }
+          },
+          "kind": "class"
+        },
+        "Wavelet": {
+          "qualname": "Wavelet",
+          "module": "cerebras.sdk.debug.lib.wavelet_trace.wavelettracepybind",
+          "bases": [
+            "pybind11_object"
+          ],
+          "doc": null,
+          "members": {
+            "color": {
+              "kind": "property",
+              "doc": ""
+            },
+            "ctrl": {
+              "kind": "property",
+              "doc": ""
+            },
+            "cycle": {
+              "kind": "property",
+              "doc": ""
+            },
+            "ident": {
+              "kind": "property",
+              "doc": ""
+            },
+            "link": {
+              "kind": "property",
+              "doc": ""
+            },
+            "wvlt_data": {
+              "kind": "property",
+              "doc": ""
+            },
+            "wvlt_idx": {
+              "kind": "property",
+              "doc": ""
+            }
+          },
+          "kind": "class"
+        },
+        "WaveletTimelineEntry": {
+          "qualname": "WaveletTimelineEntry",
+          "module": "cerebras.sdk.debug.lib.wavelet_trace.wavelettracepybind",
+          "bases": [
+            "pybind11_object"
+          ],
+          "doc": null,
+          "members": {
+            "color": {
+              "kind": "property",
+              "doc": ""
+            },
+            "ctrl": {
+              "kind": "property",
+              "doc": ""
+            },
+            "dir": {
+              "kind": "property",
+              "doc": ""
+            },
+            "ident": {
+              "kind": "property",
+              "doc": ""
+            },
+            "received_cycle": {
+              "kind": "property",
+              "doc": ""
+            },
+            "sent_cycle": {
+              "kind": "property",
+              "doc": ""
+            },
+            "wvlt_data": {
+              "kind": "property",
+              "doc": ""
+            },
+            "wvlt_idx": {
+              "kind": "property",
+              "doc": ""
+            }
+          },
+          "kind": "class"
+        },
+        "WaveletTraceIterator": {
+          "qualname": "WaveletTraceIterator",
+          "module": "cerebras.sdk.debug.lib.wavelet_trace.wavelettracepybind",
+          "bases": [
+            "pybind11_object"
+          ],
+          "doc": null,
+          "members": {
+            "get_next": {
+              "kind": "callable",
+              "signatures": [
+                "get_next(self: cerebras.sdk.debug.lib.wavelet_trace.wavelettracepybind.WaveletTraceIterator, arg0: cerebras::sdk::wavelet_trace) -> None"
+              ]
+            },
+            "has_next": {
+              "kind": "callable",
+              "signatures": [
+                "has_next(self: cerebras.sdk.debug.lib.wavelet_trace.wavelettracepybind.WaveletTraceIterator) -> bool"
+              ]
+            }
+          },
+          "kind": "class"
+        },
+        "WaveletTraceIteratorApi": {
+          "qualname": "WaveletTraceIteratorApi",
+          "module": "cerebras.sdk.debug.lib.wavelet_trace.wavelettracepybind",
+          "bases": [
+            "pybind11_object"
+          ],
+          "doc": null,
+          "members": {
+            "get_next": {
+              "kind": "callable",
+              "signatures": [
+                "get_next(self: cerebras.sdk.debug.lib.wavelet_trace.wavelettracepybind.WaveletTraceIteratorApi, arg0: cerebras.sdk.debug.lib.wavelet_trace.wavelettracepybind.Wavlets) -> None"
+              ]
+            },
+            "has_next": {
+              "kind": "callable",
+              "signatures": [
+                "has_next(self: cerebras.sdk.debug.lib.wavelet_trace.wavelettracepybind.WaveletTraceIteratorApi) -> bool"
+              ]
+            }
+          },
+          "kind": "class"
+        },
+        "WavletTrace": {
+          "qualname": "WavletTrace",
+          "module": "cerebras.sdk.debug.lib.wavelet_trace.wavelettracepybind",
+          "bases": [
+            "pybind11_object"
+          ],
+          "doc": null,
+          "members": {
+            "get_wavelets": {
+              "kind": "callable",
+              "signatures": [
+                "get_wavelets(self: cerebras.sdk.debug.lib.wavelet_trace.wavelettracepybind.WavletTrace, arg0: int, arg1: int) -> cerebras.sdk.debug.lib.wavelet_trace.wavelettracepybind.WaveletTraceIterator"
+              ]
+            },
+            "get_wavelets_per_colors": {
+              "kind": "callable",
+              "signatures": [
+                "get_wavelets_per_colors(self: cerebras.sdk.debug.lib.wavelet_trace.wavelettracepybind.WavletTrace, arg0: int, arg1: int, arg2: List[int]) -> cerebras.sdk.debug.lib.wavelet_trace.wavelettracepybind.WaveletTraceIterator"
+              ]
+            }
+          },
+          "kind": "class"
+        },
+        "Wavlets": {
+          "qualname": "Wavlets",
+          "module": "cerebras.sdk.debug.lib.wavelet_trace.wavelettracepybind",
+          "bases": [
+            "pybind11_object"
+          ],
+          "doc": null,
+          "members": {
+            "get_wavelet": {
+              "kind": "callable",
+              "signatures": [
+                "get_wavelet(self: cerebras.sdk.debug.lib.wavelet_trace.wavelettracepybind.Wavlets, arg0: int) -> cerebras.sdk.debug.lib.wavelet_trace.wavelettracepybind.Wavelet"
+              ]
+            },
+            "num_wavelets": {
+              "kind": "callable",
+              "signatures": [
+                "num_wavelets(self: cerebras.sdk.debug.lib.wavelet_trace.wavelettracepybind.Wavlets) -> int"
+              ]
+            }
+          },
+          "kind": "class"
+        }
+      },
+      "free_functions": {},
+      "constants": {}
+    },
+    "cerebras.sdk.sdk_utils": {
+      "file": "/cbcore/py_root/cerebras/sdk/sdk_utils.py",
+      "doc": "\nSDK utility functions\n",
+      "classes": {},
+      "free_functions": {
+        "Dict": {
+          "kind": "callable",
+          "python_signature": "(*args, **kwargs)",
+          "doc": "A generic version of dict."
+        },
+        "List": {
+          "kind": "callable",
+          "python_signature": "(*args, **kwargs)",
+          "doc": "A generic version of list."
+        },
+        "Optional": {
+          "kind": "callable",
+          "python_signature": "(*args, **kwds)",
+          "doc": "Optional[X] is equivalent to Union[X, None]."
+        },
+        "calculate_cycles": {
+          "kind": "callable",
+          "python_signature": "(timestamp_buf: numpy.ndarray) -> numpy.int64",
+          "doc": "Converts values in timestamp_buf returned from device\n    into a human-readable elapsed cycle count.\n\n    Arguments:\n    timestamp_buf: array returned from device containing\n    timestamp data"
+        },
+        "cast_uint32": {
+          "kind": "callable",
+          "python_signature": "(x)",
+          "doc": "Casts a memcpy compatible type to np.uint32 which\n    should be used when providing data to memcpy"
+        },
+        "check_rpc_api": {
+          "kind": "callable",
+          "python_signature": "(name: str, arg_list: List, api_info_dict: Dict) -> bool",
+          "doc": "Verify host-callable API.\n\n    Arguments:\n    name -- The name of the device function the host will call\n    arg_list -- The list of arguments to the device function\n    api_info_dict -- The dictionary obtained with get_api_info_dict()"
+        },
+        "float_to_hex": {
+          "kind": "callable",
+          "python_signature": "(f: numpy.float32) -> str",
+          "doc": "Returns a hex string from a float32, used by calculate_cycles\n    to convert timestamp array to human-readable elapsed cycles.\n\n    Arguments:\n    f: float32 value to convert to hex string"
+        },
+        "getOutputNameFromCompileOptions": {
+          "kind": "callable",
+          "python_signature": "(option_list: List[str]) -> str",
+          "doc": "getOutputNameFromCompileOptions returns the output name of a CSL\n    compilation command contained in option_list\n\n    option_list - a list of strings containing the compile options"
+        },
+        "get_api_info_dict": {
+          "kind": "callable",
+          "python_signature": "(app_path: str) -> Dict",
+          "doc": "Parse a compiled directory to build the host-callable\n    function data dictionary\n\n    Argument:\n    app_path: The path to the compiled directory"
+        },
+        "get_api_info_dict_from_json": {
+          "kind": "callable",
+          "python_signature": "(json_path: str) -> Dict",
+          "doc": "Parse a compiled directory to build the host-callable\n    function data dictionary\n\n    Argument:\n    json_path: The path to the out_rpc.json file"
+        },
+        "input_array_to_u32": {
+          "kind": "callable",
+          "python_signature": "(np_arr: numpy.ndarray, sentinel: Optional[int], fast_dim_sz: int) -> numpy.ndarray",
+          "doc": "Convert a 16-bit tensor to a 32-bit tensor of type u32. The parameter\n    sentinel distiguishes the following two different extensions:\n    1) zero extension\n      sentinel = None\n    2) upper 16-bit is the index of the array\n      sentinel is Not None"
+        },
+        "is_valid_primitive_type": {
+          "kind": "callable",
+          "python_signature": "(para_type: str) -> bool",
+          "doc": "Check if a string represents a supported type"
+        },
+        "make_u48": {
+          "kind": "callable",
+          "python_signature": "(words: numpy.ndarray) -> numpy.int64",
+          "doc": "Converts the three uint16 values in words array\n    into single unsigned 48-bit value, as type int64.\n    Used by sub_ts to produce final timestamps.\n\n    Arguments:\n    words: numpy array of 3 uint16 values"
+        },
+        "memcpy_view": {
+          "kind": "callable",
+          "python_signature": "(arr: <built-in function array>, dtype: numpy.dtype)",
+          "doc": "Returns a 32, 16 or 8 bit view of a 32 bit numpy array\n    (only the lower 16 or 8 bits of each 32 bit word in the\n    last two cases)\n\n    Arguments:\n    arr -- a numpy array with 4 bytes per element on which\n    the numpy view will be created\n    dtype -- the numpy data type which should be used in the\n    output view. The itemsize must be 1, 2, or 4 bytes."
+        },
+        "parse_host_callable_api": {
+          "kind": "callable",
+          "python_signature": "(rpc_symbols)",
+          "doc": "Parse host-callable API:\n    api_info_dict[api name] = ( var_list, type_list )\n\n    Example:\n    api_info_dict = {'GEMV': (['alpha', 'beta', 'M', 'N'],\n    ['f32', 'f32', 'i16', 'i16']), 'NRM': (['M'], ['i16'])}\n    Ref: hpc_apps/test/depipelined/phase3/translate_layout.py\n\n    fn foo(x: f32, alpha: u16, beta: i32) void {\n    @export_name(\"foo\", fn(f32, u16, i32)void);\n     {\n      \"id\": 7,\n      \"inputs\": [\n        {\n          \"name\": \"x\",\n          \"type\": \"f32\"\n        },\n        {\n          \"name\": \"alpha\",\n          \"type\": \"u16\"\n        },\n        {\n          \"name\": \"beta\",\n          \"type\": \"i32\"\n        }\n      ],\n      \"kind\": \"Func\",\n      \"name\": \"foo\",\n      \"sym_name\": \"foo\",\n      \"type\": \"void\"  --> return type\n    }"
+        },
+        "sub_ts": {
+          "kind": "callable",
+          "python_signature": "(words: numpy.ndarray) -> numpy.int64",
+          "doc": "Returns cycle count from processed timestamp words.\n    Used by calculate_cycles to produce final elapsed cycles.\n\n    Arguments:\n    words: numpy array of 6 uint16 values produced from\n    timestamp_buf input to calculate_cycles"
+        }
+      },
+      "constants": {
+        "MAX_MESSAGE_LENGTH": {
+          "kind": "value",
+          "type": "int",
+          "value": 2147482624
+        },
+        "json": {
+          "kind": "attribute",
+          "repr": "<module 'json' from '/cb/toolchains/buildroot/buildroot-all/main/202601080020-115-9c2a6e07/monolith/rootfs-x86_64/usr/lib/python3.11/json/__init__.py'>"
+        },
+        "np": {
+          "kind": "attribute",
+          "repr": "<module 'numpy' from '/python/python-x86_64/lib/python3.11/site-packages/numpy/__init__.py'>"
+        },
+        "struct": {
+          "kind": "attribute",
+          "repr": "<module 'struct' from '/cb/toolchains/buildroot/buildroot-all/main/202601080020-115-9c2a6e07/monolith/rootfs-x86_64/usr/lib/python3.11/struct.py'>"
+        }
+      }
+    }
+  }
+}
