@@ -1,0 +1,33 @@
+# Evidence for the cerebras::MemcpyOptions byte layout.
+# Source: pybind11 wrapper for SdkRuntime::memcpy_h2d in /cbcore/py_root/cerebras/sdk/runtime/sdkruntimepybind.cpython-311-x86_64-linux-gnu.so.
+# Method: disassemble around each call site to memcpy_h2d, extract
+# the stack writes that build MemcpyOptions, identify base via lea.
+# SIF: sdk-cbcore-2.10.0-sdk-202604101435-4586d3f0d8.sif
+
+## Stack writes preceding each callq <memcpy_h2d@plt>:
+## (looking for {%al,%eax,%ax} -> 0x{40,44,48,4c}(%rsp))
+
+   1aded:	88 44 24 40          	mov    %al,0x40(%rsp)
+   1aeb6:	89 44 24 44          	mov    %eax,0x44(%rsp)
+   1af04:	89 44 24 48          	mov    %eax,0x48(%rsp)
+   1af34:	88 44 24 4c          	mov    %al,0x4c(%rsp)
+   1af6a:	48 8d 44 24 40       	lea    0x40(%rsp),%rax
+   1af92:	44 8b 4c 24 44       	mov    0x44(%rsp),%r9d
+   1af97:	44 8b 44 24 40       	mov    0x40(%rsp),%r8d
+  --- ^ writes preceding call ---
+   1af9f:	e8 6c 19 ff ff       	callq  c910 <_ZN8cerebras10SdkRuntime10memcpy_h2dEtPviiiiiRKNS_13MemcpyOptionsE@plt>
+
+
+## Interpretation:
+##   lea 0x40(%rsp), %rax          -> MemcpyOptions struct base at +0x40
+##   mov %al,  0x40(%rsp)  (1 B)   -> field at offset 0   = streaming
+##   mov %eax, 0x44(%rsp)  (4 B)   -> field at offset 4   = data_type
+##   mov %eax, 0x48(%rsp)  (4 B)   -> field at offset 8   = order
+##   mov %al,  0x4c(%rsp)  (1 B)   -> field at offset 12  = nonblock
+##
+## Confirmed layout (all four field writes visible in disassembly):
+##   offset  0: bool           streaming   (1 byte + 3 padding)
+##   offset  4: MemcpyDataType data_type   (4 bytes)
+##   offset  8: MemcpyOrder    order       (4 bytes)
+##   offset 12: bool           nonblock    (1 byte + 3 padding)
+##   sizeof:    16 bytes

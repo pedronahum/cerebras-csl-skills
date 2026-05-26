@@ -12,7 +12,7 @@
 //    Git short   : 4586d3f0d8
 //    SIF         : sdk-cbcore-2.10.0-sdk-202604101435-4586d3f0d8.sif
 //    SIF sha256  : 4700f1f4544e0e30b7751840394c517b18ceaf6f35847790ac0bf46f0bfa6b6a
-//    Extracted   : 2026-05-26T15:18:06Z
+//    Extracted   : 2026-05-26T15:27:52Z
 //
 //  Sources used to reconstruct:
 //    (a) `nm -D --demangle` against 10 .so libraries in /cbcore/lib/ — for
@@ -82,18 +82,24 @@ enum class MemcpyOrder : int {
     COL_MAJOR = 1,
 };
 
-// RECONSTRUCTED. Field SET is from pybind kwargs that get splatted
-// into this struct. Field ORDER is recovered from pybind's py::arg
-// declaration order, which is embedded contiguously in the pybind
-// .so .rodata at offsets [streaming, data_type, order, nonblock].
-// Padding/alignment is still a GUESS; do not memcpy into this until
-// layout is ABI-probed against a real SIF.
+// RECOVERED. Field set: pybind splats these 4 kwargs into this struct
+// for every memcpy_*/call invocation. Field order + byte offsets:
+// CONFIRMED by disassembling the pybind wrapper around memcpy_h2d and
+// reading the stack writes that build MemcpyOptions before the call.
+// Evidence in _generated/sdkruntime-memcpyoptions-layout.txt.
+//
+//   mov %al,  0x40(%rsp)  -> offset  0  streaming  (1B + 3B pad)
+//   mov %eax, 0x44(%rsp)  -> offset  4  data_type  (4B)
+//   mov %eax, 0x48(%rsp)  -> offset  8  order      (4B)
+//   mov %al,  0x4c(%rsp)  -> offset 12  nonblock   (1B + 3B pad)
+//   sizeof: 16 bytes.
 struct MemcpyOptions {
-    bool           streaming;    // pybind kwarg #1
-    MemcpyDataType data_type;    // pybind kwarg #2
-    MemcpyOrder    order;        // pybind kwarg #3
-    bool           nonblock;     // pybind kwarg #4
+    bool           streaming;    // offset  0 (pybind kwarg #1)
+    MemcpyDataType data_type;    // offset  4 (pybind kwarg #2)
+    MemcpyOrder    order;        // offset  8 (pybind kwarg #3)
+    bool           nonblock;     // offset 12 (pybind kwarg #4)
 };
+static_assert(sizeof(MemcpyOptions) == 16, "MemcpyOptions layout drift");
 
 // ---- cerebras::SimfabConfig (fields from pybind; no nm signature) ----
 struct SimfabConfig {

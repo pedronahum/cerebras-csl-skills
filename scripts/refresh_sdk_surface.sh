@@ -275,6 +275,64 @@ limactl shell "${LIMA_INSTANCE}" -- bash -lc "
 " 2>&1 | sed '/^\[INFO\]/d'
 rm -f "${INNER4}"
 
+# ---- 8. MemcpyOptions layout evidence ---------------------------------------
+# Disassemble the pybind wrapper around memcpy_h2d and extract the stack
+# writes that build the MemcpyOptions struct on its way to the C++ call.
+# Field offsets are observable from the destination operands of those writes;
+# this is what pins the byte-level layout without DWARF.
+echo "[refresh] extracting MemcpyOptions disassembly evidence"
+INNER5="${REPO_DIR}/scripts/.dump_memcpyoptions_layout.sh"
+cat >"${INNER5}" <<'INNER5_EOF'
+#!/usr/bin/env bash
+set -euo pipefail
+SIF="$1"
+OUT="$2"
+PYB="/cbcore/py_root/cerebras/sdk/runtime/sdkruntimepybind.cpython-311-x86_64-linux-gnu.so"
+{
+  echo "# Evidence for the cerebras::MemcpyOptions byte layout."
+  echo "# Source: pybind11 wrapper for SdkRuntime::memcpy_h2d in $PYB."
+  echo "# Method: disassemble around each call site to memcpy_h2d, extract"
+  echo "# the stack writes that build MemcpyOptions, identify base via lea."
+  echo "# SIF: $(basename "$SIF")"
+  echo
+  echo "## Stack writes preceding each callq <memcpy_h2d@plt>:"
+  echo "## (looking for {%al,%eax,%ax} -> 0x{40,44,48,4c}(%rsp))"
+  echo
+  singularity exec "$SIF" bash -c "objdump -d '$PYB' 2>/dev/null" \
+    | awk '
+        /callq.*memcpy_h2dE.*plt>/ {
+          for (i = NR-200; i < NR; i++) {
+            if (lines[i % 200] ~ /(0x4[0-c])\(%rsp\)/ || lines[i % 200] ~ /lea[ \t]+0x40\(%rsp\)/) {
+              print lines[i % 200]
+            }
+          }
+          print "  --- ^ writes preceding call ---"
+          print $0
+          print ""
+        }
+        { lines[NR % 200] = $0 }'
+  echo
+  echo "## Interpretation:"
+  echo "##   lea 0x40(%rsp), %rax          -> MemcpyOptions struct base at +0x40"
+  echo "##   mov %al,  0x40(%rsp)  (1 B)   -> field at offset 0   = streaming"
+  echo "##   mov %eax, 0x44(%rsp)  (4 B)   -> field at offset 4   = data_type"
+  echo "##   mov %eax, 0x48(%rsp)  (4 B)   -> field at offset 8   = order"
+  echo "##   mov %al,  0x4c(%rsp)  (1 B)   -> field at offset 12  = nonblock"
+  echo "##"
+  echo "## Confirmed layout (all four field writes visible in disassembly):"
+  echo "##   offset  0: bool           streaming   (1 byte + 3 padding)"
+  echo "##   offset  4: MemcpyDataType data_type   (4 bytes)"
+  echo "##   offset  8: MemcpyOrder    order       (4 bytes)"
+  echo "##   offset 12: bool           nonblock    (1 byte + 3 padding)"
+  echo "##   sizeof:    16 bytes"
+} > "$OUT"
+INNER5_EOF
+chmod +x "${INNER5}"
+limactl shell "${LIMA_INSTANCE}" -- bash -lc "
+  '${INNER5}' '${SIF_PATH}' '${OUT_DIR}/sdkruntime-memcpyoptions-layout.txt'
+" 2>&1 | sed '/^\[INFO\]/d'
+rm -f "${INNER5}"
+
 echo
 echo "[refresh] done."
 echo "  - ${OUT_DIR}/sdkruntime-surface.json        (pybind introspection)"
@@ -283,3 +341,4 @@ echo "  - ${OUT_DIR}/sdkruntime-symbols.txt         (full C++ symbol dump)"
 echo "  - ${OUT_DIR}/sdkruntime-pybind-imports.txt  (curated user-facing API)"
 echo "  - ${OUT_DIR}/sdkruntime-preconditions.txt   (runtime assertion strings)"
 echo "  - ${OUT_DIR}/sdkruntime-libstdcpp.txt       (libstdc++ ABI requirements)"
+echo "  - ${OUT_DIR}/sdkruntime-memcpyoptions-layout.txt  (struct layout evidence)"

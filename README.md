@@ -84,6 +84,7 @@ All skills target `--arch=wse3`. Each skill includes inline upstream-docs / sour
 │   ├── sdkruntime-pybind-imports.txt  #   curated user-facing C++ API (pybind's imports)
 │   ├── sdkruntime-preconditions.txt   #   runtime assertion strings mined from .rodata
 │   ├── sdkruntime-libstdcpp.txt       #   libstdc++ ABI requirements (GLIBCXX/CXXABI)
+│   ├── sdkruntime-memcpyoptions-layout.txt  #  disassembled MemcpyOptions byte layout
 │   └── cerebras_sdkruntime.hpp        #   reconstructed C++ header
 ├── scripts/
 │   ├── extract_sdk_surface.py         # pybind introspection (runs under cs_python)

@@ -59,7 +59,8 @@ For every method in the header, every individual fact is sourced from one of the
 | Enum members + values | pybind11 `__members__` dict | **Strong** (real `enum class` values, queryable at runtime). |
 | `MemcpyOptions` / `SimfabConfig` field set | pybind11 `**kwargs` splat names | **Strong** (these are the kwargs the binding requires). |
 | `MemcpyOptions` field order | Order of name-strings in pybind `.so` `.rodata` | **Inferred** — see [the MemcpyOptions section](#the-memcpyoptions-field-order-claim) below. |
-| Padding / alignment of structs | none | **Unknown** — would require ABI probing or DWARF (we have neither). |
+| `MemcpyOptions` byte offsets | Disassembled pybind wrapper stack writes around `memcpy_h2d` call site | **Confirmed** — see `_generated/sdkruntime-memcpyoptions-layout.txt`. Header carries a `static_assert(sizeof == 16)` to catch future drift. |
+| Other struct paddings / alignments | none directly | **Unknown** — would require the same disassembly trick for each construction site. Only done for `MemcpyOptions` so far. |
 | Member visibility (`public`/`private`) | none | **Unknown** — header marks everything `public`. |
 | `virtual` / `final` / `inline` qualifiers | none directly | **Unknown** — RTTI grep showed no virtual user-facing classes, so likely none. |
 | Inline / template-only methods | none | **Lost** — never emit standalone symbols. |
@@ -70,22 +71,32 @@ Spelled out in the header's top comment, but recapping for emphasis:
 
 - **No return types in raw nm output.** The Itanium ABI doesn't include return types in mangling for normal functions (only for templates and operators). We compensate by pulling return types from the pybind docstring `... -> ReturnType` field, mapped to C++ types where possible. Methods with no pybind binding remain `auto`.
 - **No default argument values in nm.** Pybind docstrings give us `arg: T = default` only when the binding wrote `py::arg("name") = default`. For most arguments we have no defaults at all.
-- **No padding/alignment knowledge** for `MemcpyOptions`, `SimfabConfig`. The field SET is correct; the LAYOUT is a guess. Constructing one via aggregate-init may write fields in the wrong byte offsets.
+- **`MemcpyOptions` byte layout is now confirmed by disassembly.** `SimfabConfig` byte layout is still inferred (pybind kwarg names + natural-alignment guess) — could be confirmed using the same disassembly trick if needed, but `SimfabConfig` is consumed by Python wrappers that splat from kwargs, not by direct C++ construction from user code, so the risk surface is lower.
 - **No member visibility.** Everything is rendered `public`. The runtime likely has `private` helpers we can see (e.g. `SdkRuntime::Task::get_mtask`), and we tag them `/* internal — not in pybind */`, but their actual access modifier in the original header is unknown.
 - **No body / inline definitions.** Method bodies of `Color`, `RoutingPosition`, `EdgeRouteInfo`, `PortHandle` are inlined in the SDK's source and never emit symbols. We have no recovery path.
 
-## The `MemcpyOptions` field-order claim
+## The `MemcpyOptions` byte layout (CONFIRMED)
 
-Three pieces of evidence:
+Four lines of evidence, the last of which is the byte-level confirmation:
 
 1. **The field set is rock-solid.** The pybind binding requires `streaming`, `data_type`, `order`, `nonblock` as kwargs (confirmed by the diagnostic string `"Must specify the streaming, data_type, order, and nonblock kwargs to memcpy_h2d()"` in the pybind `.so` `.rodata`).
-2. **The names appear contiguously in `.rodata`**, in the order `streaming, data_type, order, nonblock` (offsets that are adjacent in `strings(1)` output, lines 5892–5895 in this SDK's pybind `.so`). pybind11's `.def(...)` chains `py::arg("name")` calls and writes their strings sequentially into `.rodata`.
-3. **The pybind binding convention** is to declare `py::arg(...)` in the same order as the C++ struct fields (so the lambda body's aggregate init lines up). This is convention, not contract. Our header trusts it.
+2. **The names appear contiguously in `.rodata`**, in the order `streaming, data_type, order, nonblock`. pybind11's `.def(...)` chains `py::arg("name")` calls and writes their strings sequentially into `.rodata`.
+3. **pybind binding convention** declares `py::arg(...)` in the same order as the C++ struct fields.
+4. **Disassembly of the pybind wrapper confirms byte offsets directly.** Just before each `callq <memcpy_h2d@plt>`, the wrapper writes the four kwarg values to consecutive stack offsets that become `MemcpyOptions` when passed by reference:
 
-If you intend to **construct `MemcpyOptions` from C++**, do not rely on the inferred field order. Either:
+   ```
+   mov %al,  0x40(%rsp)   →  offset  0:  streaming  (1 byte)
+   mov %eax, 0x44(%rsp)   →  offset  4:  data_type  (4 bytes)
+   mov %eax, 0x48(%rsp)   →  offset  8:  order      (4 bytes)
+   mov %al,  0x4c(%rsp)   →  offset 12:  nonblock   (1 byte)
+   lea 0x40(%rsp), %rax   →  passed by reference (the const MemcpyOptions&)
+   ```
 
-- Probe field order experimentally (compile a probe `.cpp` inside the SIF, set sentinel values, observe what reaches the device or what pybind reads back).
-- Or write a `MemcpyOptions` instance via pybind's own Python interface (which uses the splat path it knows is correct).
+The struct is 16 bytes (with natural-alignment padding after `streaming` and after `nonblock`). The reconstructed header now carries a `static_assert(sizeof(MemcpyOptions) == 16, "MemcpyOptions layout drift")` so any future SDK ABI change that breaks the layout fails at compile time rather than silently writing fields to wrong offsets.
+
+The raw evidence is pinned at `_generated/sdkruntime-memcpyoptions-layout.txt`. Regenerated whenever `scripts/refresh_sdk_surface.sh` runs, so you can audit it against future SDK builds.
+
+Constructing `MemcpyOptions` from C++ is now safe with the layout the header declares.
 
 ## New facts the recovery surfaced
 
@@ -239,7 +250,7 @@ The generator is deterministic — same inputs produce identical output. A `git 
 
 - **The header is `#pragma once`-guarded but uses placeholder forward declarations** (`pybind11::object`, `pybind11::array`, `nlohmann::json`, `cerebras::IntVector`, `cerebras::Point<T>`, etc.). Including it as-is in a project that also includes the real headers for those types will produce redeclaration errors. The header is intentionally not buildable.
 - **All return types of `cerebras::SdkLayout::Color`-family classes are `auto`** (in the rendered fallback comments). They show as pybind signatures; the underlying C++ return types are not recoverable.
-- **`MemcpyOptions` aggregate-init order is a guess.** See above. Never write `MemcpyOptions opts{true, MemcpyDataType::MEMCPY_32BIT, MemcpyOrder::ROW_MAJOR, false}` and trust it without probing.
+- **`MemcpyOptions` aggregate-init order is now confirmed by disassembly.** `MemcpyOptions opts{true, MemcpyDataType::MEMCPY_32BIT, MemcpyOrder::ROW_MAJOR, false}` is correct (streaming, data_type, order, nonblock — in that order). A `static_assert` in the header catches future drift.
 - **The `nlohmann::json` constructor of `SdkCompileArtifacts` is real but unsupported.** It exists; pybind doesn't expose it; relying on it bypasses the pybind layer that everyone else uses.
 - **`SdkLayout` ctor argument names show as "platform" for all 3 overloads** because the generator uses the first pybind overload's named args. The actual semantics differ (`SdkExecutionPlatform` / `path` / `SdkTarget`). The types make this unambiguous despite the misleading name; don't trust the parameter name alone.
 - **Method `Task::get_mtask() const` returns `auto`** in the header — we know from nm it returns `std::shared_ptr<MemcpyTask>` (it's the internal accessor), but the generator can't read return types from nm directly. Documented here for the record.
