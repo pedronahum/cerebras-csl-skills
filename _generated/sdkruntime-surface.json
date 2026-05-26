@@ -7,7 +7,7 @@
     "sif_filename": "sdk-cbcore-2.10.0-sdk-202604101435-4586d3f0d8.sif",
     "sif_sha256": "4700f1f4544e0e30b7751840394c517b18ceaf6f35847790ac0bf46f0bfa6b6a",
     "sif_sha256_source": "/Users/pedro/programming/cerebras/sdk/sha256sum.txt",
-    "extracted_at": "2026-05-26T13:35:35Z",
+    "extracted_at": "2026-05-26T13:40:10Z",
     "python": "3.11.8",
     "platform": "Linux-6.8.0-90-generic-x86_64-with-glibc2.38"
   },
@@ -24,6 +24,11 @@
           ],
           "doc": null,
           "members": {
+            "__init__": {
+              "kind": "callable",
+              "python_signature": "(self, /, *args, **kwargs)",
+              "doc": "Initialize self.  See help(type(self)) for accurate signature."
+            },
             "color": {
               "kind": "callable",
               "signatures": [
@@ -115,6 +120,12 @@
           ],
           "doc": "Class that represents a color with an optional user-specified physical value. Objects of this class can be used for routing and can also be used to set microcode parameter values. If a physical value is not provided then a physical value will be allocated automatically by the compiler.",
           "members": {
+            "__init__": {
+              "kind": "callable",
+              "signatures": [
+                "__init__(self: cerebras.sdk.runtime.sdkruntimepybind.Color, name: str, value: Optional[int] = None) -> None"
+              ]
+            },
             "get_global_name": {
               "kind": "callable",
               "signatures": [
@@ -164,6 +175,12 @@
               "name": "TOP",
               "value": 0
             },
+            "__init__": {
+              "kind": "callable",
+              "signatures": [
+                "__init__(self: cerebras.sdk.runtime.sdkruntimepybind.Edge, value: int) -> None"
+              ]
+            },
             "name": {
               "kind": "property",
               "doc": "name(self: handle) -> str\n"
@@ -188,7 +205,13 @@
             "pybind11_object"
           ],
           "doc": null,
-          "members": {},
+          "members": {
+            "__init__": {
+              "kind": "callable",
+              "python_signature": "(self, /, *args, **kwargs)",
+              "doc": "Initialize self.  See help(type(self)) for accurate signature."
+            }
+          },
           "kind": "class"
         },
         "FP16TYPE": {
@@ -213,6 +236,12 @@
               "kind": "enum_member",
               "name": "F16",
               "value": 0
+            },
+            "__init__": {
+              "kind": "callable",
+              "signatures": [
+                "__init__(self: cerebras.sdk.runtime.sdkruntimepybind.FP16TYPE, value: int) -> None"
+              ]
             },
             "name": {
               "kind": "property",
@@ -248,6 +277,12 @@
               "name": "MEMCPY_32BIT",
               "value": 0
             },
+            "__init__": {
+              "kind": "callable",
+              "signatures": [
+                "__init__(self: cerebras.sdk.runtime.sdkruntimepybind.MemcpyDataType, value: int) -> None"
+              ]
+            },
             "name": {
               "kind": "property",
               "doc": "name(self: handle) -> str\n"
@@ -281,6 +316,12 @@
               "name": "ROW_MAJOR",
               "value": 0
             },
+            "__init__": {
+              "kind": "callable",
+              "signatures": [
+                "__init__(self: cerebras.sdk.runtime.sdkruntimepybind.MemcpyOrder, value: int) -> None"
+              ]
+            },
             "name": {
               "kind": "property",
               "doc": "name(self: handle) -> str\n"
@@ -303,7 +344,13 @@
             "pybind11_object"
           ],
           "doc": null,
-          "members": {},
+          "members": {
+            "__init__": {
+              "kind": "callable",
+              "python_signature": "(self, /, *args, **kwargs)",
+              "doc": "Initialize self.  See help(type(self)) for accurate signature."
+            }
+          },
           "kind": "class"
         },
         "Route": {
@@ -339,6 +386,12 @@
               "name": "WEST",
               "value": 2
             },
+            "__init__": {
+              "kind": "callable",
+              "signatures": [
+                "__init__(self: cerebras.sdk.runtime.sdkruntimepybind.Route, value: int) -> None"
+              ]
+            },
             "name": {
               "kind": "property",
               "doc": "name(self: handle) -> str\n"
@@ -365,6 +418,12 @@
           ],
           "doc": "Class that represents a single routing position. The class implements the fluent interface design pattern in order to present an unambiguous interface.",
           "members": {
+            "__init__": {
+              "kind": "callable",
+              "signatures": [
+                "__init__(self: cerebras.sdk.runtime.sdkruntimepybind.RoutingPosition) -> None"
+              ]
+            },
             "add_input": {
               "kind": "callable",
               "signatures": [
@@ -412,6 +471,12 @@
           ],
           "doc": null,
           "members": {
+            "__init__": {
+              "kind": "callable",
+              "signatures": [
+                "__init__(self: cerebras.sdk.runtime.sdkruntimepybind.SdkCompileArtifacts, arg0: str) -> None"
+              ]
+            },
             "add_port_mapping": {
               "kind": "callable",
               "signatures": [
@@ -429,6 +494,11 @@
           ],
           "doc": null,
           "members": {
+            "__init__": {
+              "kind": "callable",
+              "python_signature": "(self, /, *args, **kwargs)",
+              "doc": "Initialize self.  See help(type(self)) for accurate signature."
+            },
             "is_simulation": {
               "kind": "callable",
               "signatures": [
@@ -452,6 +522,14 @@
           ],
           "doc": null,
           "members": {
+            "__init__": {
+              "kind": "callable",
+              "signatures": [
+                "__init__(self: cerebras.sdk.runtime.sdkruntimepybind.SdkLayout, platform: cerebras.sdk.runtime.sdkruntimepybind.SdkExecutionPlatform, *, msg_level: str = 'WARNING') -> None",
+                "__init__(self: cerebras.sdk.runtime.sdkruntimepybind.SdkLayout, path: str, *, msg_level: str = 'WARNING') -> None",
+                "__init__(self: cerebras.sdk.runtime.sdkruntimepybind.SdkLayout, target: cerebras.sdk.runtime.sdkruntimepybind.SdkTarget, *, msg_level: str = 'WARNING') -> None"
+              ]
+            },
             "compile": {
               "kind": "callable",
               "signatures": [
@@ -523,6 +601,14 @@
           ],
           "doc": null,
           "members": {
+            "__init__": {
+              "kind": "callable",
+              "signatures": [
+                "__init__(self: cerebras.sdk.runtime.sdkruntimepybind.SdkRuntime, arg0: str, **kwargs) -> None",
+                "__init__(self: cerebras.sdk.runtime.sdkruntimepybind.SdkRuntime, arg0: str, arg1: cerebras.sdk.runtime.sdkruntimepybind.SdkExecutionPlatform, **kwargs) -> None",
+                "__init__(self: cerebras.sdk.runtime.sdkruntimepybind.SdkRuntime, arg0: cerebras.sdk.runtime.sdkruntimepybind.SdkCompileArtifacts, arg1: cerebras.sdk.runtime.sdkruntimepybind.SdkExecutionPlatform, **kwargs) -> None"
+              ]
+            },
             "call": {
               "kind": "callable",
               "signatures": [
@@ -682,6 +768,12 @@
               "name": "WSE3",
               "value": 1
             },
+            "__init__": {
+              "kind": "callable",
+              "signatures": [
+                "__init__(self: cerebras.sdk.runtime.sdkruntimepybind.SdkTarget, value: int) -> None"
+              ]
+            },
             "name": {
               "kind": "property",
               "doc": "name(self: handle) -> str\n"
@@ -704,7 +796,14 @@
             "pybind11_object"
           ],
           "doc": null,
-          "members": {},
+          "members": {
+            "__init__": {
+              "kind": "callable",
+              "signatures": [
+                "__init__(self: cerebras.sdk.runtime.sdkruntimepybind.SimfabConfig, num_threads: int = 16, suppress_trace: bool = False, dump_core: bool = False, core_path: Optional[std::filesystem::__cxx11::path] = None) -> None"
+              ]
+            }
+          },
           "kind": "class"
         },
         "Task": {
@@ -714,7 +813,13 @@
             "pybind11_object"
           ],
           "doc": null,
-          "members": {},
+          "members": {
+            "__init__": {
+              "kind": "callable",
+              "python_signature": "(self, /, *args, **kwargs)",
+              "doc": "Initialize self.  See help(type(self)) for accurate signature."
+            }
+          },
           "kind": "class"
         }
       },
@@ -728,13 +833,13 @@
         "get_platform": {
           "kind": "callable",
           "signatures": [
-            "get_platform(addr: Optional[str] = None, config: cerebras.sdk.runtime.sdkruntimepybind.SimfabConfig = <cerebras.sdk.runtime.sdkruntimepybind.SimfabConfig object at 0x7ffffdbeabf0>, target: cerebras.sdk.runtime.sdkruntimepybind.SdkTarget = <SdkTarget.WSE3: 1>) -> cerebras.sdk.runtime.sdkruntimepybind.SdkExecutionPlatform"
+            "get_platform(addr: Optional[str] = None, config: cerebras.sdk.runtime.sdkruntimepybind.SimfabConfig = <cerebras.sdk.runtime.sdkruntimepybind.SimfabConfig object at 0x7ffffdbeac30>, target: cerebras.sdk.runtime.sdkruntimepybind.SdkTarget = <SdkTarget.WSE3: 1>) -> cerebras.sdk.runtime.sdkruntimepybind.SdkExecutionPlatform"
           ]
         },
         "get_simulator": {
           "kind": "callable",
           "signatures": [
-            "get_simulator(config: cerebras.sdk.runtime.sdkruntimepybind.SimfabConfig = <cerebras.sdk.runtime.sdkruntimepybind.SimfabConfig object at 0x7ffffdbea670>, target: cerebras.sdk.runtime.sdkruntimepybind.SdkTarget = <SdkTarget.WSE3: 1>) -> cerebras.sdk.runtime.sdkruntimepybind.SdkExecutionPlatform"
+            "get_simulator(config: cerebras.sdk.runtime.sdkruntimepybind.SimfabConfig = <cerebras.sdk.runtime.sdkruntimepybind.SimfabConfig object at 0x7ffffdbea6b0>, target: cerebras.sdk.runtime.sdkruntimepybind.SdkTarget = <SdkTarget.WSE3: 1>) -> cerebras.sdk.runtime.sdkruntimepybind.SdkExecutionPlatform"
           ]
         },
         "get_system": {
@@ -849,6 +954,12 @@
           ],
           "doc": null,
           "members": {
+            "__init__": {
+              "kind": "callable",
+              "signatures": [
+                "__init__(self: cerebras.sdk.runtime.routepybind.CslIoRouting, arg0: cerebras::Point<unsigned int>, arg1: cerebras::Point<unsigned int>, arg2: int, arg3: cerebras::AbstractRectangle<unsigned int>) -> None"
+              ]
+            },
             "has_receiver_route": {
               "kind": "callable",
               "signatures": [
@@ -928,6 +1039,12 @@
           ],
           "doc": null,
           "members": {
+            "__init__": {
+              "kind": "callable",
+              "signatures": [
+                "__init__(self: cerebras.sdk.debug.lib.symbol.csldebugpybind.CSLELFSymbol, arg0: str) -> None"
+              ]
+            },
             "dimensions": {
               "kind": "callable",
               "signatures": [
@@ -959,6 +1076,12 @@
           ],
           "doc": null,
           "members": {
+            "__init__": {
+              "kind": "callable",
+              "signatures": [
+                "__init__(self: cerebras.sdk.debug.lib.symbol.csldebugpybind.CSLSymbolTable, dim: cerebras::AbstractRectangle<unsigned int>, debug_level: int = 0) -> None"
+              ]
+            },
             "dimensions": {
               "kind": "callable",
               "signatures": [
@@ -1024,6 +1147,12 @@
           ],
           "doc": null,
           "members": {
+            "__init__": {
+              "kind": "callable",
+              "signatures": [
+                "__init__(self: cerebras.sdk.debug.lib.symbol.csldebugpybind.SimfabInstructionTraceCtf, arg0: str, arg1: str) -> None"
+              ]
+            },
             "get_fabric_dim": {
               "kind": "callable",
               "signatures": [
@@ -1077,6 +1206,12 @@
           ],
           "doc": null,
           "members": {
+            "__init__": {
+              "kind": "callable",
+              "signatures": [
+                "__init__(self: cerebras.sdk.debug.lib.symbol.csldebugpybind.SimfabWaveletTraceCtf, arg0: str) -> None"
+              ]
+            },
             "get_wavelet_trace_at": {
               "kind": "callable",
               "signatures": [
@@ -1115,6 +1250,12 @@
           ],
           "doc": null,
           "members": {
+            "__init__": {
+              "kind": "callable",
+              "signatures": [
+                "__init__(self: cerebras.sdk.debug.lib.instruction_trace.sdkinstrtracepybind.Instruction) -> None"
+              ]
+            },
             "id": {
               "kind": "property",
               "doc": ""
@@ -1152,6 +1293,11 @@
           ],
           "doc": null,
           "members": {
+            "__init__": {
+              "kind": "callable",
+              "python_signature": "(self, /, *args, **kwargs)",
+              "doc": "Initialize self.  See help(type(self)) for accurate signature."
+            },
             "get_instructions": {
               "kind": "callable",
               "signatures": [
@@ -1199,6 +1345,11 @@
           ],
           "doc": null,
           "members": {
+            "__init__": {
+              "kind": "callable",
+              "python_signature": "(self, /, *args, **kwargs)",
+              "doc": "Initialize self.  See help(type(self)) for accurate signature."
+            },
             "get_next": {
               "kind": "callable",
               "signatures": [
@@ -1222,6 +1373,12 @@
           ],
           "doc": null,
           "members": {
+            "__init__": {
+              "kind": "callable",
+              "signatures": [
+                "__init__(self: cerebras.sdk.debug.lib.instruction_trace.sdkinstrtracepybind.Sequence) -> None"
+              ]
+            },
             "cycle": {
               "kind": "property",
               "doc": ""
@@ -1249,6 +1406,12 @@
           ],
           "doc": null,
           "members": {
+            "__init__": {
+              "kind": "callable",
+              "signatures": [
+                "__init__(self: cerebras.sdk.debug.lib.instruction_trace.sdkinstrtracepybind.SimfabInstructionTrace, arg0: str, arg1: str) -> None"
+              ]
+            },
             "get_instructions": {
               "kind": "callable",
               "signatures": [
@@ -1296,6 +1459,12 @@
           ],
           "doc": null,
           "members": {
+            "__init__": {
+              "kind": "callable",
+              "signatures": [
+                "__init__(self: cerebras.sdk.debug.lib.instruction_trace.sdkinstrtracepybind.SourceLine, arg0: str, arg1: str) -> None"
+              ]
+            },
             "line": {
               "kind": "property",
               "doc": ""
@@ -1315,6 +1484,12 @@
           ],
           "doc": null,
           "members": {
+            "__init__": {
+              "kind": "callable",
+              "signatures": [
+                "__init__(self: cerebras.sdk.debug.lib.instruction_trace.sdkinstrtracepybind.Trace, arg0: numpy.ndarray[cerebras.sdk.debug.lib.instruction_trace.sdkinstrtracepybind.Instruction], arg1: numpy.ndarray[cerebras.sdk.debug.lib.instruction_trace.sdkinstrtracepybind.Sequence]) -> None"
+              ]
+            },
             "instrs": {
               "kind": "callable",
               "signatures": [
@@ -1346,6 +1521,11 @@
           ],
           "doc": null,
           "members": {
+            "__init__": {
+              "kind": "callable",
+              "python_signature": "(self, /, *args, **kwargs)",
+              "doc": "Initialize self.  See help(type(self)) for accurate signature."
+            },
             "get_next": {
               "kind": "callable",
               "signatures": [
@@ -1383,6 +1563,12 @@
               "kind": "enum_member",
               "name": "SCHRODINGER",
               "value": 4
+            },
+            "__init__": {
+              "kind": "callable",
+              "signatures": [
+                "__init__(self: cerebras.sdk.debug.lib.instruction_trace.sdkinstrtracepybind.arch_e, value: int) -> None"
+              ]
             },
             "name": {
               "kind": "property",
@@ -1432,6 +1618,12 @@
               "kind": "enum_member",
               "name": "DATA_FORMAT_XP16",
               "value": 4
+            },
+            "__init__": {
+              "kind": "callable",
+              "signatures": [
+                "__init__(self: cerebras.sdk.debug.lib.instruction_trace.sdkinstrtracepybind.data_format_t, value: int) -> None"
+              ]
             },
             "name": {
               "kind": "property",
@@ -1484,6 +1676,12 @@
               "name": "OPERAND_TYPE_SRC2",
               "value": 4
             },
+            "__init__": {
+              "kind": "callable",
+              "signatures": [
+                "__init__(self: cerebras.sdk.debug.lib.instruction_trace.sdkinstrtracepybind.operand_type_t, value: int) -> None"
+              ]
+            },
             "name": {
               "kind": "property",
               "doc": "name(self: handle) -> str\n"
@@ -1531,6 +1729,11 @@
           ],
           "doc": null,
           "members": {
+            "__init__": {
+              "kind": "callable",
+              "python_signature": "(self, /, *args, **kwargs)",
+              "doc": "Initialize self.  See help(type(self)) for accurate signature."
+            },
             "dumpcore": {
               "kind": "callable",
               "signatures": [
@@ -1554,6 +1757,11 @@
           ],
           "doc": null,
           "members": {
+            "__init__": {
+              "kind": "callable",
+              "python_signature": "(self, /, *args, **kwargs)",
+              "doc": "Initialize self.  See help(type(self)) for accurate signature."
+            },
             "dumpcore": {
               "kind": "callable",
               "signatures": [
@@ -1577,6 +1785,11 @@
           ],
           "doc": null,
           "members": {
+            "__init__": {
+              "kind": "callable",
+              "python_signature": "(self, /, *args, **kwargs)",
+              "doc": "Initialize self.  See help(type(self)) for accurate signature."
+            },
             "dumpcore": {
               "kind": "callable",
               "signatures": [
@@ -1615,6 +1828,12 @@
           ],
           "doc": null,
           "members": {
+            "__init__": {
+              "kind": "callable",
+              "signatures": [
+                "__init__(self: cerebras.sdk.debug.lib.wavelet_trace.wavelettracepybind.BackPressure) -> None"
+              ]
+            },
             "color": {
               "kind": "property",
               "doc": ""
@@ -1638,6 +1857,12 @@
           ],
           "doc": null,
           "members": {
+            "__init__": {
+              "kind": "callable",
+              "signatures": [
+                "__init__(self: cerebras.sdk.debug.lib.wavelet_trace.wavelettracepybind.BkprTimelineEntry) -> None"
+              ]
+            },
             "color": {
               "kind": "property",
               "doc": ""
@@ -1661,6 +1886,12 @@
           ],
           "doc": null,
           "members": {
+            "__init__": {
+              "kind": "callable",
+              "signatures": [
+                "__init__(self: cerebras.sdk.debug.lib.wavelet_trace.wavelettracepybind.SimfabWaveletTimeline, arg0: str) -> None"
+              ]
+            },
             "get_bkpr_timeline": {
               "kind": "callable",
               "signatures": [
@@ -1693,6 +1924,12 @@
           ],
           "doc": null,
           "members": {
+            "__init__": {
+              "kind": "callable",
+              "signatures": [
+                "__init__(self: cerebras.sdk.debug.lib.wavelet_trace.wavelettracepybind.SimfabWaveletTrace, arg0: str) -> None"
+              ]
+            },
             "get_backpressure_trace": {
               "kind": "callable",
               "signatures": [
@@ -1728,6 +1965,12 @@
           ],
           "doc": null,
           "members": {
+            "__init__": {
+              "kind": "callable",
+              "signatures": [
+                "__init__(self: cerebras.sdk.debug.lib.wavelet_trace.wavelettracepybind.Wavelet) -> None"
+              ]
+            },
             "color": {
               "kind": "property",
               "doc": ""
@@ -1767,6 +2010,12 @@
           ],
           "doc": null,
           "members": {
+            "__init__": {
+              "kind": "callable",
+              "signatures": [
+                "__init__(self: cerebras.sdk.debug.lib.wavelet_trace.wavelettracepybind.WaveletTimelineEntry) -> None"
+              ]
+            },
             "color": {
               "kind": "property",
               "doc": ""
@@ -1810,6 +2059,11 @@
           ],
           "doc": null,
           "members": {
+            "__init__": {
+              "kind": "callable",
+              "python_signature": "(self, /, *args, **kwargs)",
+              "doc": "Initialize self.  See help(type(self)) for accurate signature."
+            },
             "get_next": {
               "kind": "callable",
               "signatures": [
@@ -1833,6 +2087,11 @@
           ],
           "doc": null,
           "members": {
+            "__init__": {
+              "kind": "callable",
+              "python_signature": "(self, /, *args, **kwargs)",
+              "doc": "Initialize self.  See help(type(self)) for accurate signature."
+            },
             "get_next": {
               "kind": "callable",
               "signatures": [
@@ -1856,6 +2115,11 @@
           ],
           "doc": null,
           "members": {
+            "__init__": {
+              "kind": "callable",
+              "python_signature": "(self, /, *args, **kwargs)",
+              "doc": "Initialize self.  See help(type(self)) for accurate signature."
+            },
             "get_wavelets": {
               "kind": "callable",
               "signatures": [
@@ -1879,6 +2143,12 @@
           ],
           "doc": null,
           "members": {
+            "__init__": {
+              "kind": "callable",
+              "signatures": [
+                "__init__(self: cerebras.sdk.debug.lib.wavelet_trace.wavelettracepybind.Wavlets, arg0: numpy.ndarray[cerebras.sdk.debug.lib.wavelet_trace.wavelettracepybind.Wavelet]) -> None"
+              ]
+            },
             "get_wavelet": {
               "kind": "callable",
               "signatures": [

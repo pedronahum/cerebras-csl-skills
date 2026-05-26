@@ -152,7 +152,7 @@ def describe_attribute(name: str, obj) -> dict:
 def describe_class(cls) -> dict:
     members: dict[str, dict] = {}
     for name in sorted(dir(cls)):
-        if name.startswith("_"):
+        if name.startswith("_") and name != "__init__":
             continue
         try:
             attr = inspect.getattr_static(cls, name)
@@ -198,7 +198,7 @@ def describe_module(mod) -> dict:
     free_functions: dict[str, dict] = {}
     constants: dict[str, dict] = {}
     for name in sorted(dir(mod)):
-        if name.startswith("_"):
+        if name.startswith("_") and name != "__init__":
             continue
         try:
             attr = getattr(mod, name)
