@@ -49,31 +49,19 @@
 #include <tuple>
 #include <vector>
 
+namespace nlohmann { class json; } // forward decl for SdkCompileArtifacts ctor
+namespace pybind11 { class object; class array; } // for pybind wrapper-returning methods
+
+namespace cerebras {
+
 // Forward declarations for types referenced in signatures but whose
 // definitions never make it into the .so symbol table (templates,
-// internal headers, etc.). Documented opaquely.
-namespace cerebras {
-    template <typename T> struct Point;
-    template <typename T> struct AbstractRectangle;
-    struct IntVector;       // (x, y) pair; from das_common
-    struct IntRectangle;    // ((x0,y0),(x1,y1)) rect; from das_common
-    class  MemcpyTask;      // internal — Task holds shared_ptr<MemcpyTask>
-
-    // RECONSTRUCTED. The field SET is inferred from pybind kwargs that
-    // get splatted into this struct on every memcpy_*/call call. The
-    // field ORDER and any padding/alignment is a GUESS — do not
-    // construct directly until layout is probed against a real SIF.
-    struct MemcpyOptions {
-        bool                  streaming;    // pybind kwarg
-        /*MemcpyOrder*/ int   order;        // pybind kwarg
-        /*MemcpyDataType*/ int data_type;   // pybind kwarg
-        bool                  nonblock;     // pybind kwarg
-    };
-} // namespace cerebras
-
-namespace nlohmann { class json; } // forward decl for SdkCompileArtifacts ctor
-
-namespace cerebras {
+// internal headers, etc.).
+template <typename T> struct Point;
+template <typename T> struct AbstractRectangle;
+struct IntVector;       // (x, y) pair; from das_common
+struct IntRectangle;    // ((x0,y0),(x1,y1)) rect; from das_common
+class  MemcpyTask;      // internal — Task holds shared_ptr<MemcpyTask>
 
 enum class SdkTarget : int {
     WSE2 = 0,
@@ -88,6 +76,19 @@ enum class MemcpyDataType : int {
 enum class MemcpyOrder : int {
     ROW_MAJOR = 0,
     COL_MAJOR = 1,
+};
+
+// RECONSTRUCTED. Field SET is from pybind kwargs that get splatted
+// into this struct. Field ORDER is recovered from pybind's py::arg
+// declaration order, which is embedded contiguously in the pybind
+// .so .rodata at offsets [streaming, data_type, order, nonblock].
+// Padding/alignment is still a GUESS; do not memcpy into this until
+// layout is ABI-probed against a real SIF.
+struct MemcpyOptions {
+    bool           streaming;    // pybind kwarg #1
+    MemcpyDataType data_type;    // pybind kwarg #2
+    MemcpyOrder    order;        // pybind kwarg #3
+    bool           nonblock;     // pybind kwarg #4
 };
 
 // ---- cerebras::SimfabConfig (fields from pybind; no nm signature) ----
@@ -110,38 +111,38 @@ class SdkCompileArtifacts {
 public:
     SdkCompileArtifacts(std::string const&);
     SdkCompileArtifacts(std::string const&, nlohmann::json const&);
-    auto add_port_mapping(std::string const&);
+    cerebras::SdkCompileArtifacts add_port_mapping(std::string const&);
 };
 
 // ---- cerebras::SdkRuntime ----------------------------------------
 class SdkRuntime {
 public:
     SdkRuntime(cerebras::SdkCompileArtifacts const&, cerebras::SdkExecutionPlatform const&, std::string, bool, bool, bool, std::string, std::string);
-    auto call(std::string const&, std::vector<unsigned int> const&, cerebras::MemcpyOptions const&);
+    cerebras::SdkRuntime::Task call(std::string const&, std::vector<unsigned int> const&, cerebras::MemcpyOptions const&);
     auto check_rpc_api(std::string, std::vector<std::string>&)  /* internal — not in pybind */;
-    auto coord_logical_to_physical(int, int, int*, int*);
-    auto dump_core(std::string);
-    auto dump_elf_core(std::string);
-    auto get_id(std::string const&) const;
-    auto get_port_id(std::string const&);
-    auto is_task_done(cerebras::SdkRuntime::Task const&);
-    auto load();
-    auto memcpy_d2h(void*, unsigned short, int, int, int, int, int, cerebras::MemcpyOptions const&);
-    auto memcpy_h2d(unsigned short, void*, int, int, int, int, int, cerebras::MemcpyOptions const&);
-    auto memcpy_h2d_colbcast(unsigned short, void*, int, int, int, int, int, cerebras::MemcpyOptions const&);
-    auto memcpy_h2d_rowbcast(unsigned short, void*, int, int, int, int, int, cerebras::MemcpyOptions const&);
-    auto memcpy_h2d_stride(unsigned short, void*, int, int, int, int, int, int, int, cerebras::MemcpyOptions const&);
-    auto read_symbol(int, int, std::string const&) const;
-    auto receive(std::string const&, void*, unsigned long, bool);
-    auto receive(unsigned short, void*, unsigned long, bool);
-    auto receive_tofile(std::string const&, std::string const&, bool);
-    auto receive_tofile(unsigned short, std::string const&, bool);
-    auto report_port_infos();
-    auto run();
-    auto send(std::string const&, void const*, unsigned long, bool);
-    auto send(unsigned short, void const*, unsigned long, bool);
-    auto stop();
-    auto task_wait(cerebras::SdkRuntime::Task const&);
+    std::tuple<int, int> coord_logical_to_physical(int, int, int*, int*);
+    void dump_core(std::string);
+    void dump_elf_core(std::string);
+    std::optional<int> get_id(std::string const&) const;
+    std::optional<int> get_port_id(std::string const&);
+    bool is_task_done(cerebras::SdkRuntime::Task const&);
+    void load();
+    cerebras::SdkRuntime::Task memcpy_d2h(void*, unsigned short, int, int, int, int, int, cerebras::MemcpyOptions const&);
+    cerebras::SdkRuntime::Task memcpy_h2d(unsigned short, void*, int, int, int, int, int, cerebras::MemcpyOptions const&);
+    cerebras::SdkRuntime::Task memcpy_h2d_colbcast(unsigned short, void*, int, int, int, int, int, cerebras::MemcpyOptions const&);
+    cerebras::SdkRuntime::Task memcpy_h2d_rowbcast(unsigned short, void*, int, int, int, int, int, cerebras::MemcpyOptions const&);
+    cerebras::SdkRuntime::Task memcpy_h2d_stride(unsigned short, void*, int, int, int, int, int, int, int, cerebras::MemcpyOptions const&);
+    pybind11::object read_symbol(int x, int y, std::string const& symbol_name) const;
+    cerebras::SdkRuntime::Task receive(std::string const&, void*, unsigned long, bool);
+    cerebras::SdkRuntime::Task receive(unsigned short, void*, unsigned long, bool);
+    cerebras::SdkRuntime::Task receive_tofile(std::string const&, std::string const&, bool);
+    cerebras::SdkRuntime::Task receive_tofile(unsigned short, std::string const&, bool);
+    void report_port_infos();
+    void run();
+    cerebras::SdkRuntime::Task send(std::string const&, void const*, unsigned long, bool);
+    cerebras::SdkRuntime::Task send(unsigned short, void const*, unsigned long, bool);
+    void stop();
+    void task_wait(cerebras::SdkRuntime::Task const&);
     ~SdkRuntime();
 };
 
@@ -187,20 +188,20 @@ public:
     class PortHandle;
     class CodeRegion;
 
-    SdkLayout(cerebras::SdkExecutionPlatform const&, std::string);
-    SdkLayout(cerebras::SdkTarget const&, std::string);
-    SdkLayout(std::filesystem::path const&, std::string);
-    auto compile(std::string const&, std::vector<std::string> const&, std::string const&, bool, cerebras::SdkLayout::FP16TYPE) const;
-    auto connect(cerebras::SdkLayout::PortHandle&, cerebras::SdkLayout::PortHandle&);
-    auto create_code_region(std::string const&, std::string const&, int, int);
-    auto create_input_stream(cerebras::SdkLayout::PortHandle&, std::optional<cerebras::IntVector> const&, unsigned short);
-    auto create_input_stream_from_loc(cerebras::IntVector const&, cerebras::SdkLayout::Color const&, std::string const&);
-    auto create_output_stream(cerebras::SdkLayout::PortHandle&, std::optional<cerebras::IntVector> const&, unsigned short);
-    auto create_output_stream_from_loc(cerebras::IntVector const&, cerebras::SdkLayout::Color const&, std::string const&);
-    auto hstack(std::vector<cerebras::SdkLayout::CodeRegion> const&);
-    auto hstack(std::vector<cerebras::SdkLayout::CodeRegion> const&, cerebras::IntVector const&);
-    auto vstack(std::vector<cerebras::SdkLayout::CodeRegion> const&);
-    auto vstack(std::vector<cerebras::SdkLayout::CodeRegion> const&, cerebras::IntVector const&);
+    SdkLayout(cerebras::SdkExecutionPlatform const& platform, std::string msg_level = "WARNING");
+    SdkLayout(cerebras::SdkTarget const& platform, std::string msg_level = "WARNING");
+    SdkLayout(std::filesystem::path const& platform, std::string msg_level = "WARNING");
+    cerebras::SdkCompileArtifacts compile(std::string const& out_prefix, std::vector<std::string> const& libs = {}, std::string const& cslc_prefix = "", bool save_port_map = false, cerebras::SdkLayout::FP16TYPE f16_type = FP16TYPE::F16) const;
+    void connect(cerebras::SdkLayout::PortHandle&, cerebras::SdkLayout::PortHandle&);
+    cerebras::SdkLayout::CodeRegion create_code_region(std::string const& source, std::string const& name, int width, int height);
+    std::string create_input_stream(cerebras::SdkLayout::PortHandle& port, std::optional<cerebras::IntVector> const& io_loc = std::nullopt, unsigned short io_buffer_size = 1024);
+    std::string create_input_stream_from_loc(cerebras::IntVector const& loc, cerebras::SdkLayout::Color const& c, std::string const& prefix = "");
+    std::string create_output_stream(cerebras::SdkLayout::PortHandle& port, std::optional<cerebras::IntVector> const& io_loc = std::nullopt, unsigned short io_buffer_size = 1024);
+    std::string create_output_stream_from_loc(cerebras::IntVector const& loc, cerebras::SdkLayout::Color const& c, std::string const& prefix = "");
+    int hstack(std::vector<cerebras::SdkLayout::CodeRegion> const&);
+    int hstack(std::vector<cerebras::SdkLayout::CodeRegion> const&, cerebras::IntVector const&);
+    int vstack(std::vector<cerebras::SdkLayout::CodeRegion> const&);
+    int vstack(std::vector<cerebras::SdkLayout::CodeRegion> const&, cerebras::IntVector const&);
     ~SdkLayout();
 };
 
@@ -260,22 +261,22 @@ public:
 // ---- cerebras::SdkLayout::CodeRegion -----------------------------
 class SdkLayout::CodeRegion {
 public:
-    auto create_input_port(cerebras::SdkLayout::Color const&, cerebras::SdkLayout::Edge, std::vector<cerebras::SdkLayout::RoutingPosition> const&, unsigned long, std::string const&);
-    auto create_output_port(cerebras::SdkLayout::Color const&, cerebras::SdkLayout::Edge, std::vector<cerebras::SdkLayout::RoutingPosition> const&, unsigned long, std::string const&);
-    auto paint(cerebras::IntVector const&, cerebras::SdkLayout::Color const&, std::vector<cerebras::SdkLayout::RoutingPosition> const&);
-    auto paint_all(cerebras::SdkLayout::Color const&, std::vector<cerebras::SdkLayout::RoutingPosition> const&);
-    auto paint_all(cerebras::SdkLayout::Color const&, std::vector<cerebras::SdkLayout::RoutingPosition> const&, std::vector<cerebras::SdkLayout::EdgeRouteInfo> const&);
-    auto paint_range(cerebras::IntRectangle const&, cerebras::SdkLayout::Color const&, std::vector<cerebras::SdkLayout::RoutingPosition> const&);
-    auto place(int, int);
-    auto set_param(cerebras::IntVector const&, cerebras::SdkLayout::Color const&);
-    auto set_param(cerebras::IntVector const&, std::string const&, cerebras::SdkLayout::Color const&);
-    auto set_param(cerebras::IntVector const&, std::string const&, int);
-    auto set_param_all(cerebras::SdkLayout::Color const&);
-    auto set_param_all(std::string const&, cerebras::SdkLayout::Color const&);
-    auto set_param_all(std::string const&, int);
-    auto set_param_range(cerebras::IntRectangle const&, cerebras::SdkLayout::Color const&);
-    auto set_param_range(cerebras::IntRectangle const&, std::string const&, cerebras::SdkLayout::Color const&);
-    auto set_param_range(cerebras::IntRectangle const&, std::string const&, int);
+    cerebras::SdkLayout::PortHandle create_input_port(cerebras::SdkLayout::Color const& c, cerebras::SdkLayout::Edge edge, std::vector<cerebras::SdkLayout::RoutingPosition> const& routes, unsigned long data_size, std::string const& prefix = "");
+    cerebras::SdkLayout::PortHandle create_output_port(cerebras::SdkLayout::Color const& c, cerebras::SdkLayout::Edge edge, std::vector<cerebras::SdkLayout::RoutingPosition> const& routes, unsigned long data_size, std::string const& prefix = "");
+    void paint(cerebras::IntVector const&, cerebras::SdkLayout::Color const&, std::vector<cerebras::SdkLayout::RoutingPosition> const&);
+    void paint_all(cerebras::SdkLayout::Color const&, std::vector<cerebras::SdkLayout::RoutingPosition> const&);
+    void paint_all(cerebras::SdkLayout::Color const&, std::vector<cerebras::SdkLayout::RoutingPosition> const&, std::vector<cerebras::SdkLayout::EdgeRouteInfo> const&);
+    void paint_range(cerebras::IntRectangle const&, cerebras::SdkLayout::Color const&, std::vector<cerebras::SdkLayout::RoutingPosition> const&);
+    void place(int, int);
+    void set_param(cerebras::IntVector const&, cerebras::SdkLayout::Color const&);
+    void set_param(cerebras::IntVector const&, std::string const&, cerebras::SdkLayout::Color const&);
+    void set_param(cerebras::IntVector const&, std::string const&, int);
+    void set_param_all(cerebras::SdkLayout::Color const&);
+    void set_param_all(std::string const&, cerebras::SdkLayout::Color const&);
+    void set_param_all(std::string const&, int);
+    void set_param_range(cerebras::IntRectangle const&, cerebras::SdkLayout::Color const&);
+    void set_param_range(cerebras::IntRectangle const&, std::string const&, cerebras::SdkLayout::Color const&);
+    void set_param_range(cerebras::IntRectangle const&, std::string const&, int);
     auto set_symbol_impl(std::string const&, std::vector<unsigned short> const&, int, int, int)  /* internal — not in pybind */;
 };
 

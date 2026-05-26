@@ -312,7 +312,200 @@ def is_special(name: str, scope_last: str) -> str | None:
     return None
 
 
-def render_member(m: dict, scope: str, in_pybind: set[str]) -> str:
+# ---- Python → C++ type translation (for pybind return types) ---------------
+
+
+def _split_top(s: str, sep: str = ",") -> list[str]:
+    out, depth, last = [], 0, 0
+    for i, c in enumerate(s):
+        if c in "([<":
+            depth += 1
+        elif c in ")]>":
+            depth -= 1
+        elif c == sep and depth == 0:
+            out.append(s[last:i].strip())
+            last = i + 1
+    out.append(s[last:].strip())
+    return [p for p in out if p]
+
+
+_PY_PREFIX = "cerebras.sdk.runtime.sdkruntimepybind."
+
+
+def py_type_to_cpp(t: str) -> str:
+    t = t.strip()
+    if not t:
+        return ""
+    # Strip the Python pybind-module prefix (`cerebras.sdk.runtime.sdkruntimepybind.X` → `X`)
+    # then re-namespace common classes back into cerebras::.
+    if t.startswith(_PY_PREFIX):
+        bare = t[len(_PY_PREFIX):]
+        # The mod-level names: prefix back to cerebras::, with known nested ones routed.
+        if bare in ("Color", "Edge", "Route", "RoutingPosition", "EdgeRouteInfo",
+                    "CodeRegion", "PortHandle", "FP16TYPE"):
+            return f"cerebras::SdkLayout::{bare}"
+        if bare == "Task":
+            return "cerebras::SdkRuntime::Task"
+        return f"cerebras::{bare}"
+    # Simple scalar mappings
+    simple = {
+        "None": "void",
+        "int": "int",
+        "bool": "bool",
+        "float": "float",
+        "str": "std::string",
+        "bytes": "std::string",
+        "object": "pybind11::object",
+        "tuple": "pybind11::tuple",
+    }
+    if t in simple:
+        return simple[t]
+    if t.startswith("Optional[") and t.endswith("]"):
+        return f"std::optional<{py_type_to_cpp(t[9:-1])}>"
+    if t.startswith("List[") and t.endswith("]"):
+        return f"std::vector<{py_type_to_cpp(t[5:-1])}>"
+    if t.startswith("Tuple[") and t.endswith("]"):
+        parts = _split_top(t[6:-1])
+        return f"std::tuple<{', '.join(py_type_to_cpp(p) for p in parts)}>"
+    if t.startswith("Dict[") and t.endswith("]"):
+        parts = _split_top(t[5:-1])
+        if len(parts) == 2:
+            return f"std::map<{py_type_to_cpp(parts[0])}, {py_type_to_cpp(parts[1])}>"
+    if t.startswith("Callable["):
+        return "/*Callable*/ void*"
+    if "numpy.ndarray" in t:
+        return "pybind11::array"
+    # Already-C++ names (have :: or template syntax) — keep verbatim.
+    return t
+
+
+_ENUM_REPR_RE = re.compile(r"<([A-Za-z_][\w]*)\.([A-Za-z_][\w]*):\s*\d+>")
+
+
+def py_default_to_cpp(v: str | None) -> str | None:
+    """Translate Python default-value reprs to C++ literals.
+
+    `None`        → `std::nullopt`  (works for any std::optional<T>)
+    `True/False`  → `true/false`
+    `[]`/`{}`     → `{}`
+    `<E.X: 0>`    → `E::X`           (pybind enum repr)
+    `'foo'`       → `\"foo\"`
+    rest         → verbatim
+    """
+    if v is None:
+        return None
+    v = v.strip()
+    if v == "None":
+        return "std::nullopt"
+    if v == "True":
+        return "true"
+    if v == "False":
+        return "false"
+    if v == "[]":
+        return "{}"
+    if v == "{}":
+        return "{}"
+    # 'foo' → "foo"
+    if (v.startswith("'") and v.endswith("'")) or (v.startswith('"') and v.endswith('"')):
+        inner = v[1:-1]
+        return f'"{inner}"'
+    m = _ENUM_REPR_RE.match(v)
+    if m:
+        return f"{m.group(1)}::{m.group(2)}"
+    return v
+
+
+def parse_pybind_sig(sig: str | None) -> dict:
+    """Parse 'name(args) -> ret' into structured form.
+
+    Returns {'args': [{name, type, default}], 'ret': str|None, 'kwarg_only': bool}.
+    """
+    if not sig:
+        return {"args": [], "ret": None}
+    # Skip leading 'name('
+    m = re.match(r"^[A-Za-z_]\w*\(", sig)
+    if not m:
+        return {"args": [], "ret": None}
+    inner = sig[m.end():]
+    # Find matching ')' at depth 0
+    depth = 0
+    close = -1
+    for i, c in enumerate(inner):
+        if c in "([<":
+            depth += 1
+        elif c in ")]>":
+            if depth == 0:
+                close = i
+                break
+            depth -= 1
+    if close < 0:
+        return {"args": [], "ret": None}
+    args_part = inner[:close]
+    tail = inner[close + 1:].strip()
+    ret = None
+    if tail.startswith("->"):
+        ret = tail[2:].strip()
+    args = []
+    for raw in _split_top(args_part):
+        if not raw or raw.startswith("self:") or raw == "self":
+            continue
+        if raw.startswith("*"):
+            # *args / **kwargs — preserved as informational sentinel
+            args.append({"name": raw, "type": None, "default": None, "vararg": True})
+            continue
+        # Strip "*," sentinel that pybind sometimes emits for keyword-only.
+        # name: type[ = default]
+        default = None
+        if "=" in raw:
+            head, default = raw.split("=", 1)
+            default = default.strip()
+        else:
+            head = raw
+        if ":" in head:
+            nm, typ = head.split(":", 1)
+            args.append({"name": nm.strip(), "type": typ.strip(), "default": default, "vararg": False})
+        else:
+            args.append({"name": head.strip(), "type": None, "default": default, "vararg": False})
+    return {"args": args, "ret": ret}
+
+
+def merge_nm_with_pybind(nm_params: list[str], py_args: list[dict]) -> list[dict]:
+    """Zip nm C++ types with pybind arg metadata. Returns list of {type, name, default}.
+
+    The C++ side is the source of truth for types and arity. Pybind only
+    contributes argument NAMES and DEFAULTS for positions that line up; any
+    trailing pybind args without a matching nm position are dropped (those
+    are pybind-wrapper-only kwargs like read_symbol's `dtype`).
+
+    If pybind has fewer named positional args than nm has, the trailing nm
+    args remain unnamed.
+    """
+    # Only consider non-vararg pybind args for zipping.
+    py_named = [a for a in py_args if not a.get("vararg") and a.get("name")]
+    out = []
+    for i, cpp_t in enumerate(nm_params):
+        name = None
+        default = None
+        if i < len(py_named):
+            cand = py_named[i]
+            # Skip pybind names like 'arg0', 'arg1', ... (auto-generated)
+            if cand["name"] and not re.match(r"^arg\d+$", cand["name"]):
+                name = cand["name"]
+            default = py_default_to_cpp(cand.get("default"))
+        out.append({"type": cpp_t, "name": name, "default": default})
+    return out
+
+
+def render_param(p: dict) -> str:
+    s = p["type"]
+    if p["name"]:
+        s += f" {p['name']}"
+    if p["default"] is not None:
+        s += f" = {p['default']}"
+    return s
+
+
+def render_member(m: dict, scope: str, in_pybind: set[str], pybind_sigs: dict) -> str:
     name = m["name"]
     params = m["params"]
     const_suffix = " const" if m["const"] else ""
@@ -323,16 +516,24 @@ def render_member(m: dict, scope: str, in_pybind: set[str]) -> str:
     indent = "    "
     tag = "" if name in in_pybind or kind in ("ctor", "dtor", "operator") else "  /* internal — not in pybind */"
 
-    pretty_params = ", ".join(params)
+    # Pull pybind sig if available (for ctor we look up __init__; for ops, no).
+    sig_key = "__init__" if kind == "ctor" else name
+    parsed = parse_pybind_sig(pybind_sigs.get(sig_key))
+
+    merged = merge_nm_with_pybind(params, parsed["args"])
+    pretty = ", ".join(render_param(p) for p in merged)
+
     if kind == "ctor":
-        return f"{indent}{name}({pretty_params}){tag};"
+        return f"{indent}{name}({pretty}){tag};"
     if kind == "dtor":
-        return f"{indent}{name}({pretty_params}){tag};"
+        return f"{indent}{name}({pretty}){tag};"
     if kind == "operator":
-        # No return type recoverable from nm — write `auto` and move on.
-        return f"{indent}auto {name}({pretty_params}){const_suffix}{tag};"
-    # Regular method — return type not recoverable from nm. Use `auto`.
-    return f"{indent}auto {name}({pretty_params}){const_suffix}{tag};"
+        return f"{indent}auto {name}({pretty}){const_suffix}{tag};"
+    ret = parsed["ret"]
+    ret_cpp = py_type_to_cpp(ret) if ret else None
+    if not ret_cpp:
+        ret_cpp = "auto"
+    return f"{indent}{ret_cpp} {name}({pretty}){const_suffix}{tag};"
 
 
 def render_enum(name: str, values: dict) -> str:
@@ -399,10 +600,13 @@ def main() -> int:
     surface = load_surface()
     sym_groups = parse_symbols(SYMS_PATH)
 
-    # Pre-compute the in-pybind set per scope.
+    # Pre-compute the in-pybind set + full pybind sigs per scope.
     in_pybind_per_scope: dict[str, set[str]] = {}
+    pybind_sigs_per_scope: dict[str, dict] = {}
     for scope, py_name in SCOPE_TO_PY.items():
-        in_pybind_per_scope[scope] = set(pybind_methods(surface, py_name).keys())
+        pyb = pybind_methods(surface, py_name)
+        in_pybind_per_scope[scope] = set(pyb.keys())
+        pybind_sigs_per_scope[scope] = pyb
 
     lines: list[str] = []
     lines.append(render_provenance(surface))
@@ -417,38 +621,39 @@ def main() -> int:
     lines.append("#include <tuple>")
     lines.append("#include <vector>")
     lines.append("")
+    lines.append("namespace nlohmann { class json; } // forward decl for SdkCompileArtifacts ctor")
+    lines.append("namespace pybind11 { class object; class array; } // for pybind wrapper-returning methods")
+    lines.append("")
+    lines.append("namespace cerebras {")
+    lines.append("")
     lines.append("// Forward declarations for types referenced in signatures but whose")
     lines.append("// definitions never make it into the .so symbol table (templates,")
-    lines.append("// internal headers, etc.). Documented opaquely.")
-    lines.append("namespace cerebras {")
-    lines.append("    template <typename T> struct Point;")
-    lines.append("    template <typename T> struct AbstractRectangle;")
-    lines.append("    struct IntVector;       // (x, y) pair; from das_common")
-    lines.append("    struct IntRectangle;    // ((x0,y0),(x1,y1)) rect; from das_common")
-    lines.append("    class  MemcpyTask;      // internal — Task holds shared_ptr<MemcpyTask>")
+    lines.append("// internal headers, etc.).")
+    lines.append("template <typename T> struct Point;")
+    lines.append("template <typename T> struct AbstractRectangle;")
+    lines.append("struct IntVector;       // (x, y) pair; from das_common")
+    lines.append("struct IntRectangle;    // ((x0,y0),(x1,y1)) rect; from das_common")
+    lines.append("class  MemcpyTask;      // internal — Task holds shared_ptr<MemcpyTask>")
     lines.append("")
-    lines.append("    // RECONSTRUCTED. The field SET is inferred from pybind kwargs that")
-    lines.append("    // get splatted into this struct on every memcpy_*/call call. The")
-    lines.append("    // field ORDER and any padding/alignment is a GUESS — do not")
-    lines.append("    // construct directly until layout is probed against a real SIF.")
-    lines.append("    struct MemcpyOptions {")
-    lines.append("        bool                  streaming;    // pybind kwarg")
-    lines.append("        /*MemcpyOrder*/ int   order;        // pybind kwarg")
-    lines.append("        /*MemcpyDataType*/ int data_type;   // pybind kwarg")
-    lines.append("        bool                  nonblock;     // pybind kwarg")
-    lines.append("    };")
-    lines.append("} // namespace cerebras")
-    lines.append("")
-    lines.append("namespace nlohmann { class json; } // forward decl for SdkCompileArtifacts ctor")
-    lines.append("")
-    lines.append("namespace cerebras {")
-    lines.append("")
-    # Enums at cerebras:: scope
+    # Enums at cerebras:: scope — must come BEFORE MemcpyOptions uses them
     for ename in ("SdkTarget", "MemcpyDataType", "MemcpyOrder"):
         values = pybind_enum(surface, ename)
         if values:
             lines.append(render_enum(ename, values))
             lines.append("")
+    lines.append("// RECONSTRUCTED. Field SET is from pybind kwargs that get splatted")
+    lines.append("// into this struct. Field ORDER is recovered from pybind's py::arg")
+    lines.append("// declaration order, which is embedded contiguously in the pybind")
+    lines.append("// .so .rodata at offsets [streaming, data_type, order, nonblock].")
+    lines.append("// Padding/alignment is still a GUESS; do not memcpy into this until")
+    lines.append("// layout is ABI-probed against a real SIF.")
+    lines.append("struct MemcpyOptions {")
+    lines.append("    bool           streaming;    // pybind kwarg #1")
+    lines.append("    MemcpyDataType data_type;    // pybind kwarg #2")
+    lines.append("    MemcpyOrder    order;        // pybind kwarg #3")
+    lines.append("    bool           nonblock;     // pybind kwarg #4")
+    lines.append("};")
+    lines.append("")
 
     # Order of class blocks. We open the enclosing class, declare nested
     # classes/enums inline, then close. Nested-class member definitions go
@@ -508,9 +713,10 @@ def main() -> int:
 
         # Render members. If we have no nm-visible members, fall back to
         # pybind-visible methods as comments inside the class body.
+        pyb_sigs = pybind_sigs_per_scope.get(scope, {})
         if members:
             for m in members:
-                lines.append(render_member(m, scope, in_pyb))
+                lines.append(render_member(m, scope, in_pyb, pyb_sigs))
         else:
             lines.extend(render_pybind_fallback(scope))
         lines.append("};")
