@@ -412,7 +412,7 @@ Constructor parameters:
 | `name` (or artifacts) | Path to compile output dir, OR an `SdkCompileArtifacts` (with `SdkLayout`). |
 | `cmaddr` | `"IP:PORT"` for a real wafer. Omit/`None` for the simulator. |
 | `suppress_simfab_trace` | `True` to skip generating simfab traces (faster simulator). |
-| `simfab_numthreads` | Default 5, max 64. Higher = faster simulator on bigger fabrics. |
+| `simfab_numthreads` | Simulator thread count (max 64). Defers to the underlying `SimfabConfig.num_threads`, whose default is **16** in SDK 2.10.0. Higher = faster simulator on bigger fabrics. |
 | `msg_level` | `"DEBUG"`, `"INFO"`, `"WARNING"`, `"ERROR"`. |
 | `memcpy_required` | `False` to disable memcpy infrastructure for SdkLayout programs. |
 

@@ -67,11 +67,13 @@ shasum -a 256 "$(dirname "$(command -v cs_python)")"/sdk-cbcore-*.sif
 | Name | Values |
 |---|---|
 | `SdkTarget` | `WSE2=0`, `WSE3=1` |
-| `MemcpyDataType` | `MEMCPY_16BIT=0`, `MEMCPY_32BIT=1` |
+| `MemcpyDataType` | `MEMCPY_32BIT=0`, `MEMCPY_16BIT=1` |
 | `MemcpyOrder` | `ROW_MAJOR=0`, `COL_MAJOR=1` |
 | `Edge` | `TOP=0`, `BOTTOM=1`, `LEFT=2`, `RIGHT=3` |
-| `Route` | `NORTH=0`, `SOUTH=1`, `EAST=2`, `WEST=3`, `RAMP=4` |
-| `FP16TYPE` | `F16`, `BF16`, `CB16` |
+| `Route` | `RAMP=0`, `EAST=1`, `WEST=2`, `NORTH=3`, `SOUTH=4` |
+| `FP16TYPE` | `F16=0`, `BF16=1`, `CB16=2` |
+
+The numeric values are stable for SDK 2.10.0 but **never hardcode them** — always reference them by name. The values are listed here only so a maintainer reading a hex dump can sanity-check.
 
 Each enum member is also re-exported at module scope (so `m.WSE3` and `m.SdkTarget.WSE3` are the same value).
 
@@ -81,10 +83,10 @@ Each enum member is also re-exported at module scope (so `m.WSE3` and `m.SdkTarg
 |---|---|
 | `get_platform` | `get_platform(addr: Optional[str] = None, config: SimfabConfig = SimfabConfig(), target: SdkTarget = SdkTarget.WSE3) -> SdkExecutionPlatform` |
 | `get_simulator` | `get_simulator(config: SimfabConfig = ..., target: SdkTarget = SdkTarget.WSE3) -> SdkExecutionPlatform` |
-| `get_system` | `get_system(addr: str, target: SdkTarget = SdkTarget.WSE3) -> SdkExecutionPlatform` |
+| `get_system` | `get_system(addr: str) -> SdkExecutionPlatform` |
 | `get_edge_routing` | Computes a standard `[RoutingPosition]` list for a given edge + direction. |
 
-Note the **default target is WSE3**. WSE2 has to be selected explicitly.
+Note the **default target is WSE3**. WSE2 has to be selected explicitly via `get_platform(target=SdkTarget.WSE2)` or `get_simulator(target=SdkTarget.WSE2)`. `get_system` does not accept a target — the real CS hardware reports its own generation.
 
 ## Lifecycle
 

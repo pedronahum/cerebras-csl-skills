@@ -26,7 +26,9 @@ Authoritative reference: <https://sdk.cerebras.net/csl/language_index>. This ski
 | **Microthreads** (WSE-3 microthread IDs, blocking/unblocking, rotating tasks, queue handlers) | [SKILL-MICROTHREADS.md](SKILL-MICROTHREADS.md) |
 | **Routes & fabric** (colors, rectangles, directions, color swapping, CE injection) | [SKILL-ROUTES.md](SKILL-ROUTES.md) |
 | **Host↔device** (memcpy infrastructure, SdkRuntime, `@export_name`/`@export_symbol`, RPC) | [SKILL-HOST-DEVICE.md](SKILL-HOST-DEVICE.md) |
-| **SDK runtime reference** (pinned per-class / per-method reference for the Python + C++ host API; pinned to SDK 2.10.0) | [SKILL-SDKRUNTIME.md](SKILL-SDKRUNTIME.md) |
+| **SDK runtime overview** (pinned per-class / per-method reference for the Python + C++ host API; pinned to SDK 2.10.0) | [SKILL-SDKRUNTIME.md](SKILL-SDKRUNTIME.md) |
+| **SDK runtime API** (every `SdkRuntime` method, every overload, every kwarg, with C++ cross-references) | [SKILL-SDKRUNTIME-API.md](SKILL-SDKRUNTIME-API.md) |
+| **SdkLayout / regions / streams** (`SdkLayout`, `CodeRegion`, ports, routes, `paint`, `compile`) | [SKILL-SDKLAYOUT.md](SKILL-SDKLAYOUT.md) |
 | **Standard library** (`<math>`, `<debug>`, `<simprint>`, `<collectives_2d>`, `<dsd_ops>`, `<random>`, `<string>`, `<time>`, `<timer>`, `<tile_config>`, `<types>`, `<kernels>`, …) | [SKILL-LIBRARIES.md](SKILL-LIBRARIES.md) |
 | **Builtins reference** (`@activate`, `@allocate_fifo`, `@bind_*`, `@get_dsd`, `@load_to_dsr`, `@map`, RPC builtins, DSD-op builtins) | [SKILL-BUILTINS.md](SKILL-BUILTINS.md) |
 | **SIMD mode** (appendix) | [SKILL-SIMD.md](SKILL-SIMD.md) |
