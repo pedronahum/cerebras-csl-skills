@@ -92,20 +92,28 @@ def split_pybind_doc(doc: str | None) -> tuple[list[str], str | None]:
             break
 
     if overload_marker >= 0:
+        # Pybind11 sometimes interleaves descriptive prose between numbered
+        # overload signatures. Scan to the end of the docstring and collect
+        # every numbered-signature line, treating non-numbered lines as
+        # either blank separators or per-overload prose (we drop the prose).
         i = overload_marker + 1
+        body_lines: list[str] = []
         while i < len(lines):
-            line = lines[i].strip()
-            m = re.match(r"^\d+\.\s+(.*)", line)
+            line = lines[i]
+            stripped = line.strip()
+            m = re.match(r"^\d+\.\s+(.*)", stripped)
             if m:
                 sigs.append(m.group(1).strip())
-                i += 1
-                continue
-            if line == "":
-                i += 1
-                continue
-            # First non-blank, non-numbered line after the overload block ends it.
-            break
-        body_start = i
+            else:
+                body_lines.append(line)
+            i += 1
+        # Compact body: drop leading/trailing blank lines.
+        while body_lines and not body_lines[0].strip():
+            body_lines.pop(0)
+        while body_lines and not body_lines[-1].strip():
+            body_lines.pop()
+        body = "\n".join(body_lines).strip() or None
+        return sigs, body
     else:
         first = lines[0].strip()
         if _SIG_RE.match(first):

@@ -7,7 +7,7 @@
     "sif_filename": "sdk-cbcore-2.10.0-sdk-202604101435-4586d3f0d8.sif",
     "sif_sha256": "4700f1f4544e0e30b7751840394c517b18ceaf6f35847790ac0bf46f0bfa6b6a",
     "sif_sha256_source": "/Users/pedro/programming/cerebras/sdk/sha256sum.txt",
-    "extracted_at": "2026-05-26T13:40:10Z",
+    "extracted_at": "2026-05-26T13:49:02Z",
     "python": "3.11.8",
     "platform": "Linux-6.8.0-90-generic-x86_64-with-glibc2.38"
   },
@@ -32,9 +32,10 @@
             "color": {
               "kind": "callable",
               "signatures": [
-                "color(self: cerebras.sdk.runtime.sdkruntimepybind.CodeRegion, arg0: str) -> cerebras.sdk.runtime.sdkruntimepybind.Color"
+                "color(self: cerebras.sdk.runtime.sdkruntimepybind.CodeRegion, arg0: str) -> cerebras.sdk.runtime.sdkruntimepybind.Color",
+                "color(self: cerebras.sdk.runtime.sdkruntimepybind.CodeRegion, arg0: str, arg1: int) -> cerebras.sdk.runtime.sdkruntimepybind.Color"
               ],
-              "doc": "Create and return a new color that is scoped within a region.\n\n2. color(self: cerebras.sdk.runtime.sdkruntimepybind.CodeRegion, arg0: str, arg1: int) -> cerebras.sdk.runtime.sdkruntimepybind.Color\n\nCreate and return a new color (with a value) that is scoped within a region."
+              "doc": "Create and return a new color that is scoped within a region.\n\n\nCreate and return a new color (with a value) that is scoped within a region."
             },
             "create_input_port": {
               "kind": "callable",
@@ -60,9 +61,10 @@
             "paint_all": {
               "kind": "callable",
               "signatures": [
-                "paint_all(self: cerebras.sdk.runtime.sdkruntimepybind.CodeRegion, arg0: cerebras.sdk.runtime.sdkruntimepybind.Color, arg1: List[cerebras.sdk.runtime.sdkruntimepybind.RoutingPosition]) -> None"
+                "paint_all(self: cerebras.sdk.runtime.sdkruntimepybind.CodeRegion, arg0: cerebras.sdk.runtime.sdkruntimepybind.Color, arg1: List[cerebras.sdk.runtime.sdkruntimepybind.RoutingPosition]) -> None",
+                "paint_all(self: cerebras.sdk.runtime.sdkruntimepybind.CodeRegion, arg0: cerebras.sdk.runtime.sdkruntimepybind.Color, arg1: List[cerebras.sdk.runtime.sdkruntimepybind.RoutingPosition], arg2: List[cerebras.sdk.runtime.sdkruntimepybind.EdgeRouteInfo]) -> None"
               ],
-              "doc": "Set the routing for a given color on all PEs of the region.\n\n2. paint_all(self: cerebras.sdk.runtime.sdkruntimepybind.CodeRegion, arg0: cerebras.sdk.runtime.sdkruntimepybind.Color, arg1: List[cerebras.sdk.runtime.sdkruntimepybind.RoutingPosition], arg2: List[cerebras.sdk.runtime.sdkruntimepybind.EdgeRouteInfo]) -> None\n\nSet the routing for a given color on all PEs of the region with special routing on one or all region edges."
+              "doc": "Set the routing for a given color on all PEs of the region.\n\n\nSet the routing for a given color on all PEs of the region with special routing on one or all region edges."
             },
             "paint_range": {
               "kind": "callable",
@@ -81,23 +83,29 @@
             "set_param": {
               "kind": "callable",
               "signatures": [
-                "set_param(self: cerebras.sdk.runtime.sdkruntimepybind.CodeRegion, arg0: cerebras::IntVector, arg1: str, arg2: int) -> None"
+                "set_param(self: cerebras.sdk.runtime.sdkruntimepybind.CodeRegion, arg0: cerebras::IntVector, arg1: str, arg2: int) -> None",
+                "set_param(self: cerebras.sdk.runtime.sdkruntimepybind.CodeRegion, arg0: cerebras::IntVector, arg1: cerebras.sdk.runtime.sdkruntimepybind.Color) -> None",
+                "set_param(self: cerebras.sdk.runtime.sdkruntimepybind.CodeRegion, arg0: cerebras::IntVector, arg1: str, arg2: cerebras.sdk.runtime.sdkruntimepybind.Color) -> None"
               ],
-              "doc": "Set an unsigned integer parameter on a single PE within this region.\n\n2. set_param(self: cerebras.sdk.runtime.sdkruntimepybind.CodeRegion, arg0: cerebras::IntVector, arg1: cerebras.sdk.runtime.sdkruntimepybind.Color) -> None\n\nSet a color parameter on a single PE within this region.\n\n3. set_param(self: cerebras.sdk.runtime.sdkruntimepybind.CodeRegion, arg0: cerebras::IntVector, arg1: str, arg2: cerebras.sdk.runtime.sdkruntimepybind.Color) -> None\n\nSet the value of parameter 'name' on a single PE within this region with the value of color 'value'."
+              "doc": "Set an unsigned integer parameter on a single PE within this region.\n\n\nSet a color parameter on a single PE within this region.\n\n\nSet the value of parameter 'name' on a single PE within this region with the value of color 'value'."
             },
             "set_param_all": {
               "kind": "callable",
               "signatures": [
-                "set_param_all(self: cerebras.sdk.runtime.sdkruntimepybind.CodeRegion, arg0: str, arg1: int) -> None"
+                "set_param_all(self: cerebras.sdk.runtime.sdkruntimepybind.CodeRegion, arg0: str, arg1: int) -> None",
+                "set_param_all(self: cerebras.sdk.runtime.sdkruntimepybind.CodeRegion, arg0: cerebras.sdk.runtime.sdkruntimepybind.Color) -> None",
+                "set_param_all(self: cerebras.sdk.runtime.sdkruntimepybind.CodeRegion, arg0: str, arg1: cerebras.sdk.runtime.sdkruntimepybind.Color) -> None"
               ],
-              "doc": "Set an unsigned integer parameter on all PEs of the region.\n\n2. set_param_all(self: cerebras.sdk.runtime.sdkruntimepybind.CodeRegion, arg0: cerebras.sdk.runtime.sdkruntimepybind.Color) -> None\n\nSet a color parameter on all PEs of the region.\n\n3. set_param_all(self: cerebras.sdk.runtime.sdkruntimepybind.CodeRegion, arg0: str, arg1: cerebras.sdk.runtime.sdkruntimepybind.Color) -> None\n\nSet the value of parameter 'name' on all PEs of the region with the value of color 'value'."
+              "doc": "Set an unsigned integer parameter on all PEs of the region.\n\n\nSet a color parameter on all PEs of the region.\n\n\nSet the value of parameter 'name' on all PEs of the region with the value of color 'value'."
             },
             "set_param_range": {
               "kind": "callable",
               "signatures": [
-                "set_param_range(self: cerebras.sdk.runtime.sdkruntimepybind.CodeRegion, arg0: cerebras::IntRectangle, arg1: str, arg2: int) -> None"
+                "set_param_range(self: cerebras.sdk.runtime.sdkruntimepybind.CodeRegion, arg0: cerebras::IntRectangle, arg1: str, arg2: int) -> None",
+                "set_param_range(self: cerebras.sdk.runtime.sdkruntimepybind.CodeRegion, arg0: cerebras::IntRectangle, arg1: cerebras.sdk.runtime.sdkruntimepybind.Color) -> None",
+                "set_param_range(self: cerebras.sdk.runtime.sdkruntimepybind.CodeRegion, arg0: cerebras::IntRectangle, arg1: str, arg2: cerebras.sdk.runtime.sdkruntimepybind.Color) -> None"
               ],
-              "doc": "Set an unsigned integer parameter on a contiguous rectangular subset of PEs within this region.\n\n2. set_param_range(self: cerebras.sdk.runtime.sdkruntimepybind.CodeRegion, arg0: cerebras::IntRectangle, arg1: cerebras.sdk.runtime.sdkruntimepybind.Color) -> None\n\nSet a color parameter on a contiguous rectangular subset of PEs within this region.\n\n3. set_param_range(self: cerebras.sdk.runtime.sdkruntimepybind.CodeRegion, arg0: cerebras::IntRectangle, arg1: str, arg2: cerebras.sdk.runtime.sdkruntimepybind.Color) -> None\n\nSet the value of parameter 'name' on a contiguous rectangular subset of PEs within this region with the value of color 'value'."
+              "doc": "Set an unsigned integer parameter on a contiguous rectangular subset of PEs within this region.\n\n\nSet a color parameter on a contiguous rectangular subset of PEs within this region.\n\n\nSet the value of parameter 'name' on a contiguous rectangular subset of PEs within this region with the value of color 'value'."
             },
             "set_symbol_all": {
               "kind": "callable",
@@ -579,16 +587,18 @@
             "hstack": {
               "kind": "callable",
               "signatures": [
-                "hstack(self: cerebras.sdk.runtime.sdkruntimepybind.SdkLayout, arg0: List[cerebras::SdkLayout::CodeRegion]) -> int"
+                "hstack(self: cerebras.sdk.runtime.sdkruntimepybind.SdkLayout, arg0: List[cerebras::SdkLayout::CodeRegion]) -> int",
+                "hstack(self: cerebras.sdk.runtime.sdkruntimepybind.SdkLayout, arg0: List[cerebras::SdkLayout::CodeRegion], arg1: cerebras::IntVector) -> int"
               ],
-              "doc": "Place 'children' horizontally and relative to the first child in the given list.\n\n2. hstack(self: cerebras.sdk.runtime.sdkruntimepybind.SdkLayout, arg0: List[cerebras::SdkLayout::CodeRegion], arg1: cerebras::IntVector) -> int\n\nPlace 'children' horizontally and relative to a specific origin point."
+              "doc": "Place 'children' horizontally and relative to the first child in the given list.\n\n\nPlace 'children' horizontally and relative to a specific origin point."
             },
             "vstack": {
               "kind": "callable",
               "signatures": [
-                "vstack(self: cerebras.sdk.runtime.sdkruntimepybind.SdkLayout, arg0: List[cerebras::SdkLayout::CodeRegion]) -> int"
+                "vstack(self: cerebras.sdk.runtime.sdkruntimepybind.SdkLayout, arg0: List[cerebras::SdkLayout::CodeRegion]) -> int",
+                "vstack(self: cerebras.sdk.runtime.sdkruntimepybind.SdkLayout, arg0: List[cerebras::SdkLayout::CodeRegion], arg1: cerebras::IntVector) -> int"
               ],
-              "doc": "Place 'children' vertically and relative to the first child in the given list.\n\n2. vstack(self: cerebras.sdk.runtime.sdkruntimepybind.SdkLayout, arg0: List[cerebras::SdkLayout::CodeRegion], arg1: cerebras::IntVector) -> int\n\nPlace 'children' vertically and relative to a specific origin point."
+              "doc": "Place 'children' vertically and relative to the first child in the given list.\n\n\nPlace 'children' vertically and relative to a specific origin point."
             }
           },
           "kind": "class"
@@ -833,13 +843,13 @@
         "get_platform": {
           "kind": "callable",
           "signatures": [
-            "get_platform(addr: Optional[str] = None, config: cerebras.sdk.runtime.sdkruntimepybind.SimfabConfig = <cerebras.sdk.runtime.sdkruntimepybind.SimfabConfig object at 0x7ffffdbeac30>, target: cerebras.sdk.runtime.sdkruntimepybind.SdkTarget = <SdkTarget.WSE3: 1>) -> cerebras.sdk.runtime.sdkruntimepybind.SdkExecutionPlatform"
+            "get_platform(addr: Optional[str] = None, config: cerebras.sdk.runtime.sdkruntimepybind.SimfabConfig = <cerebras.sdk.runtime.sdkruntimepybind.SimfabConfig object at 0x7ffffdbeab70>, target: cerebras.sdk.runtime.sdkruntimepybind.SdkTarget = <SdkTarget.WSE3: 1>) -> cerebras.sdk.runtime.sdkruntimepybind.SdkExecutionPlatform"
           ]
         },
         "get_simulator": {
           "kind": "callable",
           "signatures": [
-            "get_simulator(config: cerebras.sdk.runtime.sdkruntimepybind.SimfabConfig = <cerebras.sdk.runtime.sdkruntimepybind.SimfabConfig object at 0x7ffffdbea6b0>, target: cerebras.sdk.runtime.sdkruntimepybind.SdkTarget = <SdkTarget.WSE3: 1>) -> cerebras.sdk.runtime.sdkruntimepybind.SdkExecutionPlatform"
+            "get_simulator(config: cerebras.sdk.runtime.sdkruntimepybind.SimfabConfig = <cerebras.sdk.runtime.sdkruntimepybind.SimfabConfig object at 0x7ffffdbea5b0>, target: cerebras.sdk.runtime.sdkruntimepybind.SdkTarget = <SdkTarget.WSE3: 1>) -> cerebras.sdk.runtime.sdkruntimepybind.SdkExecutionPlatform"
           ]
         },
         "get_system": {
