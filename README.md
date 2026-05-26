@@ -2,7 +2,7 @@
 
 Claude Code skills for developing in **CSL** (Cerebras Software Language) — the kernel language for the Cerebras Wafer-Scale Engine.
 
-A complete domain-by-domain reference set: one router skill plus 14 deep-dives covering the surface syntax, type system, comptime, generics, the DSD/DSR data-movement abstractions, the event-driven task model, host↔device transfer, fabric routing, the full builtin and standard-library catalogues, and the SIMD model. Each file ships with YAML frontmatter so Claude Code can trigger-match on the topic at hand.
+A complete domain-by-domain reference set: one router skill, fifteen CSL-language deep-dives (syntax, type system, comptime, generics, DSD/DSR data movement, the event-driven task model, fabric routing, the full builtin and standard-library catalogues, the SIMD model), and an eight-file host-side bundle that documents the Python + C++ SdkRuntime / SdkLayout / debug / routing surface — pinned to a specific SDK build with provenance dumps under `_generated/`. Each file ships with YAML frontmatter so Claude Code can trigger-match on the topic at hand.
 
 Modeled after [`avsm/ocaml-claude-marketplace`'s oxcaml skills](https://github.com/avsm/ocaml-claude-marketplace/tree/main/plugins/ocaml-dev/skills/oxcaml).
 
@@ -18,7 +18,7 @@ Symlinks this repo into `~/.claude/skills/csl/` so edits here apply immediately.
 
 `SKILL.md` is the entry point — frontmatter + a cheat sheet covering numeric types, vars/ptrs/fns, control flow, anonymous struct literals, comptime, imports, the `layout` block, DSDs, DSD ops, and tasks, plus common patterns and gotchas. Cheat-sheet syntax is verified against the bundled `gemv-01/02/05` tutorials.
 
-The 14 specialized files:
+### CSL language reference (15 files)
 
 | File | Owns |
 |---|---|
@@ -34,10 +34,24 @@ The 14 specialized files:
 | [SKILL-TASKS.md](SKILL-TASKS.md) | Data / local / control tasks and their triggers; ID types (`data_task_id`, `local_task_id`, `control_task_id`); binding builtins; activation, `@block` / `@unblock`; the WSE-3 `@initialize_queue` requirement; reserved task ID slots for memcpy and runtime; DSD-op `.activate` / `.unblock` completion hooks. |
 | [SKILL-MICROTHREADS.md](SKILL-MICROTHREADS.md) | WSE-3 explicit microthreads (`@get_ut_id`, `.ut_id`); how they differ from WSE-2's implicit queue-based model; default-resolution priority hierarchy; many-to-many queue↔microthread relationship; the related WSE-3 dispatch builtins (`@queue_flush`, `@set_empty_queue_handler`, `@set_control_task_table`, `@bind_rotating_tasks`). |
 | [SKILL-ROUTES.md](SKILL-ROUTES.md) | Colors as logical channels; per-tile routes (`NORTH`/`SOUTH`/`EAST`/`WEST`/`RAMP`); RX/TX direction control; switch tables, `advance_switch`, `control_transform`; color swapping (XOR-paired colors); CE Injection (WSE-2 only); the host-side `SdkLayout` counterparts (`Color`, `Edge`, `Route`, `RoutingPosition`). |
-| [SKILL-HOST-DEVICE.md](SKILL-HOST-DEVICE.md) | Three integration models: classic memcpy (bulk + RPC), streaming memcpy (data through fabric colors), and `SdkLayout` (Python-driven topology with explicit ports). Full `SdkRuntime` API reference: `memcpy_h2d` / `memcpy_d2h` with every argument, broadcast variants, `launch` for RPC, `send` / `receive` for streams, `nonblock` + task handles, debug helpers. The `<memcpy/get_params>` / `<memcpy/memcpy>` PE-side library, the `unblock_cmd_stream` discipline. |
 | [SKILL-LIBRARIES.md](SKILL-LIBRARIES.md) | Survey of every bundled `<...>` library: `complex`, `control`, `data_utils`, `debug`, `directions`, `dsd_ops`, `empty`, `layout`, `malloc`, `math`, `random`, `simprint`, `string`, `tile_config` (with its color/exception/filter/queue-status/priority/switch/teardown submodules), `time`, `timer`, `types`, `kernels/fft`, `kernels/tally`, `collectives_2d`, plus the WSE-3-only `message_passing`. |
 | [SKILL-BUILTINS.md](SKILL-BUILTINS.md) | Catalogue of every `@`-prefixed builtin, organised by category — type/comptime, comptime utilities, strings, array introspection, struct introspection, DSD construction/mutation, integer/bitwise DSD ops, the full f16/f32 floating-point DSD-op families, tasks & events, task ID constructors, colors & queues, configuration & layout, random, ranges, higher-order (`@map`), symbol exports / RPC, plus the WSE-3-only set. |
 | [SKILL-SIMD.md](SKILL-SIMD.md) | Automatic memory SIMD (8-bank 6-KiB-each layout, per-cycle 2-read+1-write capacity, the `bank_1 % 4 != bank_2 % 4` parallel-read rule, alignment recommendations, stride-impact on width, per-arch ceilings); explicit fabric SIMD via `.simd_mode` on `fabout_dsd`; WSE-2-only SIMD on FIFOs. |
+
+### Host-side / SDK runtime reference (8 files, pinned to SDK 2.10.0)
+
+Reference for the Python + C++ host API — the side that loads the compiled binary, drives memcpy / RPC / streams, and inspects state. Pinned to a specific SDK build (sha256 in `_generated/SDK-VERSION.txt`) so signatures don't drift silently. Regenerate the pinned dump with `scripts/refresh_sdk_surface.sh` whenever the SIF changes; diffs in `_generated/` make drift auditable.
+
+| File | Owns |
+|---|---|
+| [SKILL-HOST-DEVICE.md](SKILL-HOST-DEVICE.md) | The narrative side. Three integration models: classic memcpy (bulk + RPC), streaming memcpy (data through fabric colors), and `SdkLayout` (Python-driven topology with explicit ports). The `<memcpy/get_params>` / `<memcpy/memcpy>` PE-side library, the `unblock_cmd_stream` discipline, when to reach for which model. |
+| [SKILL-SDKRUNTIME.md](SKILL-SDKRUNTIME.md) | Entry-point reference. API surface map across all 7 captured pybind / Python modules; lifecycle (`load` → `run` → memcpy/launch/send → `stop`); the `SdkRuntime` / `SdkLayout` / `SimfabConfig` constructor overloads; two worked minimal examples (memcpy + SdkLayout); the C++ ↔ Python cross-reference patterns (the hidden `MemcpyOptions` kwarg splat, `unsigned short` as the universal ID type). |
+| [SKILL-SDKRUNTIME-API.md](SKILL-SDKRUNTIME-API.md) | Per-method `SdkRuntime` reference. Every callable with its Python signature(s), demangled C++ signature, kwargs, return type, failure modes, and a minimal example. Method groups: lifecycle, bulk memcpy, broadcast/stride memcpy, RPC (`launch` / `call`), streams (`send` / `receive` / `receive_tofile`), name resolution (`get_id` / `get_port_id`), task handles, debug. Ends with a flat symptom → cause failure-mode catalogue. |
+| [SKILL-SDKLAYOUT.md](SKILL-SDKLAYOUT.md) | `SdkLayout`, `CodeRegion`, ports, routes, streams. Layout-flow diagram; `create_code_region` / `connect` / `create_input_stream` / `compile` per-method coverage; routing via `paint` / `paint_all` / `paint_range`; parameter binding via `set_param` / `set_param_all` (incl. the `Color`-kwarg overloads); `set_symbol_all` for bulk init; the `Color` / `RoutingPosition` / `Edge` / `Route` topology types. Worked end-to-end example (host stream → 2×1 region → host stream). |
+| [SKILL-SDKRUNTIME-TYPES.md](SKILL-SDKRUNTIME-TYPES.md) | Value types and enums. `Task` (opaque handle semantics + per-runtime arena rule), `SimfabConfig` (the four kwargs incl. the real `num_threads=16` default), `SdkExecutionPlatform` (`is_simulation` / `is_system`), `SdkCompileArtifacts` (`(path)` constructor + `add_port_mapping`), every enum (`SdkTarget`, `MemcpyDataType`, `MemcpyOrder`, `Edge`, `Route`, `FP16TYPE`) with numeric values for hex-dump cross-checking and explicit "never hardcode by value" rule. |
+| [SKILL-SDKRUNTIME-DEBUG.md](SKILL-SDKRUNTIME-DEBUG.md) | Both halves of the debug surface. Live: `dump_core` (and its `SimfabConfig(dump_core=True)` prerequisite), `dump_elf_core`, `read_symbol`, `coord_logical_to_physical`. Post-mortem: the four pybind modules — `csldebugpybind` (CTF trace readers + symbol tables), `sdkinstrtracepybind` (high-level instruction trace + opcode-format enums), `rectangleopspybind` (cross-PE binary reads), `wavelettracepybind` (wavelet timelines + back-pressure tracking, including the SDK-shipped `Wavlets` / `WavletTrace` typos). Two worked examples. |
+| [SKILL-SDK-UTILS.md](SKILL-SDK-UTILS.md) | `cerebras.sdk.sdk_utils` reference. Cycle counting (`calculate_cycles`, `sub_ts`, `make_u48`, `float_to_hex`), memcpy data shaping (`memcpy_view`, `input_array_to_u32`, `cast_uint32`), RPC schema introspection (`get_api_info_dict`, `parse_host_callable_api`, `check_rpc_api`, `is_valid_primitive_type`), and `getOutputNameFromCompileOptions`. Worked example for the full timestamp round-trip. |
+| [SKILL-SDKRUNTIME-ROUTE.md](SKILL-SDKRUNTIME-ROUTE.md) | Low-level memcpy-routing internals — *prototype scope* per the SDK's own labelling. `routepybind.CslIoRouting` (the pybind primitive) plus the Python pipeline (`CslWseNetlist` → `CslWsePinTable.create_pin_assignments()` → `CslWseRouter.route()` → `CslWseRouterAssembler.generate_route_elf()` → `MEMCPY_XY_ROUTES.elf`). Documents the `CardinalDirection` vs `Route` numeric-ordering footgun. End-user programs do not touch this surface. |
 
 ## How Claude Code uses these skills
 
@@ -47,18 +61,29 @@ You don't have to invoke skills explicitly. The descriptions are designed to be 
 
 ## Source of truth
 
-Authoritative reference for everything in here: <https://sdk.cerebras.net/csl/language_index>. When a skill file disagrees with the upstream docs, the upstream docs win — open an issue / PR. Skills are written against SDK **2.10.0** (build `sdk-202604101435`), targeting `--arch=wse3`.
+Authoritative reference for the CSL language: <https://sdk.cerebras.net/csl/language_index>. When a CSL skill file disagrees with the upstream docs, the upstream docs win — open an issue / PR.
 
-Each skill includes inline upstream-docs links at the bottom for follow-up reading.
+The host-side / SDK runtime reference is pinned to a specific SDK build: **2.10.0** (build `sdk-202604101435`, git `4586d3f0d8`), with provenance recorded in `_generated/SDK-VERSION.txt`. For those eight files the source of truth is pybind11 introspection + the demangled C++ symbol surface of `/cbcore/lib/lib*.so`, captured at extraction time — the upstream API docs at <https://sdk.cerebras.net/api-docs/sdkruntime-api> often lag a release. To refresh against a newer SIF, run `scripts/refresh_sdk_surface.sh`; the resulting diff in `_generated/` makes any drift in the curated `.md` files auditable.
+
+All skills target `--arch=wse3`. Each skill includes inline upstream-docs / source-of-truth links at the bottom for follow-up reading.
 
 ## Layout
 
 ```
 .
-├── README.md              # this file
-├── SKILL.md               # router; cheat sheet; cross-references
-├── SKILL-*.md             # 14 specialized deep-dives (see table above)
-├── install.sh             # idempotent symlink into ~/.claude/skills/csl/
+├── README.md                          # this file
+├── SKILL.md                           # router; cheat sheet; cross-references
+├── SKILL-{TOOLCHAIN,SYNTAX,…}.md      # 15 CSL-language deep-dives
+├── SKILL-{HOST-DEVICE,SDKRUNTIME*,    # 8-file host-side / SDK runtime
+│   SDKLAYOUT,SDK-UTILS}.md            #   reference (pinned to SDK 2.10.0)
+├── _generated/                        # pinned dump of the SDK pybind surface
+│   ├── SDK-VERSION.txt                #   provenance summary
+│   ├── sdkruntime-surface.json        #   pybind11 introspection (every signature)
+│   └── sdkruntime-symbols.txt         #   demangled C++ symbol surface (10 .so libs)
+├── scripts/
+│   ├── extract_sdk_surface.py         # pybind introspection (runs under cs_python)
+│   └── refresh_sdk_surface.sh         # host driver (Lima → SIF → _generated/)
+├── install.sh                         # idempotent symlink into ~/.claude/skills/csl/
 └── .gitignore
 ```
 
