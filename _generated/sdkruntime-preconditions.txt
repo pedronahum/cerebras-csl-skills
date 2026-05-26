@@ -1,0 +1,84 @@
+# Runtime precondition / assertion / diagnostic strings
+# Mined from .rodata of /cbcore/lib/*.so; these are the exact error
+# messages and constraint checks the SDK performs at runtime.
+# SIF: sdk-cbcore-2.10.0-sdk-202604101435-4586d3f0d8.sif
+
+## /cbcore/lib/libsdkruntime.so
+ --fabric_width=wio_flows_tmpdirNot a valid archd architecture, 
+All egress tiles must be at the edge of the fabric
+All ingress tiles must be at the edge of the fabric
+Cannot call dump_core() if load() has not been called
+Cannot call dump_elf_core() if load() has not been called
+Cannot call run() multiple times, or call run() if load() has not been called
+Cannot call stop() multiple times, or call stop() if run() has not been called
+Cannot dump core on real hardware
+Cannot dump elf core on real hardware
+Cannot find exported function with name 
+Illegal data type option for memcpy
+Illegal order option for memcpy
+Invalid rectangle dimensions - attempted to create a route that was outside the fabric. The kernel is too large (if running on WSE) or the fabric size is too small (if running in simulation).
+Number of blobs, rectangles_, addresses, and PE-local sizes must be equal
+Number of ingress and egress tiles must be equal.
+OMPI_COMM_WORLD_SIZE is not equal number of workers
+Run phase (sdk_run_phase_only=true) cannot call load()
+Run phase only: must call run() after the Sdkruntime()
+SdkRuntime must be running to accept memcpy commands.
+Setup phase (sdk_setup_phase_only=true) cannot call run()
+The output port must have even number of wavelets
+[parse_wio_flows] Reading file 
+cannot create std::vector larger than max_size()
+cannot find lvds of D2H data cmd in the wio_flows.json
+cannot find lvds of D2H in the wio_flows.json
+cannot find lvds of H2D in the wio_flows.json
+cannot find lvds of cmd in the wio_flows.json
+cannot find lvds of ingress in the wio_flows.json
+d2h subrectangle must be inside the core rectangle
+h2d subrectangle must be inside the core rectangle
+mkdtemp failed to create a temporary folder for wio_flows.json
+please use the correct compilation flag --arch=wse2|wse3
+row_stride or col_stride must be positive
+sdk_setup_phase_only and sdk_run_phase_only must be mutual exclusive
+the correct compilation flag --arch=wse2|wse3
+type must be number, but is 
+type must be string, but is 
+void cerebras::SdkRuntime::Impl::generate_wio_flow()
+void cerebras::SdkRuntime::Impl::generate_wio_flow_directlink()
+workers.json requires OMPI_COMM_WORLD_RANK
+workers.json requires OMPI_COMM_WORLD_SIZE
+
+## /cbcore/lib/libsdk_layout.so
+' cannot be used for internal connection
+cannot connect ports with incompatible data sizes. Port '
+cannot connect ports with incompatible number of PEs. Port '
+cannot create object from initializer list
+cannot create std::vector larger than max_size()
+cannot use operator[] with a string argument with 
+cannot use push_back() with 
+input port cannot have input route.
+invalid UTF-8 byte at index 
+output port cannot have output route.
+
+## /cbcore/lib/libstreamer.so
+Invalid FabricConnections version 
+Load default elf (must be 1st ELF) %s
+cannot compare iterators of different containers
+cannot create object from initializer list
+cannot create std::vector larger than max_size()
+cannot use operator[] with a numeric argument with 
+cannot use operator[] with a string argument with 
+invalid UTF-8 byte at index 
+is_varint(wire_type) && "Invalid wire type"
+type must be string, but is 
+
+## /cbcore/lib/libsdk_compile_artifacts.so
+All egress tiles must be at the edge of the fabric
+All ingress tiles must be at the edge of the fabric
+Invalid rectangle dimensions - attempted to create a route that was outside the fabric. The kernel is too large (if running on WSE) or the fabric size is too small (if running in simulation).
+Number of blobs, rectangles_, addresses, and PE-local sizes must be equal
+please use the correct compilation flag --arch=wse2|wse3
+
+## /cbcore/lib/libsdk_execution_platform.so
+invalid target architecture '
+type must be number, but is 
+type must be string, but is 
+

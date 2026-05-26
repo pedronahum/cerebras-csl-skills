@@ -75,6 +75,10 @@ The C++ constructor has eight positional args; pybind exposes the first one or t
 | `simfab_numthreads` | platform default (typically `SimfabConfig.num_threads = 16`) | Simulator worker thread count (max 64). Higher = faster simulator on bigger fabrics. |
 | `msg_level` | `"WARNING"` | One of `"DEBUG"`, `"INFO"`, `"WARNING"`, `"ERROR"`. |
 | `memcpy_required` | `True` | `False` *only* for SdkLayout-only programs that don't link the memcpy infrastructure. Passing `False` to a memcpy program hangs `load()` silently. |
+| `setup_phase_only` | `False` | Refuses `run()` calls — used for compile/setup-only workflows. Mutually exclusive with `run_phase_only`. Reverse-engineered from runtime assertion strings; not in pybind's public docstrings. |
+| `run_phase_only` | `False` | Refuses `load()` calls — assumes a prior `setup_phase_only=True` invocation produced the loadable binary. Pair with `setup_phase_only` for split setup/run pipelines. |
+| `wio_flows` | `None` | Path to a `wio_flows.json` describing fabric LVDS pin routing (H2D / D2H / cmd / ingress channels). Consumed by an internal `Impl::generate_wio_flow()` step during `load()`. Schema not documented externally. |
+| `worker` | `False`-ish | MPI worker mode. Requires `OMPI_COMM_WORLD_SIZE` / `OMPI_COMM_WORLD_RANK` env vars and a `workers.json` whose worker count matches the MPI world size. Used to coordinate multi-node runs against a single cluster. |
 
 **When to use which overload:**
 
@@ -524,6 +528,31 @@ A flat list — when something on `SdkRuntime` goes wrong, look here first.
 | Garbage values in the PE / on the host | `data_type` ≠ `src.dtype` (silent byte-copy). |
 | `RuntimeError: no port named 'X'` | Either typo in the port name, or running an SdkLayout call against a memcpy-only runtime. |
 | Simulator file-descriptor errors on next `cs_python` invocation | Previous run didn't call `stop()`. |
+
+## Precondition catalog
+
+The runtime checks these conditions and emits matching strings when they fail. The full pinned list is at `_generated/sdkruntime-preconditions.txt` (extracted from `.rodata` of `libsdkruntime.so`, `libsdk_layout.so`, `libstreamer.so`). Reach for it when chasing an opaque runtime error.
+
+| Constraint | Error message (verbatim) |
+|---|---|
+| `load()` exactly once, before `run()` | "Cannot call run() multiple times, or call run() if load() has not been called" |
+| `run()` exactly once, before `stop()` | "Cannot call stop() multiple times, or call stop() if run() has not been called" |
+| Memcpy needs running runtime | "SdkRuntime must be running to accept memcpy commands." |
+| `dump_core` is sim-only | "Cannot dump core on real hardware" |
+| `dump_*` after `load()` | "Cannot call dump_core() if load() has not been called" |
+| memcpy regions inside fabric | "h2d subrectangle must be inside the core rectangle" / d2h variant |
+| `memcpy_h2d_stride` positive strides | "row_stride or col_stride must be positive" |
+| Valid `data_type` / `order` enum | "Illegal data type option for memcpy" / "Illegal order option for memcpy" |
+| `setup_phase_only` ⊕ `run_phase_only` | "sdk_setup_phase_only and sdk_run_phase_only must be mutual exclusive" |
+| `worker` mode env vars | "workers.json requires OMPI_COMM_WORLD_SIZE" / RANK |
+| Layout ingress/egress symmetry | "Number of ingress and egress tiles must be equal." |
+| Layout ports on fabric edge | "All ingress tiles must be at the edge of the fabric" |
+| Even-wavelet output | "The output port must have even number of wavelets" |
+| `hstack`/`vstack` non-empty | "'hstack' requires at least one child." |
+| Connect compatible port shapes | "cannot connect ports with incompatible data sizes" / "... incompatible number of PEs" |
+| Port routing direction | "input port cannot have input route." / output variant |
+| Known RPC symbol | "Cannot find exported function with name " |
+| RPC arg-list match | "functional protype does not match what is defined in the kernel" (SDK typo) |
 
 ## See also
 

@@ -91,16 +91,96 @@ If you intend to **construct `MemcpyOptions` from C++**, do not rely on the infe
 
 Mining beyond the obvious nm/pybind path produced several things the existing skill files didn't have:
 
-### Potentially undocumented kwargs
+### The 4 previously-undocumented `SdkRuntime` ctor kwargs (RESOLVED)
 
-The pybind `.so` `.rodata` contains the following strings contiguous with confirmed `SdkRuntime` constructor kwargs (`cmaddr`, `msg_level`, `memcpy_required`, `suppress_simfab_trace`, `simfab_numthreads`):
+The pybind `.so` `.rodata` exposed four kwargs (`setup_phase_only`, `run_phase_only`, `wio_flows`, `worker`) that don't appear in pybind's `__doc__`. A second pass mining `libsdkruntime.so` `.rodata` for assertion strings + finding the `cerebras::SdkRuntime::Impl::generate_wio_flow()` / `generate_wio_flow_directlink()` methods nailed their semantics:
 
-- `setup_phase_only`
-- `run_phase_only`
-- `wio_flows`
-- `worker`
+| Kwarg | What it does | Evidence |
+|---|---|---|
+| `setup_phase_only` | Map onto an internal `sdk_setup_phase_only` flag. When `true`, the runtime refuses `run()` calls — used to compile/setup-only without executing. Mutually exclusive with `run_phase_only`. | Strings `"Setup phase (sdk_setup_phase_only=true) cannot call run()"` and `"sdk_setup_phase_only and sdk_run_phase_only must be mutual exclusive"` in `libsdkruntime.so`. |
+| `run_phase_only` | Onto internal `sdk_run_phase_only`. When `true`, refuses `load()` and assumes the binary is already loaded from a prior setup run. Pair with `setup_phase_only=true` for split setup/run workflows. | Strings `"Run phase (sdk_run_phase_only=true) cannot call load()"` and `"Run phase only: must call run() after the Sdkruntime()"`. |
+| `wio_flows` | Path to a `wio_flows.json` describing fabric LVDS pin routing for H2D / D2H / cmd / ingress channels. Consumed by `cerebras::SdkRuntime::Impl::generate_wio_flow()` (PIMPL — function visible in nm). | Strings `"[parse_wio_flows] Reading file "`, `"cannot find lvds of H2D in the wio_flows.json"` (also for `cmd`, `D2H`, `D2H data cmd`, `ingress`), `"mkdtemp failed to create a temporary folder for wio_flows.json"`. |
+| `worker` | MPI worker mode. Requires `OMPI_COMM_WORLD_SIZE` and `OMPI_COMM_WORLD_RANK` env vars to be set — the runtime checks `workers.json` against the MPI world size. | Strings `"workers.json requires OMPI_COMM_WORLD_SIZE"`, `"workers.json requires OMPI_COMM_WORLD_RANK"`, `"OMPI_COMM_WORLD_SIZE is not equal number of workers"`. |
 
-All four were accepted by `SdkRuntime("out", <kwarg>=...)` calls in our probe; the only error was the artifact-dir-not-found error from `load()`, not an `unexpected kwarg`. **Caveat**: pybind's `**kwargs` overload doesn't validate kwarg names — every unknown kwarg name passes through. So accept-vs-reject probing alone can't prove these are functional kwargs. The strong signal is their `.rodata` adjacency to known kwargs; semantics are not documented in any source we have access to.
+These are real kwargs accepted by the runtime, not just stray strings. Specifics like the JSON file's expected schema aren't recoverable from the binaries; the SDK presumably documents them internally.
+
+### Precondition / assertion catalog
+
+`.rodata` of `libsdkruntime.so` + `libsdk_layout.so` + `libstreamer.so` carries the *actual* assertion strings the runtime emits when its preconditions fail. These are the exact constraints in force at runtime, much higher fidelity than what pybind's docstrings tell you. The full pinned list is in `_generated/sdkruntime-preconditions.txt`. Selected highlights:
+
+**Lifecycle order**
+
+- `Cannot call run() multiple times, or call run() if load() has not been called`
+- `Cannot call stop() multiple times, or call stop() if run() has not been called`
+- `SdkRuntime must be running to accept memcpy commands.`
+- `Cannot call dump_core() if load() has not been called`
+- `Cannot dump core on real hardware` (so `dump_core` / `dump_elf_core` are sim-only — confirmed)
+
+**memcpy region checks**
+
+- `h2d subrectangle must be inside the core rectangle`
+- `d2h subrectangle must be inside the core rectangle`
+- `row_stride or col_stride must be positive` (for `memcpy_h2d_stride`)
+- `Illegal data type option for memcpy` (rejects unknown `MemcpyDataType` values)
+- `Illegal order option for memcpy` (rejects unknown `MemcpyOrder` values)
+
+**SdkLayout topology**
+
+- `Number of ingress and egress tiles must be equal.`
+- `All ingress tiles must be at the edge of the fabric` (similarly for egress)
+- `Expects number of PE inputs to be less than the number of West ingress tile.` (and East)
+- `The output port must have even number of wavelets`
+- `Invalid rectangle dimensions - attempted to create a route that was outside the fabric. The kernel is too large (if running on WSE) or the fabric size is too small (if running in simulation).`
+- `'hstack' requires at least one child.` / `'vstack' requires at least one child.`
+- `cannot connect ports with incompatible data sizes.` / `... incompatible number of PEs.`
+- `input port cannot have input route.` / `output port cannot have output route.`
+
+**RPC**
+
+- `Cannot find exported function with name ...` (when `launch` / `call` is given an unknown name)
+- `functional protype does not match what is defined in the kernel` (RPC arg-list mismatch; note SDK typo "protype")
+
+### libstdc++ ABI requirement
+
+The pybind `.so` links against:
+
+```
+libstdc++.so.6   (from /cb/toolchains/buildroot/.../usr/lib/)
+libgcc_s.so.1
+libc.so.6
+```
+
+The bundled `libstdc++` exports up to **`GLIBCXX_3.4.32`** and **`CXXABI_1.3.14`** — those map to **GCC 13.x** runtime support. Anyone wanting to link C++ user code against the SDK's `.so` needs to either:
+
+1. Build with GCC 13+ (or Clang configured against a matching libstdc++).
+2. Bundle the SDK's `libstdc++.so.6` and use `LD_LIBRARY_PATH` to force load it.
+
+Full version listing in `_generated/sdkruntime-libstdcpp.txt`.
+
+### The `cerebras::SdkRuntime::Impl` PIMPL pattern
+
+Two internal symbols visible in the runtime `.so`:
+
+```
+cerebras::SdkRuntime::Impl::generate_wio_flow()
+cerebras::SdkRuntime::Impl::generate_wio_flow_directlink()
+```
+
+`SdkRuntime` is a PIMPL-pattern facade — the public `SdkRuntime` class holds an opaque `std::unique_ptr<Impl>`, with the heavy lifting (route generation, IPC, simulator coordination) on `Impl`. This is why the public surface is so small (~30 methods) compared to the 322 total `cerebras::*` symbols in `libsdkruntime.so` — the bulk is `Impl::*` and other internal helpers.
+
+The reconstructed header declares `class Impl;` as a forward decl with no members.
+
+### `cerebras::to_words<T>` template helper
+
+Five `to_words<T>` template instantiations are exported from the runtime, one per dtype:
+
+```cpp
+template <typename T>
+std::vector<unsigned short> cerebras::to_words(std::vector<T> const&);
+// instantiated for T = float, int, unsigned int, short, unsigned short
+```
+
+This is the helper that powers the typed `runtime.send(name, numpy[float32])` overloads on the Python side. pybind's binding for those overloads calls `to_words<float>(...)` to pack the input into 16-bit wavelets, then dispatches to the canonical `send(string, void*, size_t, bool)`.
 
 ### Diagnostic strings worth knowing
 

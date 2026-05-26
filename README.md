@@ -77,13 +77,18 @@ All skills target `--arch=wse3`. Each skill includes inline upstream-docs / sour
 ├── SKILL-{TOOLCHAIN,SYNTAX,…}.md      # 15 CSL-language deep-dives
 ├── SKILL-{HOST-DEVICE,SDKRUNTIME*,    # 8-file host-side / SDK runtime
 │   SDKLAYOUT,SDK-UTILS}.md            #   reference (pinned to SDK 2.10.0)
-├── _generated/                        # pinned dump of the SDK pybind surface
+├── _generated/                        # pinned dump of the SDK pybind + C++ surface
 │   ├── SDK-VERSION.txt                #   provenance summary
 │   ├── sdkruntime-surface.json        #   pybind11 introspection (every signature)
-│   └── sdkruntime-symbols.txt         #   demangled C++ symbol surface (10 .so libs)
+│   ├── sdkruntime-symbols.txt         #   demangled C++ symbol surface (10 .so libs)
+│   ├── sdkruntime-pybind-imports.txt  #   curated user-facing C++ API (pybind's imports)
+│   ├── sdkruntime-preconditions.txt   #   runtime assertion strings mined from .rodata
+│   ├── sdkruntime-libstdcpp.txt       #   libstdc++ ABI requirements (GLIBCXX/CXXABI)
+│   └── cerebras_sdkruntime.hpp        #   reconstructed C++ header
 ├── scripts/
 │   ├── extract_sdk_surface.py         # pybind introspection (runs under cs_python)
-│   └── refresh_sdk_surface.sh         # host driver (Lima → SIF → _generated/)
+│   ├── refresh_sdk_surface.sh         # host driver (Lima → SIF → _generated/)
+│   └── generate_cpp_header.py         # reconstruct cerebras_sdkruntime.hpp from dumps
 ├── install.sh                         # idempotent symlink into ~/.claude/skills/csl/
 └── .gitignore
 ```

@@ -1,0 +1,19 @@
+# libstdc++ / libc / libgcc_s requirements from the pybind .so
+# SIF: sdk-cbcore-2.10.0-sdk-202604101435-4586d3f0d8.sif
+
+	libstdc++.so.6 => /cb/toolchains/buildroot/buildroot-all/main/202601080020-115-9c2a6e07/monolith/rootfs-x86_64/usr/lib/libstdc++.so.6 (0x00007ffffeb6b000)
+	libgcc_s.so.1 => /cb/toolchains/buildroot/buildroot-all/main/202601080020-115-9c2a6e07/monolith/rootfs-x86_64/lib/libgcc_s.so.1 (0x00007ffffea8b000)
+	libc.so.6 => /cb/toolchains/buildroot/buildroot-all/main/202601080020-115-9c2a6e07/monolith/rootfs-x86_64/lib/libc.so.6 (0x00007ffffe0c6000)
+
+# Latest GLIBCXX / CXXABI versions in the resolved libstdc++:
+resolved: /cb/toolchains/buildroot/buildroot-all/main/202601080020-115-9c2a6e07/monolith/rootfs-x86_64/usr/lib/libstdc++.so.6
+GLIBCXX_3.4.30
+GLIBCXX_3.4.31
+GLIBCXX_3.4.31
+GLIBCXX_3.4.32
+GLIBCXX_3.4.32
+CXXABI_1.3.12
+CXXABI_1.3.13
+CXXABI_1.3.13
+CXXABI_1.3.14
+CXXABI_1.3.14

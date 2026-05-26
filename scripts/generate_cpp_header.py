@@ -635,6 +635,10 @@ def main() -> int:
     lines.append("struct IntRectangle;    // ((x0,y0),(x1,y1)) rect; from das_common")
     lines.append("class  MemcpyTask;      // internal — Task holds shared_ptr<MemcpyTask>")
     lines.append("")
+    lines.append("// Internal logging globals (visible as imported symbols in pybind .so):")
+    lines.append("namespace detail { class MessagePipe; }")
+    lines.append("extern int mSdkWarning;     // logging tag")
+    lines.append("")
     # Enums at cerebras:: scope — must come BEFORE MemcpyOptions uses them
     for ename in ("SdkTarget", "MemcpyDataType", "MemcpyOrder"):
         values = pybind_enum(surface, ename)
@@ -696,6 +700,29 @@ def main() -> int:
         else:
             lines.append(f"class {scope_last} {{")
         lines.append("public:")
+        # Special-case: SdkRuntime is PIMPL — declare the Impl forward decl
+        # and document the four reverse-engineered ctor kwargs not in pybind's
+        # __doc__ but accepted by the runtime (see SKILL-SDKRUNTIME-CPP.md).
+        if scope == "cerebras::SdkRuntime":
+            lines.append("    // PIMPL: opaque Impl handles wio_flow generation, simulator")
+            lines.append("    // coordination, etc. Visible in nm via methods like")
+            lines.append("    // cerebras::SdkRuntime::Impl::generate_wio_flow().")
+            lines.append("    class Impl;")
+            lines.append("    class Task;")
+            lines.append("")
+            lines.append("    // Documented pybind **kwargs that map to ctor positional args 3-8:")
+            lines.append("    //   cmaddr               : str | None     — \"host:port\" or None (sim)")
+            lines.append("    //   msg_level            : str             — DEBUG/INFO/WARNING/ERROR")
+            lines.append("    //   suppress_simfab_trace: bool")
+            lines.append("    //   simfab_numthreads    : int             — max 64")
+            lines.append("    //   memcpy_required      : bool            — false only with SdkLayout")
+            lines.append("    // Reverse-engineered kwargs (not in pybind __doc__; recovered from")
+            lines.append("    // runtime .rodata; see SKILL-SDKRUNTIME-CPP.md):")
+            lines.append("    //   setup_phase_only     : bool            — refuses run() if true")
+            lines.append("    //   run_phase_only       : bool            — refuses load() if true")
+            lines.append("    //   wio_flows            : str             — path to wio_flows.json")
+            lines.append("    //   worker               : bool|int        — MPI worker mode")
+            lines.append("")
         # Special-case enums inside SdkLayout (Edge, Route, FP16TYPE) and inner
         # forward declarations.
         if scope == "cerebras::SdkLayout":
@@ -746,6 +773,22 @@ def main() -> int:
     ):
         emit_scope(scope)
 
+    # Template helpers that ARE real exports — used by pybind to power the
+    # typed runtime.send(name, np.float32) overloads.
+    lines.append("// ---- cerebras::to_words<T> template helpers -----------------------")
+    lines.append("// Exported instantiations (visible in libsdkruntime.so). Pack a host")
+    lines.append("// vector<T> into a vector of 16-bit wavelet words. The pybind layer")
+    lines.append("// calls these from its typed send(name, ndarray[T]) overloads.")
+    lines.append("template <typename T>")
+    lines.append("std::vector<unsigned short> to_words(std::vector<T> const&);")
+    lines.append("")
+    lines.append("// Explicit instantiations the runtime ships:")
+    lines.append("extern template std::vector<unsigned short> to_words<float>         (std::vector<float>          const&);")
+    lines.append("extern template std::vector<unsigned short> to_words<int>           (std::vector<int>            const&);")
+    lines.append("extern template std::vector<unsigned short> to_words<unsigned int>  (std::vector<unsigned int>   const&);")
+    lines.append("extern template std::vector<unsigned short> to_words<short>         (std::vector<short>          const&);")
+    lines.append("extern template std::vector<unsigned short> to_words<unsigned short>(std::vector<unsigned short> const&);")
+    lines.append("")
     # Free functions: pybind exposes get_platform/get_simulator/get_system/
     # get_edge_routing — these have NO C++ symbols in the .so dump, so they
     # live entirely inside the pybind module. Note this explicitly.

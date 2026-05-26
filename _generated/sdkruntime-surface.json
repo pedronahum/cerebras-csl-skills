@@ -7,7 +7,7 @@
     "sif_filename": "sdk-cbcore-2.10.0-sdk-202604101435-4586d3f0d8.sif",
     "sif_sha256": "4700f1f4544e0e30b7751840394c517b18ceaf6f35847790ac0bf46f0bfa6b6a",
     "sif_sha256_source": "/Users/pedro/programming/cerebras/sdk/sha256sum.txt",
-    "extracted_at": "2026-05-26T14:14:52Z",
+    "extracted_at": "2026-05-26T15:18:06Z",
     "python": "3.11.8",
     "platform": "Linux-6.8.0-90-generic-x86_64-with-glibc2.38"
   },
@@ -843,13 +843,13 @@
         "get_platform": {
           "kind": "callable",
           "signatures": [
-            "get_platform(addr: Optional[str] = None, config: cerebras.sdk.runtime.sdkruntimepybind.SimfabConfig = <cerebras.sdk.runtime.sdkruntimepybind.SimfabConfig object at 0x7ffffdbeaaf0>, target: cerebras.sdk.runtime.sdkruntimepybind.SdkTarget = <SdkTarget.WSE3: 1>) -> cerebras.sdk.runtime.sdkruntimepybind.SdkExecutionPlatform"
+            "get_platform(addr: Optional[str] = None, config: cerebras.sdk.runtime.sdkruntimepybind.SimfabConfig = <cerebras.sdk.runtime.sdkruntimepybind.SimfabConfig object at 0x7ffffdbea8f0>, target: cerebras.sdk.runtime.sdkruntimepybind.SdkTarget = <SdkTarget.WSE3: 1>) -> cerebras.sdk.runtime.sdkruntimepybind.SdkExecutionPlatform"
           ]
         },
         "get_simulator": {
           "kind": "callable",
           "signatures": [
-            "get_simulator(config: cerebras.sdk.runtime.sdkruntimepybind.SimfabConfig = <cerebras.sdk.runtime.sdkruntimepybind.SimfabConfig object at 0x7ffffdbea530>, target: cerebras.sdk.runtime.sdkruntimepybind.SdkTarget = <SdkTarget.WSE3: 1>) -> cerebras.sdk.runtime.sdkruntimepybind.SdkExecutionPlatform"
+            "get_simulator(config: cerebras.sdk.runtime.sdkruntimepybind.SimfabConfig = <cerebras.sdk.runtime.sdkruntimepybind.SimfabConfig object at 0x7ffffdbea330>, target: cerebras.sdk.runtime.sdkruntimepybind.SdkTarget = <SdkTarget.WSE3: 1>) -> cerebras.sdk.runtime.sdkruntimepybind.SdkExecutionPlatform"
           ]
         },
         "get_system": {

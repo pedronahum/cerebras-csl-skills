@@ -12,7 +12,7 @@
 //    Git short   : 4586d3f0d8
 //    SIF         : sdk-cbcore-2.10.0-sdk-202604101435-4586d3f0d8.sif
 //    SIF sha256  : 4700f1f4544e0e30b7751840394c517b18ceaf6f35847790ac0bf46f0bfa6b6a
-//    Extracted   : 2026-05-26T14:14:52Z
+//    Extracted   : 2026-05-26T15:18:06Z
 //
 //  Sources used to reconstruct:
 //    (a) `nm -D --demangle` against 10 .so libraries in /cbcore/lib/ — for
@@ -62,6 +62,10 @@ template <typename T> struct AbstractRectangle;
 struct IntVector;       // (x, y) pair; from das_common
 struct IntRectangle;    // ((x0,y0),(x1,y1)) rect; from das_common
 class  MemcpyTask;      // internal — Task holds shared_ptr<MemcpyTask>
+
+// Internal logging globals (visible as imported symbols in pybind .so):
+namespace detail { class MessagePipe; }
+extern int mSdkWarning;     // logging tag
 
 enum class SdkTarget : int {
     WSE2 = 0,
@@ -117,6 +121,25 @@ public:
 // ---- cerebras::SdkRuntime ----------------------------------------
 class SdkRuntime {
 public:
+    // PIMPL: opaque Impl handles wio_flow generation, simulator
+    // coordination, etc. Visible in nm via methods like
+    // cerebras::SdkRuntime::Impl::generate_wio_flow().
+    class Impl;
+    class Task;
+
+    // Documented pybind **kwargs that map to ctor positional args 3-8:
+    //   cmaddr               : str | None     — "host:port" or None (sim)
+    //   msg_level            : str             — DEBUG/INFO/WARNING/ERROR
+    //   suppress_simfab_trace: bool
+    //   simfab_numthreads    : int             — max 64
+    //   memcpy_required      : bool            — false only with SdkLayout
+    // Reverse-engineered kwargs (not in pybind __doc__; recovered from
+    // runtime .rodata; see SKILL-SDKRUNTIME-CPP.md):
+    //   setup_phase_only     : bool            — refuses run() if true
+    //   run_phase_only       : bool            — refuses load() if true
+    //   wio_flows            : str             — path to wio_flows.json
+    //   worker               : bool|int        — MPI worker mode
+
     SdkRuntime(cerebras::SdkCompileArtifacts const&, cerebras::SdkExecutionPlatform const&, std::string, bool, bool, bool, std::string, std::string);
     cerebras::SdkRuntime::Task call(std::string const&, std::vector<unsigned int> const&, cerebras::MemcpyOptions const&);
     auto check_rpc_api(std::string, std::vector<std::string>&)  /* internal — not in pybind */;
@@ -279,6 +302,20 @@ public:
     void set_param_range(cerebras::IntRectangle const&, std::string const&, int);
     auto set_symbol_impl(std::string const&, std::vector<unsigned short> const&, int, int, int)  /* internal — not in pybind */;
 };
+
+// ---- cerebras::to_words<T> template helpers -----------------------
+// Exported instantiations (visible in libsdkruntime.so). Pack a host
+// vector<T> into a vector of 16-bit wavelet words. The pybind layer
+// calls these from its typed send(name, ndarray[T]) overloads.
+template <typename T>
+std::vector<unsigned short> to_words(std::vector<T> const&);
+
+// Explicit instantiations the runtime ships:
+extern template std::vector<unsigned short> to_words<float>         (std::vector<float>          const&);
+extern template std::vector<unsigned short> to_words<int>           (std::vector<int>            const&);
+extern template std::vector<unsigned short> to_words<unsigned int>  (std::vector<unsigned int>   const&);
+extern template std::vector<unsigned short> to_words<short>         (std::vector<short>          const&);
+extern template std::vector<unsigned short> to_words<unsigned short>(std::vector<unsigned short> const&);
 
 // ---- pybind-only free functions -----------------------------------
 // These appear in cerebras.sdk.runtime.sdkruntimepybind but have no

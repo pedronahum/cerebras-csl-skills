@@ -174,8 +174,112 @@ HEADER_TMP="$(mktemp)"
 } > "${HEADER_TMP}"
 mv "${HEADER_TMP}" "${OUT_DIR}/sdkruntime-symbols.txt"
 
+# ---- 5. Pybind imports (curated user-facing C++ API) -------------------------
+# nm -D -u on the pybind .so lists every cerebras:: symbol it imports from
+# the runtime libs. This is a STRICTLY SMALLER, CURATED subset of the full
+# symbol dump in (4) — it's the actual user-facing C++ API surface (~50
+# entries) versus the 322 defined symbols (most of which are internal).
+echo "[refresh] extracting pybind-imported user-facing API"
+INNER2="${REPO_DIR}/scripts/.dump_pybind_imports.sh"
+cat >"${INNER2}" <<'INNER2_EOF'
+#!/usr/bin/env bash
+set -euo pipefail
+SIF="$1"
+OUT="$2"
+PYB="/cbcore/py_root/cerebras/sdk/runtime/sdkruntimepybind.cpython-311-x86_64-linux-gnu.so"
+{
+  echo "# pybind11 sdkruntimepybind.so — imported (undefined) cerebras:: symbols."
+  echo "# This is the curated set of user-facing C++ functions that pybind binds"
+  echo "# against. Strict subset of _generated/sdkruntime-symbols.txt."
+  echo "# SIF: $(basename "$SIF")"
+  echo
+  singularity exec "$SIF" nm -D -u --demangle "$PYB" 2>/dev/null \
+    | sed 's/^[[:space:]]*U //' \
+    | grep -E "^(cerebras|std::vector<unsigned short.*cerebras::)" \
+    | sort -u
+} > "$OUT"
+INNER2_EOF
+chmod +x "${INNER2}"
+limactl shell "${LIMA_INSTANCE}" -- bash -lc "
+  '${INNER2}' '${SIF_PATH}' '${OUT_DIR}/sdkruntime-pybind-imports.txt'
+" 2>&1 | sed '/^\[INFO\]/d'
+rm -f "${INNER2}"
+
+# ---- 6. Runtime preconditions / assertions ----------------------------------
+# Mine .rodata of libsdkruntime.so, libsdk_layout.so, libstreamer.so for
+# assertion-style strings. These are the *actual* runtime checks the C++
+# performs — much higher fidelity than the pybind layer's docstrings.
+echo "[refresh] extracting runtime precondition strings"
+INNER3="${REPO_DIR}/scripts/.dump_preconditions.sh"
+cat >"${INNER3}" <<'INNER3_EOF'
+#!/usr/bin/env bash
+set -euo pipefail
+SIF="$1"
+OUT="$2"
+LIBS=(libsdkruntime.so libsdk_layout.so libstreamer.so libsdk_compile_artifacts.so libsdk_execution_platform.so)
+{
+  echo "# Runtime precondition / assertion / diagnostic strings"
+  echo "# Mined from .rodata of /cbcore/lib/*.so; these are the exact error"
+  echo "# messages and constraint checks the SDK performs at runtime."
+  echo "# SIF: $(basename "$SIF")"
+  echo
+  for lib in "${LIBS[@]}"; do
+    echo "## /cbcore/lib/${lib}"
+    if singularity exec "$SIF" test -f "/cbcore/lib/${lib}"; then
+      singularity exec "$SIF" strings -n 25 "/cbcore/lib/${lib}" 2>/dev/null \
+        | grep -iE "must |require |invalid |cannot |expect |illegal |asserti|precondit|out of |OMPI_|wio_flow|sdk_(run|setup)_phase|--arch=" \
+        | grep -v "^_Z" \
+        | grep -vE "^[a-zA-Z_]*::[a-zA-Z_]" \
+        | sort -u
+    else
+      echo "(not present)"
+    fi
+    echo
+  done
+} > "$OUT"
+INNER3_EOF
+chmod +x "${INNER3}"
+limactl shell "${LIMA_INSTANCE}" -- bash -lc "
+  '${INNER3}' '${SIF_PATH}' '${OUT_DIR}/sdkruntime-preconditions.txt'
+" 2>&1 | sed '/^\[INFO\]/d'
+rm -f "${INNER3}"
+
+# ---- 7. libstdc++ ABI version ----------------------------------------------
+echo "[refresh] capturing libstdc++ ABI requirement"
+INNER4="${REPO_DIR}/scripts/.dump_libstdcpp.sh"
+cat >"${INNER4}" <<'INNER4_EOF'
+#!/usr/bin/env bash
+set -euo pipefail
+SIF="$1"
+OUT="$2"
+PYB="/cbcore/py_root/cerebras/sdk/runtime/sdkruntimepybind.cpython-311-x86_64-linux-gnu.so"
+{
+  echo "# libstdc++ / libc / libgcc_s requirements from the pybind .so"
+  echo "# SIF: $(basename "$SIF")"
+  echo
+  singularity exec "$SIF" bash -c "ldd $PYB 2>&1 | grep -E 'libstdc|libc\.so|libgcc'"
+  echo
+  echo "# Latest GLIBCXX / CXXABI versions in the resolved libstdc++:"
+  singularity exec "$SIF" bash -c '
+    LSO=$(ldd '"$PYB"' 2>/dev/null | awk "/libstdc/{print \$3}" | head -1)
+    if [ -n "$LSO" ]; then
+      echo "resolved: $LSO"
+      strings "$LSO" | grep -E "^GLIBCXX_[0-9]" | sort -V | tail -5
+      strings "$LSO" | grep -E "^CXXABI_[0-9]" | sort -V | tail -5
+    fi'
+} > "$OUT"
+INNER4_EOF
+chmod +x "${INNER4}"
+limactl shell "${LIMA_INSTANCE}" -- bash -lc "
+  '${INNER4}' '${SIF_PATH}' '${OUT_DIR}/sdkruntime-libstdcpp.txt'
+" 2>&1 | sed '/^\[INFO\]/d'
+rm -f "${INNER4}"
+
 echo
 echo "[refresh] done."
-echo "  - ${OUT_DIR}/sdkruntime-surface.json"
-echo "  - ${OUT_DIR}/SDK-VERSION.txt"
-echo "  - ${OUT_DIR}/sdkruntime-symbols.txt"
+echo "  - ${OUT_DIR}/sdkruntime-surface.json        (pybind introspection)"
+echo "  - ${OUT_DIR}/SDK-VERSION.txt                (provenance summary)"
+echo "  - ${OUT_DIR}/sdkruntime-symbols.txt         (full C++ symbol dump)"
+echo "  - ${OUT_DIR}/sdkruntime-pybind-imports.txt  (curated user-facing API)"
+echo "  - ${OUT_DIR}/sdkruntime-preconditions.txt   (runtime assertion strings)"
+echo "  - ${OUT_DIR}/sdkruntime-libstdcpp.txt       (libstdc++ ABI requirements)"
