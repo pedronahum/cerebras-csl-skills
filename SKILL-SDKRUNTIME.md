@@ -296,11 +296,11 @@ cerebras::SdkLayout::CodeRegion::create_input_port(
 
 | Chapter | Covers |
 |---|---|
-| [SKILL-SDKRUNTIME-API.md](SKILL-SDKRUNTIME-API.md) *(planned)* | `SdkRuntime` — every method, every overload, every kwarg, the matching C++ signature, failure modes. |
-| [SKILL-SDKLAYOUT.md](SKILL-SDKLAYOUT.md) *(planned)* | `SdkLayout`, `CodeRegion`, `create_*_port`, `create_*_stream`, `place`, `paint`, `set_param_all`, `compile`. |
-| [SKILL-SDKRUNTIME-TYPES.md](SKILL-SDKRUNTIME-TYPES.md) *(planned)* | `Task`, `Color`, `Route`, `RoutingPosition`, `Edge`, `PortHandle`, all enums. |
-| [SKILL-SDKRUNTIME-DEBUG.md](SKILL-SDKRUNTIME-DEBUG.md) *(planned)* | `dump_core` / `dump_elf_core` / `read_symbol` workflow + the four debug pybind modules. |
-| [SKILL-SDK-UTILS.md](SKILL-SDK-UTILS.md) *(planned)* | `cerebras.sdk.sdk_utils` — `memcpy_view`, `input_array_to_u32`, `calculate_cycles`, etc. |
+| [SKILL-SDKRUNTIME-API.md](SKILL-SDKRUNTIME-API.md) | `SdkRuntime` — every method, every overload, every kwarg, the matching C++ signature, failure modes. |
+| [SKILL-SDKLAYOUT.md](SKILL-SDKLAYOUT.md) | `SdkLayout`, `CodeRegion`, `create_*_port`, `create_*_stream`, `place`, `paint`, `set_param_all`, `compile`. |
+| [SKILL-SDKRUNTIME-TYPES.md](SKILL-SDKRUNTIME-TYPES.md) | `Task`, `SimfabConfig`, `SdkExecutionPlatform`, `SdkCompileArtifacts`, all enums. |
+| [SKILL-SDKRUNTIME-DEBUG.md](SKILL-SDKRUNTIME-DEBUG.md) | `dump_core` / `dump_elf_core` / `read_symbol` workflow + the four debug pybind modules. |
+| [SKILL-SDK-UTILS.md](SKILL-SDK-UTILS.md) | `cerebras.sdk.sdk_utils` — `memcpy_view`, `input_array_to_u32`, `calculate_cycles`, RPC schema parsing. |
 
 Until those land, the authoritative per-method shape is in `_generated/sdkruntime-surface.json` (Python view) and `_generated/sdkruntime-symbols.txt` (C++ view) — both pinned to the same SDK build as this file.
 

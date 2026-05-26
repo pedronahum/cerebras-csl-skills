@@ -29,6 +29,9 @@ Authoritative reference: <https://sdk.cerebras.net/csl/language_index>. This ski
 | **SDK runtime overview** (pinned per-class / per-method reference for the Python + C++ host API; pinned to SDK 2.10.0) | [SKILL-SDKRUNTIME.md](SKILL-SDKRUNTIME.md) |
 | **SDK runtime API** (every `SdkRuntime` method, every overload, every kwarg, with C++ cross-references) | [SKILL-SDKRUNTIME-API.md](SKILL-SDKRUNTIME-API.md) |
 | **SdkLayout / regions / streams** (`SdkLayout`, `CodeRegion`, ports, routes, `paint`, `compile`) | [SKILL-SDKLAYOUT.md](SKILL-SDKLAYOUT.md) |
+| **SDK runtime types & enums** (`Task`, `SimfabConfig`, `SdkExecutionPlatform`, `SdkCompileArtifacts`; every enum) | [SKILL-SDKRUNTIME-TYPES.md](SKILL-SDKRUNTIME-TYPES.md) |
+| **SDK runtime debug** (`dump_core` / `read_symbol` live; instruction-trace, wavelet-trace, rectangle-ops, symbol-table pybind modules) | [SKILL-SDKRUNTIME-DEBUG.md](SKILL-SDKRUNTIME-DEBUG.md) |
+| **`cerebras.sdk.sdk_utils`** (cycle counting, memcpy data shaping, RPC schema introspection) | [SKILL-SDK-UTILS.md](SKILL-SDK-UTILS.md) |
 | **Standard library** (`<math>`, `<debug>`, `<simprint>`, `<collectives_2d>`, `<dsd_ops>`, `<random>`, `<string>`, `<time>`, `<timer>`, `<tile_config>`, `<types>`, `<kernels>`, …) | [SKILL-LIBRARIES.md](SKILL-LIBRARIES.md) |
 | **Builtins reference** (`@activate`, `@allocate_fifo`, `@bind_*`, `@get_dsd`, `@load_to_dsr`, `@map`, RPC builtins, DSD-op builtins) | [SKILL-BUILTINS.md](SKILL-BUILTINS.md) |
 | **SIMD mode** (appendix) | [SKILL-SIMD.md](SKILL-SIMD.md) |
